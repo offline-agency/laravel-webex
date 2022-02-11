@@ -8,7 +8,7 @@
 
 A simple Laravel integration with Webex.
 
-![Laravel Cart](https://banners.beyondco.de/Laravel%20Webex.png?theme=dark&packageManager=composer+require&packageName=offlineagency%2Flaravel-webex&pattern=yyy&style=style_1&description=A+simple+Laravel+integration+with+Webex&md=1&showWatermark=0&fontSize=100px&images=video-camera)
+![Laravel Cart](https://banners.beyondco.de/Laravel%20Webex.png?theme=dark&packageManager=composer+require&packageName=offline-agency%2Flaravel-webex&pattern=volcanoLamp&style=style_1&description=A+simple+Laravel+integration+with+Webex&md=1&showWatermark=0&fontSize=100px&images=video-camera)
 
 ## Installation
 
@@ -17,7 +17,7 @@ Install the package through [Composer](http://getcomposer.org/).
 Run the Composer require command from the Terminal:
 
 ```bash
-composer require offlineagency/laravel-webex
+composer require offline-agency/laravel-webex
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ If you discover any security-related issues, please email <support@offlineagency
 
 ## Credits
 
-- [Offline Agency](https://github.com/offlineagency)
+- [Offline Agency](https://github.com/offline-agency)
 - [Giacomo Fabbian](https://github.com/Giacomo92)
 - [Nicolas Sanavia](https://github.com/SanaviaNicolas)
 - [All Contributors](../../contributors)

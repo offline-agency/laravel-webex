@@ -1,11 +1,11 @@
 {
-    "name": "offlineagency/laravel-webex",
+    "name": "offline-agency/laravel-webex",
     "description": "A simple integration with Webex",
     "keywords": [
-        "offlineagency",
+        "offline-agency",
         "laravel-webex"
     ],
-    "homepage": "https://github.com/offlineagency/laravel-webex",
+    "homepage": "https://github.com/offline-agency/laravel-webex",
     "license": "MIT",
     "type": "library",
     "authors": [
