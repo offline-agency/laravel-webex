@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class Rooms extends BaseEntity
 {
-    public function getRoomsList(
+    public function rooms(
         array $params = [],
         string $fieldset = 'basic'
     )

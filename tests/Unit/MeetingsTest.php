@@ -9,7 +9,7 @@ use Offlineagency\LaravelWebex\Tests\TestCase;
 
 class MeetingsTest extends TestCase
 {
-    public function test_rooms_list()
+    public function test_meetings_list()
     {
         Http::fake([
             'meetings' => Http::response(
@@ -18,7 +18,7 @@ class MeetingsTest extends TestCase
         ]);
 
         $meetings = new Meetings;
-        $meetings_list = $meetings->getMeetingsList();
+        $meetings_list = $meetings->meetings();
 
         $this->assertCount(2, $meetings_list);
 
@@ -33,14 +33,32 @@ class MeetingsTest extends TestCase
         $this->assertTrue($second_meeting->enabledAutoRecordMeeting);
 
         $meetings = new Meetings;
-        $meetings_list = $meetings->getMeetingsList([], 'complete');
+        $meetings_list = $meetings->meetings([], 'complete');
 
         $this->assertIsObject($meetings_list);
         $this->assertObjectHasAttribute('items', $meetings_list);
 
         $meetings = new Meetings;
-        $meetings_list = $meetings->getMeetingsList([], 'original');
+        $meetings_list = $meetings->meetings([], 'original');
 
         $this->assertJson($meetings_list);
+    }
+
+    public function test_meeting_detail()
+    {
+        Http::fake([
+            'meetings/fake_id' => Http::response(
+                (new MeetingsFakeResponse)->getMeetingFakeDetail()
+            ),
+        ]);
+
+        $meetings = new Meetings;
+        $meeting_detail = $meetings->meeting([
+            'id' => 'fake_id'
+        ]);
+
+        $this->assertIsObject($meeting_detail);
+        $this->assertObjectHasAttribute('id', $meeting_detail);
+        $this->assertEquals('fake_id', $meeting_detail->id);
     }
 }

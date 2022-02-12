@@ -18,7 +18,7 @@ class RoomsTest extends TestCase
         ]);
 
         $rooms = new Rooms;
-        $rooms_list = $rooms->getRoomsList();
+        $rooms_list = $rooms->rooms();
 
         $this->assertCount(1, $rooms_list);
 
@@ -28,13 +28,13 @@ class RoomsTest extends TestCase
         $this->assertEquals('fake_id', $room->id);
 
         $rooms = new Rooms;
-        $rooms_list = $rooms->getRoomsList([], 'complete');
+        $rooms_list = $rooms->rooms([], 'complete');
 
         $this->assertIsObject($rooms_list);
         $this->assertObjectHasAttribute('items', $rooms_list);
 
         $rooms = new Rooms;
-        $rooms_list = $rooms->getRoomsList([], 'original');
+        $rooms_list = $rooms->rooms([], 'original');
 
         $this->assertJson($rooms_list);
     }
