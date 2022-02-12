@@ -23,14 +23,9 @@ class RoomsTest extends TestCase
         $this->assertCount(1, $rooms_list);
 
         $room = $rooms_list[0];
+        $this->assertIsObject($room);
+        $this->assertObjectHasAttribute('id', $room);
         $this->assertEquals('fake_id', $room->id);
-        $this->assertEquals('fake_title', $room->title);
-        $this->assertEquals('group', $room->type);
-        $this->assertFalse($room->isLocked);
-        $this->assertEquals('2022-02-11T09:15:17.365Z', $room->lastActivity);
-        $this->assertEquals('fake_creator_id', $room->creatorId);
-        $this->assertEquals('2022-02-11T09:15:16.513Z', $room->created);
-        $this->assertEquals('fake_owner_id', $room->ownerId);
 
         $rooms = new Rooms;
         $rooms_list = $rooms->getRoomsList([], 'complete');
