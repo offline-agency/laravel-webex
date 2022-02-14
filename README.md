@@ -22,8 +22,40 @@ composer require offline-agency/laravel-webex
 
 ## Usage
 
+Each method expect 3 parameters:
+- ```$params``` for parameters used on the url
+- ```$additional_info``` for query parameters
+- ```$fieldset``` for response structure
+
+#### Params
 ```php
-// Usage description here
+$meetings = new Meetings;
+$meeting_detail = $meetings->meeting([
+    'id' => 'fake_id'
+]);
+```
+
+#### Additional info
+```php
+$meetings = new Meetings;
+$meetings_list = $meetings->meetings([], [
+    'state' => 'fake_state'
+]);
+```
+
+#### Fieldset
+Fieldset accept 3 different values:
+- basic: return the json decode of the body response and remove useless structure
+- complete: return the json decode of the body
+- original: return all response
+
+Basic fieldset is used by default.
+
+```php
+$meetings = new Meetings;
+$meetings_list = $meetings->meetings([], [],
+    'complete'
+]);
 ```
 
 ## Api coverage
