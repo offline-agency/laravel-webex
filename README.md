@@ -26,6 +26,26 @@ composer require offline-agency/laravel-webex
 // Usage description here
 ```
 
+## Api coverage
+
+### Meetings
+- [ ] List Meetings of a Meeting Series
+- [ ] Create a Meeting
+- [ ] Get a Meeting ✔️
+- [ ] List Meetings
+- [ ] Update a Meeting
+- [ ] Delete a Meeting
+- [ ] Get Meeting Control Status
+- [ ] Update Meeting Control Status
+- [ ] List Meeting Session Types
+- [ ] Get a Meeting Session Type
+- [ ] Get registration form for a meeting
+- [ ] Register a Meeting Registrant
+- [ ] Get a meeting registrant's detail information
+- [ ] List Meeting Registrant
+- [ ] Batch Update Meeting Registrants status
+- [ ] Delete a Meeting Registrant
+
 ## Testing
 
 ```bash
