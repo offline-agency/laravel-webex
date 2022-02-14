@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/offline-agency/laravel-webex/v/stable)](https://packagist.org/packages/offline-agency/laravel-webex)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Laravel](https://github.com/offline-agency/laravel-webex/actions/workflows/laravel.yml/badge.svg?branch=master)](https://github.com/offline-agency/laravel-webex/actions/workflows/laravel.yml)
+[![Laravel](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml)
 [![StyleCI](https://github.styleci.io/repos/167236902/shield)](https://styleci.io/repos/167236902)
 [![Total Downloads](https://img.shields.io/packagist/dt/offline-agency/laravel-webex.svg?style=flat-square)](https://packagist.org/packages/offline-agency/laravel-webex)
 
@@ -401,7 +401,7 @@ composer require offline-agency/laravel-webex
 - [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
-- [ ] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 - [ ] Get Meeting Control Status [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
