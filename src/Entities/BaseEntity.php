@@ -3,23 +3,19 @@
 namespace Offlineagency\LaravelWebex\Entities;
 
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\Validator as Validation;
 
 class BaseEntity
 {
     protected function validateParams(
         array $params,
         array $rules
-    ): array
+    ): Validation
     {
-        try {
-            return Validator::make(
-                $params,
-                $rules
-            )->validate();
-        } catch (ValidationException $e) {
-            return $e->errors();
-        }
+        return Validator::make(
+            $params,
+            $rules
+        );
     }
 
     protected function formatResponse(

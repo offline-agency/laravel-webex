@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex\Tests\Unit;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings;
 use Offlineagency\LaravelWebex\Tests\Fake\MeetingsFakeResponse;
@@ -33,15 +34,36 @@ class MeetingsTest extends TestCase
         $this->assertTrue($second_meeting->enabledAutoRecordMeeting);
 
         $meetings = new Meetings;
-        $meetings_list = $meetings->meetings([], 'complete');
+        $meetings_list = $meetings->meetings([], [], 'complete');
 
         $this->assertIsObject($meetings_list);
         $this->assertObjectHasAttribute('items', $meetings_list);
 
         $meetings = new Meetings;
-        $meetings_list = $meetings->meetings([], 'original');
+        $meetings_list = $meetings->meetings([], [], 'original');
 
         $this->assertJson($meetings_list);
+    }
+
+    public function test_filtered_meetings_list()
+    {
+        Http::fake([
+            'meetings?state=fake_state' => Http::response(
+                (new MeetingsFakeResponse)->getFilteredMeetingsFakeList()
+            ),
+        ]);
+
+        $meetings = new Meetings;
+        $meetings_list = $meetings->meetings([], [
+            'state' => 'fake_state'
+        ]);
+
+        $this->assertCount(1, $meetings_list);
+
+        $meeting = $meetings_list[0];
+        $this->assertIsObject($meeting);
+        $this->assertObjectHasAttribute('id', $meeting);
+        $this->assertEquals('fake_state', $meeting->state);
     }
 
     public function test_meeting_detail()
@@ -53,6 +75,16 @@ class MeetingsTest extends TestCase
         ]);
 
         $meetings = new Meetings;
+        $meeting_detail = $meetings->meeting();
+
+        $this->assertIsArray($meeting_detail);
+        $this->assertArrayHasKey('id', $meeting_detail);
+        $this->assertEquals(
+            'The id field is required.',
+            Arr::get($meeting_detail, 'id')[0]
+        );
+
+        $meetings = new Meetings;
         $meeting_detail = $meetings->meeting([
             'id' => 'fake_id'
         ]);
@@ -60,5 +92,21 @@ class MeetingsTest extends TestCase
         $this->assertIsObject($meeting_detail);
         $this->assertObjectHasAttribute('id', $meeting_detail);
         $this->assertEquals('fake_id', $meeting_detail->id);
+
+        $meetings = new Meetings;
+        $meeting_detail = $meetings->meeting([
+            'id' => 'fake_id'
+        ], [], 'complete');
+
+        $this->assertIsObject($meeting_detail);
+        $this->assertObjectHasAttribute('id', $meeting_detail);
+        $this->assertEquals('fake_id', $meeting_detail->id);
+
+        $meetings = new Meetings;
+        $meeting_detail = $meetings->meeting([
+            'id' => 'fake_id'
+        ], [], 'original');
+
+        $this->assertJson($meeting_detail);
     }
 }

@@ -74,6 +74,45 @@ class MeetingsFakeResponse
         ]);
     }
 
+    public function getFilteredMeetingsFakeList()
+    {
+        return json_encode((object)[
+            'items' => [
+                (object)[
+                    'id' => 'fake_id',
+                    'meetingNumber' => 'fake_meetingNumber',
+                    'title' => 'fake_title',
+                    'password' => 'fake_password',
+                    'phoneAndVideoSystemPassword' => 'fake_phoneAndVideoSystemPassword',
+                    'meetingType' => 'fake_meetingType',
+                    'state' => 'fake_state',
+                    'timezone' => 'fake_timezone',
+                    'start' => 'fake_start',
+                    'end' => 'fake_end',
+                    'hostUserId' => 'fake_hostUserId',
+                    'hostDisplayName' => 'fake_hostDisplayName',
+                    'hostEmail' => 'fake_hostEmail',
+                    'hostKey' => 'fake_hostKey',
+                    'siteUrl' => 'fake_siteUrl',
+                    'webLink' => 'fake_webLink',
+                    'sipAddress' => 'fake_sipAddress',
+                    'dialInIpAddress' => 'fake_dialInIpAddress',
+                    'enabledAutoRecordMeeting' => false,
+                    'allowAuthenticatedDevices' => false,
+                    'enabledJoinBeforeHost' => true,
+                    'joinBeforeHostMinutes' => 5,
+                    'enableConnectAudioBeforeHost' => true,
+                    'excludePassword' => false,
+                    'publicMeeting' => false,
+                    'reminderTime' => 15,
+                    'enableAutomaticLock' => false,
+                    'sessionTypeId' => 600,
+                    'scheduledType' => 'fake_scheduledType',
+                ]
+            ],
+        ]);
+    }
+
     public function getMeetingFakeDetail()
     {
         return json_encode((object)[

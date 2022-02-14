@@ -4,12 +4,12 @@ namespace Offlineagency\LaravelWebex\Entities;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
 
 class Meetings extends BaseEntity
 {
     public function meetings(
         array  $params = [],
+        array  $additional_info = [],
         string $fieldset = 'basic'
     )
     {
@@ -17,7 +17,7 @@ class Meetings extends BaseEntity
             'Authorization' => 'Bearer fake_bearer'
         ])->get(
             config('laravel-webex.base_url') . 'meetings',
-            $params
+            $additional_info
         );
 
         return $this->formatResponse(
@@ -29,16 +29,20 @@ class Meetings extends BaseEntity
 
     public function meeting(
         array  $params = [],
-        array $additional_info = [],
+        array  $additional_info = [],
         string $fieldset = 'basic'
     )
     {
-        $this->validateParams($params, [
+        $validator = $this->validateParams($params, [
             'id' => 'required'
         ]);
 
+        if ($validator->fails()) {
+            return $validator->errors()->messages();
+        }
+
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer fake_bearer'
+            'Authorization' => 'Bearer MWE1YWJmYWUtNWY4MS00ZjkwLWFjMzUtOGYyYjZiMzJlZTExOTNjMDQxY2ItZDk1_PE93_33d69f74-a9c9-41be-80ba-7fbca5cbedc8'
         ])->get(
             config('laravel-webex.base_url') . 'meetings/' . Arr::get($params, 'id'),
             $additional_info
