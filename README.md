@@ -399,7 +399,7 @@ composer require offline-agency/laravel-webex
 
 #### Meetings
 - [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [X] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()

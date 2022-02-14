@@ -7,17 +7,6 @@ use Illuminate\Contracts\Validation\Validator as Validation;
 
 class BaseEntity
 {
-    protected function validateParams(
-        array $params,
-        array $rules
-    ): Validation
-    {
-        return Validator::make(
-            $params,
-            $rules
-        );
-    }
-
     protected function formatResponse(
         $response,
         string $fieldset,
@@ -40,5 +29,17 @@ class BaseEntity
             case 'original':
                 return $response->body();
         }
+    }
+
+
+    protected function validateParams(
+        array $params,
+        array $rules
+    ): Validation
+    {
+        return Validator::make(
+            $params,
+            $rules
+        );
     }
 }

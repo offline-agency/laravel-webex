@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex\Tests\Unit;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings;
@@ -64,6 +65,39 @@ class MeetingsTest extends TestCase
         $this->assertIsObject($meeting);
         $this->assertObjectHasAttribute('id', $meeting);
         $this->assertEquals('fake_state', $meeting->state);
+    }
+
+    public function test_create_meeting()
+    {
+        Http::fake([
+            'meetings' => Http::response(
+                (new MeetingsFakeResponse)->getMeetingFakeDetail()
+            ),
+        ]);
+
+        $meetings = new Meetings;
+        $new_meeting = $meetings->createMeeting([
+            'title' => 'Riunione API',
+            'end' => Carbon::now()->addDay()->addMinutes(20)->toDateTimeString()
+        ]);
+
+        $this->assertIsArray($new_meeting);
+        $this->assertArrayHasKey('start', $new_meeting);
+        $this->assertEquals(
+            'The start field is required.',
+            Arr::get($new_meeting, 'start')[0]
+        );
+
+        $meetings = new Meetings;
+        $new_meeting = $meetings->createMeeting([
+            'title' => 'Riunione API',
+            'start' => Carbon::now()->addDay()->toDateTimeString(),
+            'end' => Carbon::now()->addDay()->addMinutes(20)->toDateTimeString()
+        ]);
+
+        $this->assertIsObject($new_meeting);
+        $this->assertObjectHasAttribute('id', $new_meeting);
+        $this->assertEquals('fake_id', $new_meeting->id);
     }
 
     public function test_meeting_detail()
