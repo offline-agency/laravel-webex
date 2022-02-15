@@ -22,40 +22,8 @@ composer require offline-agency/laravel-webex
 
 ## Usage
 
-Each method expect 3 parameters:
-- ```$params``` for parameters used on the url
-- ```$additional_info``` for query parameters
-- ```$fieldset``` for response structure
-
-#### Params
-```php
-$meetings = new Meetings;
-$meeting_detail = $meetings->meeting([
-    'id' => 'fake_id'
-]);
 ```
-
-#### Additional info
-```php
-$meetings = new Meetings;
-$meetings_list = $meetings->meetings([], [
-    'state' => 'fake_state'
-]);
-```
-
-#### Fieldset
-Fieldset accept 3 different values:
-- basic: return the json decode of the body response and remove useless structure
-- complete: return the json decode of the body
-- original: return all response
-
-Basic fieldset is used by default.
-
-```php
-$meetings = new Meetings;
-$meetings_list = $meetings->meetings([], [],
-    'complete'
-]);
+// add
 ```
 
 ## Api coverage
@@ -401,7 +369,7 @@ $meetings_list = $meetings->meetings([], [],
 - [ ] Delete a Meeting Invitee [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Meeting Participants
-- [ ] List Meeting Participants [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [X] List Meeting Participants [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Meeting Participant Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Participant [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Admit Participants [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -431,8 +399,8 @@ $meetings_list = $meetings->meetings([], [],
 
 #### Meetings
 - [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [X] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
+- [ ] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
@@ -520,7 +488,7 @@ $meetings_list = $meetings->meetings([], [],
 - [ ] Delete a Room Tab [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Rooms
-- [X] List Rooms [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] List Rooms [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Room [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Room Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Room Meeting Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
