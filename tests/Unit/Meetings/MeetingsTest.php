@@ -31,4 +31,47 @@ class MeetingsTest extends TestCase
 
         $this->assertEquals('fake_id', $single_meeting->id);
     }
+
+    public function test_filtered_meetings_list()
+    {
+        Http::fake([
+            'meetings?state=inProgress' => Http::response(
+                (new MeetingsFakeResponse())->getFilteredMeetingsFakeList()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex('fake_bearer');
+        $meetings_list = $laravel_webex->meeting()->list(
+            null,
+            null,
+            null,
+            null,
+            'inProgress'
+        );
+
+        $this->assertCount(1, $meetings_list);
+
+        $single_meeting = null;
+        foreach ($meetings_list as $meeting) {
+            $this->assertInstanceOf(Meeting::class, $meeting);
+            $single_meeting = $meeting;
+        }
+
+        $this->assertEquals('fake_id', $single_meeting->id);
+    }
+
+    public function test_meeting_detail()
+    {
+        Http::fake([
+            'meetings/fake_id' => Http::response(
+                (new MeetingsFakeResponse())->getMeetingFakeDetail()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex('fake_bearer');
+        $meeting_detail = $laravel_webex->meeting()->detail('fake_id');
+
+        $this->assertInstanceOf(Meeting::class, $meeting_detail);
+        $this->assertEquals('fake_id', $meeting_detail->id);
+    }
 }

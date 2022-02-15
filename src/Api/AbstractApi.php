@@ -23,11 +23,16 @@ abstract class AbstractApi
 
         return $response->status() === 200
             ? $this->parseResponse($response)
-            : null;
+            : $this->parseErrors($response);
     }
 
     private function parseResponse($response)
     {
         return json_decode($response);
+    }
+
+    private function parseErrors($response)
+    {
+        return null;
     }
 }

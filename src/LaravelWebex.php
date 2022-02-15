@@ -12,7 +12,7 @@ class LaravelWebex
 
     public $httpBuilder;
 
-    public function __construct($bearer)
+    public function __construct(string  $bearer)
     {
         $this->setHeader($bearer);
     }
@@ -27,7 +27,9 @@ class LaravelWebex
         return new Meeting($this);
     }
 
-    private function setHeader($bearer)
+    private function setHeader(
+        string  $bearer
+    )
     {
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer ' . $bearer

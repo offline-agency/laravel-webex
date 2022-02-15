@@ -47,4 +47,22 @@ class Meeting extends AbstractApi
             return new MeetingsEntity($meeting);
         }, $meetings->items);
     }
+
+    public function detail(
+        string  $meetingId,
+        ?bool   $current = null,
+        ?string $hostEmail = null
+    ): ?MeetingsEntity
+    {
+        $meeting = $this->get('meetings/' . $meetingId, [
+            'current' => $current,
+            'hostEmail' => $hostEmail
+        ]);
+
+        if (is_null($meeting)) {
+            return null;
+        }
+
+        return new MeetingsEntity($meeting);
+    }
 }
