@@ -22,8 +22,24 @@ composer require offline-agency/laravel-webex
 
 ## Usage
 
-```
+```  
 // add
+```
+
+## Examples
+
+### Meetings
+
+``` php 
+$laravel_webex = new LaravelWebex($bearer);
+$meetings_list = $laravel_webex->meeting()->list();
+```
+
+### Meetings participants
+
+``` php 
+$laravel_webex = new LaravelWebex($bearer);
+$meeting_participants_list = $laravel_webex->meeting_participants()->list($meeting_id);
 ```
 
 ## Api coverage
