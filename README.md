@@ -30,10 +30,23 @@ composer require offline-agency/laravel-webex
 
 ### Meetings
 
-``` php 
+``` php
+// all 
 $laravel_webex = new LaravelWebex($bearer);
 $meetings_list = $laravel_webex->meeting()->list();
+
+// filtered by state
+$laravel_webex = new LaravelWebex('fake_bearer');
+$meetings_list = $laravel_webex->meeting()->list(
+    null,
+    null,
+    null,
+    null,
+    'inProgress'
+);
 ```
+
+
 
 ### Meetings participants
 
@@ -416,7 +429,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 #### Meetings
 - [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
+- [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
