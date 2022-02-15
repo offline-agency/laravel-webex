@@ -23,8 +23,12 @@ class MeetingsTest extends TestCase
 
         $this->assertCount(2, $meetings_list);
 
-        $first_meeting = $meetings_list[0];
-        $this->assertInstanceOf(Meeting::class, $first_meeting);
-        $this->assertEquals('fake_id', $first_meeting->id);
+        $single_meeting = null;
+        foreach ($meetings_list as $meeting) {
+            $this->assertInstanceOf(Meeting::class, $meeting);
+            $single_meeting = $meeting;
+        }
+
+        $this->assertEquals('fake_id', $single_meeting->id);
     }
 }
