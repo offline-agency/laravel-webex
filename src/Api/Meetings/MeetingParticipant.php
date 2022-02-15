@@ -8,8 +8,8 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingParticipant as MeetingPa
 class MeetingParticipant extends AbstractApi
 {
     public function list(
-        string $meetingId,
-        ?int $max = null,
+        string  $meetingId,
+        ?int    $max = null,
         ?string $hostEmail = null
     ): ?array
     {
