@@ -65,4 +65,14 @@ class Meeting extends AbstractApi
 
         return new MeetingsEntity($meeting);
     }
+
+    public function create(
+        string  $title,
+        string  $start,
+        string  $end,
+        ?array $additional_data = []
+    )
+    {
+        //TODO: implement
+    }
 }

@@ -26,6 +26,17 @@ abstract class AbstractApi
             : $this->parseErrors($response);
     }
 
+    protected function post($url, $body)
+    {
+        $url = $this->laravel_webex->base_url . $url;
+
+        $response = $this->laravel_webex->httpBuilder->get($url, $body);
+
+        return $response->status() === 200
+            ? $this->parseResponse($response)
+            : $this->parseErrors($response);
+    }
+
     private function parseResponse($response)
     {
         return json_decode($response);
