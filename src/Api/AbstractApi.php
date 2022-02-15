@@ -2,24 +2,24 @@
 
 namespace Offlineagency\LaravelWebex\Api;
 
-use Offlineagency\LaravelWebex\Client;
+use Offlineagency\LaravelWebex\LaravelWebex;
 
 abstract class AbstractApi
 {
-    protected $client;
+    protected $laravel_webex;
 
     public function __construct(
-        Client $client
+        LaravelWebex $laravel_webex
     )
     {
-        $this->client = $client;
+        $this->laravel_webex = $laravel_webex;
     }
 
     protected function get($url, $query_parameters)
     {
-        $url = $this->client->base_url . $url;
+        $url = $this->laravel_webex->base_url . $url;
 
-        $response = $this->client->httpBuilder->get($url, $query_parameters);
+        $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
 
         return $response->status() === 200
             ? $this->parseResponse($response)
