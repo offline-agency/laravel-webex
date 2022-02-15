@@ -1,8 +1,10 @@
 <?php
 
-namespace Offlineagency\LaravelWebex\Entities;
+namespace Offlineagency\LaravelWebex\Entities\Meetings;
 
-class MeetingParticipants extends AbstractEntity
+use Offlineagency\LaravelWebex\Entities\AbstractEntity;
+
+class Meeting extends AbstractEntity
 {
     /**
      * @var string

@@ -1,10 +1,11 @@
 <?php
 
-namespace Offlineagency\LaravelWebex\Api;
+namespace Offlineagency\LaravelWebex\Api\Meetings;
 
-use Offlineagency\LaravelWebex\Entities\MeetingParticipants as MeetingParticipantsEntity;
+use Offlineagency\LaravelWebex\Api\AbstractApi;
+use Offlineagency\LaravelWebex\Entities\Meetings\MeetingParticipant as MeetingParticipantEntity;
 
-class MeetingParticipants extends AbstractApi
+class MeetingParticipant extends AbstractApi
 {
     public function list(string $meetingId, ?int $max = null, ?string $hostEmail = null): ?array
     {
@@ -19,7 +20,7 @@ class MeetingParticipants extends AbstractApi
         }
 
         return array_map(function ($meeting_participant) {
-            return new MeetingParticipantsEntity($meeting_participant);
+            return new MeetingParticipantEntity($meeting_participant);
         }, $meeting_participants->items);
     }
 }

@@ -3,7 +3,8 @@
 namespace Offlineagency\LaravelWebex;
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Api\MeetingParticipants;
+use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
 
 class LaravelWebex
 {
@@ -16,9 +17,14 @@ class LaravelWebex
         $this->setHeader($bearer);
     }
 
-    public function meeting_participants(): MeetingParticipants
+    public function meeting_participants(): MeetingParticipant
     {
-        return new MeetingParticipants($this);
+        return new MeetingParticipant($this);
+    }
+
+    public function meeting(): Meeting
+    {
+        return new Meeting($this);
     }
 
     private function setHeader($bearer)
