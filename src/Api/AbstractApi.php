@@ -38,6 +38,18 @@ abstract class AbstractApi
             : $this->parseErrors($response);
     }
 
+    public function data($data, $fields): array
+    {
+        $parsed_data = [];
+        foreach ($data as $key => $value) {
+            if (in_array($key, $fields)) {
+                $parsed_data[$key] = $value;
+            }
+        }
+
+        return $parsed_data;
+    }
+
     public function value($arr, $key, $default = null)
     {
         return Arr::has($arr, $key)

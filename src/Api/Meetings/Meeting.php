@@ -11,21 +11,11 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ): ?array
     {
-        $meetings = $this->get('meetings', [
-            'meetingNumber' => $this->value($additional_data, 'meetingNumber'),
-            'webLink' => $this->value($additional_data, 'webLink'),
-            'roomId' => $this->value($additional_data, 'roomId'),
-            'meetingType' => $this->value($additional_data, 'meetingType'),
-            'state' => $this->value($additional_data, 'state'),
-            'participantEmail' => $this->value($additional_data, 'participantEmail'),
-            'current' => $this->value($additional_data, 'current'),
-            'from' => $this->value($additional_data, 'from'),
-            'to' => $this->value($additional_data, 'to'),
-            'max' => $this->value($additional_data, 'max'),
-            'hostEmail' => $this->value($additional_data, 'hostEmail'),
-            'siteUrl' => $this->value($additional_data, 'siteUrl'),
-            'integrationTag' => $this->value($additional_data, 'integrationTag')
+        $additional_data = $this->data($additional_data, [
+            'meetingNumber', 'webLink', 'roomId', 'meetingType', 'state', 'participantEmail', 'current', 'from', 'to', 'max', 'hostEmail', 'siteUrl', 'integrationTag'
         ]);
+
+        $meetings = $this->get('meetings', $additional_data);
 
         if (is_null($meetings)) {
             return null;
@@ -41,10 +31,11 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ): ?MeetingsEntity
     {
-        $meeting = $this->get('meetings/' . $meetingId, [
-            'current' => $this->value($additional_data, 'current'),
-            'hostEmail' => $this->value($additional_data, 'hostEmail')
+        $additional_data = $this->data($additional_data, [
+            'current', 'hostEmail'
         ]);
+
+        $meeting = $this->get('meetings/' . $meetingId, $additional_data);
 
         if (is_null($meeting)) {
             return null;
@@ -58,8 +49,22 @@ class Meeting extends AbstractApi
         string $start,
         string $end,
         ?array $additional_data = []
-    )
+    ): ?MeetingsEntity
     {
-        //TODO: implement
+        $additional_data = $this->data($additional_data, [
+            'agenda', 'password', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'invitees', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
+        ]);
+
+        $meeting = $this->post('meetings/', array_merge([
+            'title' => $title,
+            'start' => $start,
+            'end' => $end
+        ], $additional_data));
+
+        if (is_null($meeting)) {
+            return null;
+        }
+
+        return new MeetingsEntity($meeting);
     }
 }

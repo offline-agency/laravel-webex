@@ -4,6 +4,7 @@ namespace Offlineagency\LaravelWebex\Tests\Unit\Meetings;
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings\Meeting;
+use Offlineagency\LaravelWebex\Entities\Meetings\Meeting as MeetingsEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingsFakeResponse;
 use Offlineagency\LaravelWebex\Tests\TestCase;
