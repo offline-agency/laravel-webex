@@ -31,7 +31,7 @@ abstract class AbstractApi
     {
         $url = $this->laravel_webex->base_url . $url;
 
-        $response = $this->laravel_webex->httpBuilder->get($url, $body);
+        $response = $this->laravel_webex->httpBuilder->post($url, $body);
 
         return $response->status() === 200
             ? $this->parseResponse($response)
