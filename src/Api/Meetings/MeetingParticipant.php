@@ -9,14 +9,13 @@ class MeetingParticipant extends AbstractApi
 {
     public function list(
         string  $meetingId,
-        ?int    $max = null,
-        ?string $hostEmail = null
+        ?array $additional_data = []
     ): ?array
     {
         $meeting_participants = $this->get('meetingParticipants', [
             'meetingId' => $meetingId,
-            'max' => $max,
-            'hostEmail' => $hostEmail
+            'max' => $this->value($additional_data, 'max'),
+            'hostEmail' => $this->value($additional_data, 'hostEmail')
         ]);
 
         if (is_null($meeting_participants)) {

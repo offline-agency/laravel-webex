@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex\Api;
 
+use Illuminate\Support\Arr;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 abstract class AbstractApi
@@ -35,6 +36,13 @@ abstract class AbstractApi
         return $response->status() === 200
             ? $this->parseResponse($response)
             : $this->parseErrors($response);
+    }
+
+    public function value($arr, $key, $default = null)
+    {
+        return Arr::has($arr, $key)
+            ? Arr::get($arr, $key)
+            : $default;
     }
 
     private function parseResponse($response)

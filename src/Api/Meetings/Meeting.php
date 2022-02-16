@@ -8,35 +8,23 @@ use Offlineagency\LaravelWebex\Entities\Meetings\Meeting as MeetingsEntity;
 class Meeting extends AbstractApi
 {
     public function list(
-        ?string $meetingNumber = null,
-        ?string $webLink = null,
-        ?string $roomId = null,
-        ?string $meetingType = null,
-        ?string $state = null,
-        ?string $participantEmail = null,
-        ?bool   $current = null,
-        ?string $from = null,
-        ?string $to = null,
-        ?int    $max = null,
-        ?string $hostEmail = null,
-        ?string $siteUrl = null,
-        ?string $integrationTag = null
+        ?array $additional_data = []
     ): ?array
     {
         $meetings = $this->get('meetings', [
-            'meetingNumber' => $meetingNumber,
-            'webLink' => $webLink,
-            'roomId' => $roomId,
-            'meetingType' => $meetingType,
-            'state' => $state,
-            'participantEmail' => $participantEmail,
-            'current' => $current,
-            'from' => $from,
-            'to' => $to,
-            'max' => $max,
-            'hostEmail' => $hostEmail,
-            'siteUrl' => $siteUrl,
-            'integrationTag' => $integrationTag
+            'meetingNumber' => $this->value($additional_data, 'meetingNumber'),
+            'webLink' => $this->value($additional_data, 'webLink'),
+            'roomId' => $this->value($additional_data, 'roomId'),
+            'meetingType' => $this->value($additional_data, 'meetingType'),
+            'state' => $this->value($additional_data, 'state'),
+            'participantEmail' => $this->value($additional_data, 'participantEmail'),
+            'current' => $this->value($additional_data, 'current'),
+            'from' => $this->value($additional_data, 'from'),
+            'to' => $this->value($additional_data, 'to'),
+            'max' => $this->value($additional_data, 'max'),
+            'hostEmail' => $this->value($additional_data, 'hostEmail'),
+            'siteUrl' => $this->value($additional_data, 'siteUrl'),
+            'integrationTag' => $this->value($additional_data, 'integrationTag')
         ]);
 
         if (is_null($meetings)) {
@@ -49,14 +37,13 @@ class Meeting extends AbstractApi
     }
 
     public function detail(
-        string  $meetingId,
-        ?bool   $current = null,
-        ?string $hostEmail = null
+        string $meetingId,
+        ?array $additional_data = []
     ): ?MeetingsEntity
     {
         $meeting = $this->get('meetings/' . $meetingId, [
-            'current' => $current,
-            'hostEmail' => $hostEmail
+            'current' => $this->value($additional_data, 'current'),
+            'hostEmail' => $this->value($additional_data, 'hostEmail')
         ]);
 
         if (is_null($meeting)) {
@@ -67,9 +54,9 @@ class Meeting extends AbstractApi
     }
 
     public function create(
-        string  $title,
-        string  $start,
-        string  $end,
+        string $title,
+        string $start,
+        string $end,
         ?array $additional_data = []
     )
     {
