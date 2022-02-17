@@ -22,9 +22,7 @@ composer require offline-agency/laravel-webex
 
 ## Usage
 
-```  
-// add
-```
+Each callback accept a number of parameters equals to the sum of the required parameters +1 that is $additional_data that accept all optional parameters.  
 
 ## Examples
 
@@ -35,15 +33,26 @@ composer require offline-agency/laravel-webex
 $laravel_webex = new LaravelWebex($bearer);
 $meetings_list = $laravel_webex->meeting()->list();
 
-// filtered by state
-$laravel_webex = new LaravelWebex('fake_bearer');
-$meetings_list = $laravel_webex->meeting()->list(
-    null,
-    null,
-    null,
-    null,
-    'inProgress'
-);
+// all filtered by state
+$laravel_webex = new LaravelWebex($bearer);
+$meetings_list = $laravel_webex->meeting()->list([
+    'state' => $state
+]);
+
+// detail
+$laravel_webex = new LaravelWebex($bearer);
+$meeting_detail = $laravel_webex->meeting()->detail($meeting_id);
+
+// detail filtered by current 
+$meeting_detail = $laravel_webex->meeting()->detail($meeting_id, [
+    'current' => $current
+]);
+
+// creation
+$new_meeting = $laravel_webex->meeting()->create($title, $start, $end, [
+    'agenda' => $agenda,
+    'enabledAutoRecordMeeting' => $enabledAutoRecordMeeting
+]);
 ```
 
 
@@ -428,7 +437,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 
 #### Meetings
 - [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [X] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()

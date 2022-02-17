@@ -29,4 +29,13 @@ class MeetingsFakeResponse extends FakeResponse
             $this->fakeMeeting()
         );
     }
+
+    public function getNewMeetingFakeDetail()
+    {
+        return json_encode(
+            $this->fakeMeeting([
+                'enabledAutoRecordMeeting' => true
+            ])
+        );
+    }
 }

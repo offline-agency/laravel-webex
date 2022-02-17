@@ -2,10 +2,8 @@
 
 namespace Offlineagency\LaravelWebex\Tests\Unit\Meetings;
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings\Meeting;
-use Offlineagency\LaravelWebex\Entities\Meetings\Meeting as MeetingsEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingsFakeResponse;
 use Offlineagency\LaravelWebex\Tests\TestCase;
@@ -92,12 +90,20 @@ class MeetingsTest extends TestCase
 
     public function test_meeting_creation()
     {
-        $start = Carbon::now()->addDay()->toDateTimeString();
-        $end = Carbon::now()->addDay()->addMinutes(30)->toDateTimeString();
-
-        $laravel_webex = new LaravelWebex('YWMwOTM0NTctYWQ2Yi00MTVjLTg1ZTctYTY4OTRjMmFiYWMzN2UwZWJlNmEtYzFl_PE93_33d69f74-a9c9-41be-80ba-7fbca5cbedc8');
-        $meeting = $laravel_webex->meeting()->create('Riunione Mercoledì', $start, $end, [
-            //
+        Http::fake([
+            'meetings' => Http::response(
+                (new MeetingsFakeResponse())->getNewMeetingFakeDetail()
+            ),
         ]);
+
+        $laravel_webex = new LaravelWebex('ZmViOGNjNzEtZGU1NS00NzZhLTlhZmYtZGU1YzMyYzU3YjViYzRlMzYwNmUtNTIz_PE93_33d69f74-a9c9-41be-80ba-7fbca5cbedc8');
+        $new_meeting = $laravel_webex->meeting()->create('fake_title', 'fake_start', 'fake_end', [
+            'agenda' => 'fake_agenda',
+            'enabledAutoRecordMeeting' => true
+        ]);
+
+        $this->assertInstanceOf(Meeting::class, $new_meeting);
+        $this->assertEquals('fake_id', $new_meeting->id);
+        $this->assertEquals(true, $new_meeting->enabledAutoRecordMeeting);
     }
 }
