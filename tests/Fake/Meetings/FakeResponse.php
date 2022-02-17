@@ -79,4 +79,17 @@ class FakeResponse extends BaseFakeResponse
             ]),
         ];
     }
+
+    public function fakeErrorMeeting(array $params = []): object
+    {
+        return (object)[
+            'message' => $this->value($params, 'id', 'fake_message'),
+            'errors' => [
+                (object)[
+                    $this->value($params, 'id', 'fake_error')
+                ]
+            ],
+            'trackingId' => $this->value($params, 'id', 'fake_trackingId')
+        ];
+    }
 }

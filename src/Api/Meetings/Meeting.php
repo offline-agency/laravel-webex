@@ -3,23 +3,26 @@
 namespace Offlineagency\LaravelWebex\Api\Meetings;
 
 use Offlineagency\LaravelWebex\Api\AbstractApi;
+use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\Meeting as MeetingsEntity;
 
 class Meeting extends AbstractApi
 {
     public function list(
         ?array $additional_data = []
-    ): ?array
+    )
     {
         $additional_data = $this->data($additional_data, [
             'meetingNumber', 'webLink', 'roomId', 'meetingType', 'state', 'participantEmail', 'current', 'from', 'to', 'max', 'hostEmail', 'siteUrl', 'integrationTag'
         ]);
 
-        $meetings = $this->get('meetings', $additional_data);
+        $response = $this->get('meetings', $additional_data);
 
-        if (is_null($meetings)) {
-            return null;
+        if (!$response->success) {
+            return new Error($response->data);
         }
+
+        $meetings = $response->data;
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
@@ -29,19 +32,19 @@ class Meeting extends AbstractApi
     public function detail(
         string $meetingId,
         ?array $additional_data = []
-    ): ?MeetingsEntity
+    )
     {
         $additional_data = $this->data($additional_data, [
             'current', 'hostEmail'
         ]);
 
-        $meeting = $this->get('meetings/' . $meetingId, $additional_data);
+        $response = $this->get('meetings/' . $meetingId, $additional_data);
 
-        if (is_null($meeting)) {
-            return null;
+        if (!$response->success) {
+            return new Error($response->data);
         }
 
-        return new MeetingsEntity($meeting);
+        return new MeetingsEntity($response->data);
     }
 
     public function create(
@@ -49,23 +52,23 @@ class Meeting extends AbstractApi
         string $start,
         string $end,
         ?array $additional_data = []
-    ): ?MeetingsEntity
+    )
     {
         $additional_data = $this->data($additional_data, [
             'agenda', 'password', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'invitees', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
         ]);
 
-        $meeting = $this->post('meetings', array_merge([
+        $response = $this->post('meetings', array_merge([
             'title' => $title,
             'start' => $start,
             'end' => $end
         ], $additional_data));
 
-        if (is_null($meeting)) {
-            return null;
+        if (!$response->success) {
+            return new Error($response->data);
         }
 
-        return new MeetingsEntity($meeting);
+        return new MeetingsEntity($response->data);
     }
 
     public function update(
@@ -75,36 +78,40 @@ class Meeting extends AbstractApi
         string $start,
         string $end,
         ?array $additional_data = []
-    ): ?MeetingsEntity
+    )
     {
         $additional_data = $this->data($additional_data, [
             'agenda', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
         ]);
 
-        $meeting = $this->put('meetings/' . $meeting_id, array_merge([
+        $response = $this->put('meetings/' . $meeting_id, array_merge([
             'title' => $title,
             'password' => $password,
             'start' => $start,
             'end' => $end
         ], $additional_data));
 
-        if (is_null($meeting)) {
-            return null;
+        if (!$response->success) {
+            return new Error($response->data);
         }
 
-        return new MeetingsEntity($meeting);
+        return new MeetingsEntity($response->data);
     }
 
     public function destroy(
         string $meeting_id,
         ?array $additional_data = []
-    ): string
+    )
     {
         $additional_data = $this->data($additional_data, [
             'hostEmail', 'sendEmail'
         ]);
 
-        $this->delete('meetings/' . $meeting_id, $additional_data);
+        $response = $this->delete('meetings/' . $meeting_id, $additional_data);
+
+        if (!$response->success) {
+            return new Error($response->data);
+        }
 
         return 'Meeting deleted';
     }

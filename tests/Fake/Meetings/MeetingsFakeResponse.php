@@ -2,6 +2,8 @@
 
 namespace Offlineagency\LaravelWebex\Tests\Fake\Meetings;
 
+use Illuminate\Http\Client\Response;
+
 class MeetingsFakeResponse extends FakeResponse
 {
     public function getMeetingsFakeList()
@@ -53,5 +55,12 @@ class MeetingsFakeResponse extends FakeResponse
     public function getDeleteMeetingFakeResponse()
     {
         return null;
+    }
+
+    public function getErrorOnMeetingsFakeList()
+    {
+         return json_encode(
+             $this->fakeErrorMeeting()
+         );
     }
 }
