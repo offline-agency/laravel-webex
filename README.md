@@ -22,7 +22,8 @@ composer require offline-agency/laravel-webex
 
 ## Usage
 
-Each callback accept a number of parameters equals to the sum of the required parameters +1 that is $additional_data that accept all optional parameters.  
+Each callback accept a number of parameters equals to the sum of the required parameters +1 that is $additional_data
+that accept all optional parameters.
 
 ## Examples
 
@@ -44,18 +45,25 @@ $laravel_webex = new LaravelWebex($bearer);
 $meeting_detail = $laravel_webex->meeting()->detail($meeting_id);
 
 // detail filtered by current 
+$laravel_webex = new LaravelWebex($bearer);
 $meeting_detail = $laravel_webex->meeting()->detail($meeting_id, [
     'current' => $current
 ]);
 
-// creation
+// create
+$laravel_webex = new LaravelWebex($bearer);
 $new_meeting = $laravel_webex->meeting()->create($title, $start, $end, [
     'agenda' => $agenda,
     'enabledAutoRecordMeeting' => $enabledAutoRecordMeeting
 ]);
+
+// update
+$laravel_webex = new LaravelWebex($bearer);
+$updated_meeting = $laravel_webex->meeting()->update($id, $title, $pasword, $start, $end, [
+    'agenda' => $agenda,
+    'enabledAutoRecordMeeting' => $enabledAutoRecordMeeting
+]);
 ```
-
-
 
 ### Meetings participants
 
@@ -69,37 +77,50 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 ### Admin
 
 #### Admin Audit Events
+
 - [ ] List Admin Audit Events [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Events
+
 - [ ] List Events [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Event Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Historical Analytics
-- [ ] Historical Data related to Messaging [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Historical Data related to Room Devices [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Historical Data related to Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] Historical Data related to
+  Messaging [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Historical Data related to Room
+  Devices [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Historical Data related to
+  Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Hybrid Clusters
+
 - [ ] List Hybrid Clusters [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Hybrid Cluster Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Hybrid Connectors
+
 - [ ] List Hybrid Connectors [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Hybrid Connector Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Hybrid Connector
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Licenses
+
 - [ ] List Licenses [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get License Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Locations
+
 - [ ] List Locations [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Location Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Meeting Qualities
+
 - [ ] Get Meeting Qualities [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Memberships
+
 - [ ] List Memberships [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create Membership [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Membership Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -107,11 +128,13 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Membership [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Organizations
+
 - [ ] List Organizations [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Organization Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete Organization [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### People
+
 - [ ] List People [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Person Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -120,110 +143,176 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Get My Own Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Recording Report
-- [ ] List of Recording Audit Report Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Recording Audit Report Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] List of Recording Audit Report
+  Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Recording Audit Report
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Recordings
+
 - [ ] List Recordings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Recording Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete a Recording [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Report Templates
+
 - [ ] List Report Templates [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Reports
+
 - [ ] List Reports [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Report [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Report Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete a Report [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Resource Group Memberships
-- [ ] List Resource Group Memberships [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Resource Group Membership Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a Resource Group Membership [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+
+- [ ] List Resource Group
+  Memberships [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Resource Group Membership
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update a Resource Group
+  Membership [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 
 #### Resource Group
+
 - [ ] List Resource Groups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Resource Group Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Roles
+
 - [ ] List Roles [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Role Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Space Classifications
+
 - [ ] List classifications [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Webex Calling Organization Settings
-- [ ] Read the List of Call Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] Read the List of Call
+  Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Call Pickup [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Call Pickup [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Call Pickup [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Call
+  Pickup [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Call Pickup [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Get available agents from Call Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Read the List of Call Queues [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get available agents from Call
+  Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Read the List of Call
+  Queues [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Call Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Call Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read the List of Call Queue Announcement Files [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Delete a Call Queue Announcement File [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Call Forwarding Settings for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Settings for a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Create a Selective Call Forwarding Rule for a Call Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get Call Forwarding Rule Settings for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Rule Settings for a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Selective Call Forwarding Rule for a Call Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Read the List of Hunt Groups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Read the List of Call Queue Announcement
+  Files [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Delete a Call Queue Announcement
+  File [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Get Call Forwarding Settings for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Settings for a Call
+  Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Create a Selective Call Forwarding Rule for a Call
+  Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get Call Forwarding Rule Settings for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Rule Settings for a Call
+  Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Selective Call Forwarding Rule for a Call
+  Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Read the List of Hunt
+  Groups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Hunt Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Hunt Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Get Call Forwarding Settings for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Settings for a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Create a Selective Call Forwarding Rule for a Hunt Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get Call Forwarding Rule Settings for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Rule Settings for a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Selective Call Forwarding Rule for a Hunt Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Read the List of UC Manager Profiles [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Call Forwarding Settings for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Settings for a Hunt
+  Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Create a Selective Call Forwarding Rule for a Hunt
+  Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get Call Forwarding Rule Settings for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Rule Settings for a Hunt
+  Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Selective Call Forwarding Rule for a Hunt
+  Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Read the List of UC Manager
+  Profiles [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Webex Calling Person Settings
-- [ ] Read Person's UC Profile [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
-- [ ] Configure a Person's UC Profile [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Barge In Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Barge In Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Forwarding Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Forwarding Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Call Intercept Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Intercept Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Configure Call Intercept Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Read Call Recording Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Recording Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Caller ID Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Caller ID Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Do Not Disturb Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Do Not Disturb Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Voicemail Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Voicemail Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Configure Busy Voicemail Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Configure No Answer Voicemail Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+
+- [ ] Read Person's UC Profile [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure a Person's UC
+  Profile [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Barge In Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Barge In Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Forwarding Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Forwarding Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Call Intercept Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Intercept Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Configure Call Intercept Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Read Call Recording Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Recording Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Caller ID Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Caller ID Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Do Not Disturb Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Do Not Disturb Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Voicemail Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Voicemail Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Configure Busy Voicemail Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Configure No Answer Voicemail Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 
 #### Workspace Locations
+
 - [ ] List Workspace Locations [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Workspace Location [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a Workspace Location Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Create a Workspace
+  Location [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a Workspace Location
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Workspace Location [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Workspace Location [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] List Workspace Location Floors [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Workspace Location Floor [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a Workspace Location Floor Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a Workspace Location Floor [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Workspace Location Floor [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Delete a Workspace
+  Location [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] List Workspace Location
+  Floors [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Create a Workspace Location
+  Floor [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a Workspace Location Floor
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update a Workspace Location
+  Floor [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Workspace Location
+  Floor [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Workspace Metrics
+
 - [ ] Workspace Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Workspace Duration Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Workspaces
+
 - [ ] List Workspaces [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Workspaces [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Workspace Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -233,19 +322,28 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 ### Calling
 
 #### BroadWorks Enterprises
+
 - [ ] List BroadWorks Enterprises [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Directory Sync for a BroadWorks Enterprise [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Trigger Directory Sync for an Enterprise [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get Directory Sync Status for an Enterprise [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Directory Sync for a BroadWorks
+  Enterprise [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Trigger Directory Sync for an
+  Enterprise [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get Directory Sync Status for an
+  Enterprise [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### BroadWorks Subscribers
+
 - [ ] List BroadWorks Subscribers [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Provision a BroadWorks Subscriber [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Provision a BroadWorks
+  Subscriber [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get a BroadWorks Subscriber [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a BroadWorks Subscriber [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Remove a BroadWorks Subscriber [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Update a BroadWorks
+  Subscriber [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Remove a BroadWorks
+  Subscriber [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Call Controls
+
 - [ ] Dial [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Answer [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Reject [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
@@ -269,10 +367,12 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] List Call History [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Locations
+
 - [ ] List Locations [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Location Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### People
+
 - [ ] List People [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Person Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -281,64 +381,110 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Get My Own Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Recording Report
-- [ ] List of Recording Audit Report Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Recording Audit Report Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] List of Recording Audit Report
+  Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Recording Audit Report
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Webex Calling Organization Settings
-- [ ] Read the List of Call Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] Read the List of Call
+  Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Call Pickup [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Call Pickup [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Call Pickup [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Call
+  Pickup [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Call Pickup [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Get available agents from Call Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Read the List of Call Queues [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get available agents from Call
+  Pickups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Read the List of Call
+  Queues [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Call Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Call Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read the List of Call Queue Announcement Files [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Delete a Call Queue Announcement File [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Call Forwarding Settings for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Settings for a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Create a Selective Call Forwarding Rule for a Call Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get Call Forwarding Rule Settings for a Call Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Rule Settings for a Call Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Selective Call Forwarding Rule for a Call Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Read the List of Hunt Groups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Read the List of Call Queue Announcement
+  Files [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Delete a Call Queue Announcement
+  File [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Get Call Forwarding Settings for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Settings for a Call
+  Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Create a Selective Call Forwarding Rule for a Call
+  Queue [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get Call Forwarding Rule Settings for a Call
+  Queue [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Rule Settings for a Call
+  Queue [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Selective Call Forwarding Rule for a Call
+  Queue [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Read the List of Hunt
+  Groups [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Hunt Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Delete a Hunt Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Get Details for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Details for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Get Call Forwarding Settings for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Settings for a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Create a Selective Call Forwarding Rule for a Hunt Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get Call Forwarding Rule Settings for a Hunt Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Call Forwarding Rule Settings for a Hunt Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Selective Call Forwarding Rule for a Hunt Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] Read the List of UC Manager Profiles [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Call Forwarding Settings for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Settings for a Hunt
+  Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Create a Selective Call Forwarding Rule for a Hunt
+  Group [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get Call Forwarding Rule Settings for a Hunt
+  Group [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Call Forwarding Rule Settings for a Hunt
+  Group [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Selective Call Forwarding Rule for a Hunt
+  Group [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Read the List of UC Manager
+  Profiles [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Webex Calling Person Settings
+
 - [ ] Read Person's UC Profile [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure a Person's UC Profile [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Barge In Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Barge In Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Forwarding Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Forwarding Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Call Intercept Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Intercept Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Configure Call Intercept Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Read Call Recording Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Call Recording Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Caller ID Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Caller ID Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Do Not Disturb Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Do Not Disturb Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Read Voicemail Settings for a Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Configure Voicemail Settings for a Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Configure Busy Voicemail Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Configure No Answer Voicemail Greeting for a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Configure a Person's UC
+  Profile [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Barge In Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Barge In Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Forwarding Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Forwarding Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Call Intercept Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Intercept Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Configure Call Intercept Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Read Call Recording Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Call Recording Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Caller ID Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Caller ID Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Do Not Disturb Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Do Not Disturb Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Read Voicemail Settings for a
+  Person [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Configure Voicemail Settings for a
+  Person [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Configure Busy Voicemail Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Configure No Answer Voicemail Greeting for a
+  Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 
 #### Webex Calling Voice Messaging
+
 - [ ] Get Message Summary [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] List Messages [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete Messages [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
@@ -347,18 +493,23 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 
 ### Devices
 
-#### Device Configurations 
-- [ ] List Device Configurations for device [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+#### Device Configurations
+
+- [ ] List Device Configurations for
+  device [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] PATCH - Update Device Configurations
 
 #### Devices
+
 - [ ] List Devices [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Device Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete a Device [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 - [ ] PATCH - Modify Device Tags
-- [ ] Create a Device Activation Code [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Create a Device Activation
+  Code [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 
 #### Places
+
 - [ ] List Places [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Place [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Place Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -366,26 +517,38 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Place [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Workspace Locations
+
 - [ ] List Workspace Locations [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Workspace Location [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a Workspace Location Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Create a Workspace
+  Location [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a Workspace Location
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Workspace Location [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Workspace Location [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
-- [ ] List Workspace Location Floors [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Create a Workspace Location Floor [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a Workspace Location Floor Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a Workspace Location Floor [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Workspace Location Floor [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Delete a Workspace
+  Location [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] List Workspace Location
+  Floors [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Create a Workspace Location
+  Floor [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a Workspace Location Floor
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update a Workspace Location
+  Floor [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Delete a Workspace Location
+  Floor [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Workspace Metrics
-- [ ] Workspace Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
-- [ ] Workspace Duration Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
+
+- [ ] Workspace Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Workspace Duration Metrics [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Workspace Personalization
+
 - [ ] Personalize a Workspace [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Personalization Task [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Workspaces
+
 - [ ] List Workspaces [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Workspace [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Workspace Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -393,29 +556,38 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Workspace [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### xAPI
+
 - [ ] Query Status [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Execute Command [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 
 ### Meetings
 
 #### Meeting Invitees
+
 - [ ] List Meeting Invitees [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Meeting Invitee [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Create Meeting Invitees [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get a Meeting Invitee [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Meeting Invitee [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Meeting Invitee [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Delete a Meeting
+  Invitee [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Meeting Participants
+
 - [X] List Meeting Participants [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Meeting Participant Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Meeting Participant
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Participant [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Admit Participants [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Meeting Preferences
-- [ ] Get Meeting Preference Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Personal Meeting Room Options [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Personal Meeting Room Options [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+
+- [ ] Get Meeting Preference
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Personal Meeting Room
+  Options [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Update Personal Meeting Room
+  Options [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Get Audio Options [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update Audio Options [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Get Video Options [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -426,34 +598,47 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Update Default Site [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 
 #### Meeting Qualities
+
 - [ ] Get Meeting Qualities [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Meeting Transcripts
+
 - [ ] List Meeting Transcripts [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Download a meeting transcript [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] List Snippets of a Meeting Transcript [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Download a meeting
+  transcript [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] List Snippets of a Meeting
+  Transcript [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get a Transcript Snippet [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Transcript Snippet [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 
 #### Meetings
-- [ ] List Meetings of a Meeting Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] List Meetings of a Meeting
+  Series [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [X] Create a Meeting [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]() 
+- [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [X] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 - [ ] Get Meeting Control Status [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update Meeting Control Status [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
+- [ ] Update Meeting Control
+  Status [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] List Meeting Session Types [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get a Meeting Session Type [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get registration form for a meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Register a Meeting Registrant [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Get a meeting registrant's detail information [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get registration form for a
+  meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Register a Meeting
+  Registrant [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Get a meeting registrant's detail
+  information [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] List Meeting Registrant [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Batch Update Meeting Registrants status [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
-- [ ] Delete a Meeting Registrant [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Batch Update Meeting Registrants
+  status [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
+- [ ] Delete a Meeting
+  Registrant [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### People
+
 - [ ] List People [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Person Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -462,15 +647,20 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Get My Own Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Recording Report
-- [ ] List of Recording Audit Report Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Recording Audit Report Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+
+- [ ] List of Recording Audit Report
+  Summaries [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Recording Audit Report
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Recordings
+
 - [ ] List Recordings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Recording Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Delete a Recording [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Webhooks
+
 - [ ] List Webhooks [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Webhook [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Webhook Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -480,14 +670,18 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 ### Messaging
 
 #### Attachment Actions
+
 - [ ] Create an Attachment Action [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Get Attachment Action Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
+- [ ] Get Attachment Action
+  Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Events
+
 - [ ] List Events [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Event Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Memberships
+
 - [ ] List Memberships [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create Membership [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Membership Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -495,6 +689,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Membership [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Messages
+
 - [ ] List Messages [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] List Direct Messages [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Message [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
@@ -503,6 +698,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Message [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Messages with Edit
+
 - [ ] List Messages [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] List Direct Messages [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Message [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
@@ -511,6 +707,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Message [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### People
+
 - [ ] List People [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Person [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Person Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -519,6 +716,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Get My Own Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Room Tabs
+
 - [ ] List Room Tabs [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Room Tab [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Room Tab Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -526,21 +724,25 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Room Tab [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Rooms
+
 - [ ] List Rooms [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Room [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Room Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Room Meeting Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
-- [ ] Update a Room [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]() 
+- [ ] Update a Room [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
 - [ ] Delete a Room [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Team Memberships
+
 - [ ] List Team Memberships [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Team Membership [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Team Membership Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update a Team Membership [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Team Membership [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [ ] Delete a Team
+  Membership [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 
 #### Teams
+
 - [ ] List Teams [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Team [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Get Team Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -548,6 +750,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [ ] Delete a Team [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 
 #### Webhooks
+
 - [ ] List Webhooks [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Create a Webhook [![POST method](https://img.shields.io/static/v1.svg?label=&message=POST&color=orange)]()
 - [ ] Get Webhook Details [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
@@ -566,7 +769,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security-related issues, please email <support@offlineagency.com> instead of using the issue tracker.
+If you discover any security-related issues, please email <support@offlineagency.com> instead of using the issue
+tracker.
 
 ## Credits
 
@@ -577,7 +781,8 @@ If you discover any security-related issues, please email <support@offlineagency
 
 ## About us
 
-Offline Agency is a web design agency based in Padua, Italy. You'll find an overview of our projects [on our website](https://offlineagency.it/).
+Offline Agency is a web design agency based in Padua, Italy. You'll find an overview of our
+projects [on our website](https://offlineagency.it/).
 
 ## License
 

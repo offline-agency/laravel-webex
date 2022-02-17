@@ -145,4 +145,69 @@ class Meeting extends AbstractEntity
      * @var string
      */
     public $scheduledType;
+
+    /**
+     * @var string
+     */
+    public $agenda;
+
+    /**
+     * @var string
+     */
+    public $recurrence;
+
+    /**
+     * @var string
+     */
+    public $roomId;
+
+    /**
+     * @var bool
+     */
+    public $allowAnyUserToBeCoHost;
+
+    /**
+     * @var int
+     */
+    public $reminderTime;
+
+    /**
+     * @var bool
+     */
+    public $enabledWebcastView;
+
+    /**
+     * @var string
+     */
+    public $panelistPassword;
+
+    /**
+     * @var string
+     */
+    public $phoneAndVideoSystemPanelistPassword;
+
+    /**
+     * @var int
+     */
+    public $automaticLockMinutes;
+
+    /**
+     * @var bool
+     */
+    public $allowFirstUserToBeCoHost;
+
+    /**
+     * @var object
+     */
+    public $telephony;
+
+    /**
+     * @var object
+     */
+    public $registration;
+
+    /**
+     * @var array
+     */
+    public $integrationTags;
 }

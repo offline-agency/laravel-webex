@@ -88,7 +88,7 @@ class MeetingsTest extends TestCase
         $this->assertEquals('fake_id', $meeting_detail->id);
     }
 
-    public function test_meeting_creation()
+    public function test_meeting_create()
     {
         Http::fake([
             'meetings' => Http::response(
@@ -96,14 +96,35 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('ZmViOGNjNzEtZGU1NS00NzZhLTlhZmYtZGU1YzMyYzU3YjViYzRlMzYwNmUtNTIz_PE93_33d69f74-a9c9-41be-80ba-7fbca5cbedc8');
+        $laravel_webex = new LaravelWebex('fake_bearer');
         $new_meeting = $laravel_webex->meeting()->create('fake_title', 'fake_start', 'fake_end', [
-            'agenda' => 'fake_agenda',
+            'agenda' => 'fake_created_agenda',
             'enabledAutoRecordMeeting' => true
         ]);
 
         $this->assertInstanceOf(Meeting::class, $new_meeting);
         $this->assertEquals('fake_id', $new_meeting->id);
+        $this->assertEquals('fake_created_agenda', $new_meeting->agenda);
         $this->assertEquals(true, $new_meeting->enabledAutoRecordMeeting);
+    }
+
+    public function test_meeting_update()
+    {
+        Http::fake([
+            'meetings/fake_id' => Http::response(
+                (new MeetingsFakeResponse())->getUpdatedMeetingFakeDetail()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex('fake_bearer');
+        $updated_meeting = $laravel_webex->meeting()->update('fake_id', 'fake_title', 'fake_password', 'fake_start', 'fake_end', [
+            'agenda' => 'fake_updated_agenda',
+            'enabledAutoRecordMeeting' => false
+        ]);
+
+        $this->assertInstanceOf(Meeting::class, $updated_meeting);
+        $this->assertEquals('fake_id', $updated_meeting->id);
+        $this->assertEquals('fake_updated_agenda', $updated_meeting->agenda);
+        $this->assertEquals(false, $updated_meeting->enabledAutoRecordMeeting);
     }
 }

@@ -37,7 +37,19 @@ class FakeResponse extends BaseFakeResponse
             'reminderTime' => $this->value($params, 'reminderTime', 15),
             'enableAutomaticLock' => $this->value($params, 'enableAutomaticLock', false),
             'sessionTypeId' => $this->value($params, 'sessionTypeId', 600),
-            'scheduledType' => $this->value($params, 'scheduledType', 'fake_scheduledType')
+            'scheduledType' => $this->value($params, 'scheduledType', 'fake_scheduledType'),
+            'agenda' => $this->value($params, 'agenda', 'fake_agenda'),
+            'recurrence' => $this->value($params, 'recurrence', 'fake_recurrence'),
+            'roomId' => $this->value($params, 'roomId', 'fake_roomId'),
+            'allowAnyUserToBeCoHost' => $this->value($params, 'allowAnyUserToBeCoHost', false),
+            'enabledWebcastView' => $this->value($params, 'enabledWebcastView', false),
+            'panelistPassword' => $this->value($params, 'panelistPassword', 'fake_panelistPassword'),
+            'phoneAndVideoSystemPanelistPassword' => $this->value($params, 'phoneAndVideoSystemPanelistPassword', 'fake_phoneAndVideoSystemPanelistPassword'),
+            'automaticLockMinutes' => $this->value($params, 'automaticLockMinutes', 10),
+            'allowFirstUserToBeCoHost' => $this->value($params, 'allowFirstUserToBeCoHost', false),
+            'telephony' => $this->value($params, 'telephony', (object)[]),
+            'registration' => $this->value($params, 'registration', (object)[]),
+            'integrationTags' => $this->value($params, 'integrationTags', []),
         ];
     }
 

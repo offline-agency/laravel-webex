@@ -67,4 +67,31 @@ class Meeting extends AbstractApi
 
         return new MeetingsEntity($meeting);
     }
+
+    public function update(
+        string $meeting_id,
+        string $title,
+        string $password,
+        string $start,
+        string $end,
+        ?array $additional_data = []
+    ): ?MeetingsEntity
+    {
+        $additional_data = $this->data($additional_data, [
+            'agenda', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
+        ]);
+
+        $meeting = $this->put('meetings/' . $meeting_id, array_merge([
+            'title' => $title,
+            'password' => $password,
+            'start' => $start,
+            'end' => $end
+        ], $additional_data));
+
+        if (is_null($meeting)) {
+            return null;
+        }
+
+        return new MeetingsEntity($meeting);
+    }
 }

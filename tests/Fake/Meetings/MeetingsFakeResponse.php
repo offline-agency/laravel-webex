@@ -34,7 +34,18 @@ class MeetingsFakeResponse extends FakeResponse
     {
         return json_encode(
             $this->fakeMeeting([
+                'agenda' => 'fake_created_agenda',
                 'enabledAutoRecordMeeting' => true
+            ])
+        );
+    }
+
+    public function getUpdatedMeetingFakeDetail()
+    {
+        return json_encode(
+            $this->fakeMeeting([
+                'agenda' => 'fake_updated_agenda',
+                'enabledAutoRecordMeeting' => false
             ])
         );
     }
