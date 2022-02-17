@@ -63,6 +63,10 @@ $updated_meeting = $laravel_webex->meeting()->update($id, $title, $pasword, $sta
     'agenda' => $agenda,
     'enabledAutoRecordMeeting' => $enabledAutoRecordMeeting
 ]);
+
+// delete 
+$laravel_webex = new LaravelWebex($bearer);
+$delete_response = $laravel_webex->meeting()->destroy('fake_id');
 ```
 
 ### Meetings participants
@@ -619,7 +623,7 @@ $meeting_participants_list = $laravel_webex->meeting_participants()->list($meeti
 - [X] Get a Meeting [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [X] List Meetings [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [X] Update a Meeting [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()
-- [ ] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
+- [X] Delete a Meeting [![DELETE method](https://img.shields.io/static/v1.svg?label=&message=DELETE&color=red)]()
 - [ ] Get Meeting Control Status [![GET method](https://img.shields.io/static/v1.svg?label=&message=GET&color=green)]()
 - [ ] Update Meeting Control
   Status [![PUT method](https://img.shields.io/static/v1.svg?label=&message=PUT&color=blue)]()

@@ -49,4 +49,9 @@ class MeetingsFakeResponse extends FakeResponse
             ])
         );
     }
+
+    public function getDeleteMeetingFakeResponse()
+    {
+        return null;
+    }
 }

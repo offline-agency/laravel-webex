@@ -94,4 +94,18 @@ class Meeting extends AbstractApi
 
         return new MeetingsEntity($meeting);
     }
+
+    public function destroy(
+        string $meeting_id,
+        ?array $additional_data = []
+    ): string
+    {
+        $additional_data = $this->data($additional_data, [
+            'hostEmail', 'sendEmail'
+        ]);
+
+        $this->delete('meetings/' . $meeting_id, $additional_data);
+
+        return 'Meeting deleted';
+    }
 }

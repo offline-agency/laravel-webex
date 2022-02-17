@@ -22,9 +22,7 @@ abstract class AbstractApi
 
         $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
 
-        return $response->status() === 200
-            ? $this->parseResponse($response)
-            : $this->parseErrors($response);
+        return $this->parseResponse($response);
     }
 
     protected function post($url, $body)
@@ -33,9 +31,7 @@ abstract class AbstractApi
 
         $response = $this->laravel_webex->httpBuilder->post($url, $body);
 
-        return $response->status() === 200
-            ? $this->parseResponse($response)
-            : $this->parseErrors($response);
+        return $this->parseResponse($response);
     }
 
     protected function put($url, $body)
@@ -44,9 +40,16 @@ abstract class AbstractApi
 
         $response = $this->laravel_webex->httpBuilder->put($url, $body);
 
-        return $response->status() === 200
-            ? $this->parseResponse($response)
-            : $this->parseErrors($response);
+        return $this->parseResponse($response);
+    }
+
+    protected function delete($url, $query_parameters)
+    {
+        $url = $this->laravel_webex->base_url . $url;
+
+        $response = $this->laravel_webex->httpBuilder->delete($url, $query_parameters);
+
+        return $this->parseResponse($response);
     }
 
     public function data($data, $fields): array
@@ -70,10 +73,17 @@ abstract class AbstractApi
 
     private function parseResponse($response)
     {
+        return $response->status() === 200
+            ? $this->successResponse($response)
+            : $this->errorResponse($response);
+    }
+
+    private function successResponse($response)
+    {
         return json_decode($response);
     }
 
-    private function parseErrors($response)
+    private function errorResponse($response)
     {
         return null;
     }

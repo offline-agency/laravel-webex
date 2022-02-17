@@ -127,4 +127,32 @@ class MeetingsTest extends TestCase
         $this->assertEquals('fake_updated_agenda', $updated_meeting->agenda);
         $this->assertEquals(false, $updated_meeting->enabledAutoRecordMeeting);
     }
+
+    public function test_meeting_delete()
+    {
+        Http::fake([
+            'meetings/fake_id' => Http::response(
+                (new MeetingsFakeResponse())->getDeleteMeetingFakeResponse()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex('fake_bearer');
+        $delete_response = $laravel_webex->meeting()->destroy('fake_id');
+
+        $this->assertEquals('Meeting deleted', $delete_response);
+    }
+
+    public function test_meeting_delete_without_mail()
+    {
+        /*Http::fake([
+            'meetings/fake_id' => Http::response(
+                (new MeetingsFakeResponse())->getDeleteMeetingFakeResponse()
+            ),
+        ]);*/
+
+        $laravel_webex = new LaravelWebex('ZmViOGNjNzEtZGU1NS00NzZhLTlhZmYtZGU1YzMyYzU3YjViYzRlMzYwNmUtNTIz_PE93_33d69f74-a9c9-41be-80ba-7fbca5cbedc8');
+        $delete_response = $laravel_webex->meeting()->destroy('1b28bcb7e94d4d2dbec76690fde03de9');
+
+        $this->assertEquals('Meeting deleted', $delete_response);
+    }
 }
