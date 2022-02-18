@@ -8,13 +8,19 @@ use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
 
 class LaravelWebex
 {
-    public $base_url = 'https://webexapis.com/v1/';
+    public $base_url;
 
     public $httpBuilder;
 
-    public function __construct(string  $bearer)
+    private $bearer;
+
+    public function __construct()
     {
-        $this->setHeader($bearer);
+        $this->setBaseUrl();
+
+        $this->auth();
+
+        $this->setHeader();
     }
 
     public function meeting_participants(): MeetingParticipant
@@ -27,12 +33,25 @@ class LaravelWebex
         return new Meeting($this);
     }
 
-    private function setHeader(
-        string  $bearer
-    )
+    private function setBaseUrl()
+    {
+        $this->base_url = config('webex.base_url');
+    }
+
+    private function auth()
+    {
+        //TODO: implement
+    }
+
+    private function setHeader()
     {
         $this->httpBuilder = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $bearer
+            'Authorization' => 'Bearer ' . $this->bearer
         ]);
+    }
+
+    private function setBearer($auth_response)
+    {
+        //TODO: implement
     }
 }
