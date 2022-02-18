@@ -20,6 +20,12 @@ Run the Composer require command from the Terminal:
 composer require offline-agency/laravel-webex
 ```
 
+You should publish config file with:
+
+```bash
+php artisan vendor:publish --tag="webex-config"
+```
+
 ## Usage
 
 Each callback accept a number of parameters equals to the sum of the required parameters +1 that is $additional_data
