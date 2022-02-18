@@ -1,15 +1,66 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Base url
+    |--------------------------------------------------------------------------
+    |
+    | Base url for any api request.
+    |
+    */
     'base_url' => 'https://webexapis.com/v1/',
 
-    'auth' => 'access_token',
+    /*
+    |--------------------------------------------------------------------------
+    | Access Token Request
+    |--------------------------------------------------------------------------
+    |
+    | Access token suffix to make request.
+    | Gran type for request body
+    |
+    */
+    'access_token' => [
+        'url' => 'access_token',
+        'grant_type' => 'authorization_code'
+    ],
 
-    'grant_type' => 'authorization_code',
+    /*
+    |--------------------------------------------------------------------------
+    | Access Token Request
+    |--------------------------------------------------------------------------
+    |
+    | Refresh token suffix to make request.
+    | Gran type for request body
+    |
+    */
+    'refresh_token' => [
+        'url' => 'refresh_token',
+        'grant_type' => 'refresh_token'
+    ],
 
-    'client_id' => '',
+    /*
+    |--------------------------------------------------------------------------
+    | Client information
+    |--------------------------------------------------------------------------
+    |
+    | Information about web integration client
+    |
+    */
+    'client' => [
+        'id' => '',
+        'secret' => '',
+        'code' => ''
+    ],
 
-    'client_secret' => '',
-
-    'code' => ''
+    /*
+    |--------------------------------------------------------------------------
+    | Redirect uri
+    |--------------------------------------------------------------------------
+    |
+    | Redirect url
+    |
+    */
+    'redirect_uri' => ''
 ];
