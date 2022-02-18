@@ -10,7 +10,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/laravel-webex.php' => config_path('laravel-webex.php'),
+                __DIR__.'/../config/webex.php' => config_path('webex.php'),
             ], 'config');
         }
     }
@@ -18,8 +18,8 @@ class LaravelWebexServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/laravel-webex.php',
-            'laravel-webex'
+            __DIR__.'/../config/webex.php',
+            'webex'
         );
 
         // Register the main class to use with the facade
