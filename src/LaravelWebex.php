@@ -40,7 +40,7 @@ class LaravelWebex
 
     private function auth()
     {
-        //TODO: implement
+        $this->setBearer('fake_bearer');
     }
 
     private function setHeader()
@@ -50,8 +50,8 @@ class LaravelWebex
         ]);
     }
 
-    private function setBearer($auth_response)
+    private function setBearer($bearer)
     {
-        //TODO: implement
+        $this->bearer = $bearer;
     }
 }

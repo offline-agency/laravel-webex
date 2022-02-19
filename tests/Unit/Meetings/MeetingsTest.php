@@ -204,14 +204,4 @@ class MeetingsTest extends TestCase
         $this->assertIsArray($delete_response->errors);
         $this->assertEquals('fake_trackingId', $delete_response->trackingId);
     }
-
-    /* develop tests */
-
-    public function test_base_implementation()
-    {
-        $laravel_webex = new LaravelWebex();
-        $meetings_list = $laravel_webex->meeting()->list();
-
-        dd($meetings_list);
-    }
 }
