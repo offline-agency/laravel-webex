@@ -60,7 +60,7 @@ class MeetingsFakeResponse extends FakeResponse
     public function getErrorOnMeetingsFakeList()
     {
          return json_encode(
-             $this->fakeErrorMeeting()
+             $this->fakeError()
          );
     }
 }

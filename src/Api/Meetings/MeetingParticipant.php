@@ -28,4 +28,22 @@ class MeetingParticipant extends AbstractApi
             return new MeetingParticipantEntity($meeting_participant);
         }, $meeting_participants->items);
     }
+
+    public function detail(
+        string $meetingParticipantId,
+        ?array $additional_data = []
+    )
+    {
+        $additional_data = $this->data($additional_data, [
+            'hostEmail'
+        ]);
+
+        $response = $this->get('meetingParticipants/' . $meetingParticipantId, $additional_data);
+
+        if (!$response->success) {
+            return new Error($response->data);
+        }
+
+        return new MeetingParticipantEntity($response->data);
+    }
 }

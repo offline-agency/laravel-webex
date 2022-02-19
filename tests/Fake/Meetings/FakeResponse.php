@@ -80,7 +80,7 @@ class FakeResponse extends BaseFakeResponse
         ];
     }
 
-    public function fakeErrorMeeting(array $params = []): object
+    public function fakeError(array $params = []): object
     {
         return (object)[
             'message' => $this->value($params, 'id', 'fake_message'),

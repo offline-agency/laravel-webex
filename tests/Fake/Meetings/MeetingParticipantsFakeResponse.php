@@ -13,4 +13,18 @@ class MeetingParticipantsFakeResponse extends FakeResponse
             ],
         ]);
     }
+
+    public function getMeetingParticipantsFakeDetail()
+    {
+        return json_encode(
+            $this->fakeMeetingParticipant(),
+        );
+    }
+
+    public function getErrorOnMeetingsFakeList()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
 }
