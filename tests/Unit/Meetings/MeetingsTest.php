@@ -21,7 +21,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $meetings_list = $laravel_webex->meeting()->list();
 
         $this->assertCount(2, $meetings_list);
@@ -43,7 +43,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $meetings_list = $laravel_webex->meeting()->list([
             'state' => 'inProgress'
         ]);
@@ -68,7 +68,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $error_meeting = $laravel_webex->meeting()->list();
 
         $this->assertInstanceOf(Error::class, $error_meeting);
@@ -87,7 +87,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $meeting_detail = $laravel_webex->meeting()->detail('fake_id');
 
         $this->assertInstanceOf(Meeting::class, $meeting_detail);
@@ -102,7 +102,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $meeting_detail = $laravel_webex->meeting()->detail('fake_id', [
             'current' => false
         ]);
@@ -121,7 +121,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $new_meeting = $laravel_webex->meeting()->create('fake_title', 'fake_start', 'fake_end', [
             'agenda' => 'fake_created_agenda',
             'enabledAutoRecordMeeting' => true
@@ -143,7 +143,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $updated_meeting = $laravel_webex->meeting()->update('fake_id', 'fake_title', 'fake_password', 'fake_start', 'fake_end', [
             'agenda' => 'fake_updated_agenda',
             'enabledAutoRecordMeeting' => false
@@ -165,7 +165,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $delete_response = $laravel_webex->meeting()->destroy('fake_id');
 
         $this->assertEquals('Meeting deleted', $delete_response);
@@ -179,7 +179,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $delete_response = $laravel_webex->meeting()->destroy('fake_id', [
             'sendEmail' => false
         ]);
@@ -196,7 +196,7 @@ class MeetingsTest extends TestCase
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex('fake_bearer');
+        $laravel_webex = new LaravelWebex();
         $delete_response = $laravel_webex->meeting()->destroy('fake_id');
 
         $this->assertInstanceOf(Error::class, $delete_response);
