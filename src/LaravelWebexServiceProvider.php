@@ -26,5 +26,9 @@ class LaravelWebexServiceProvider extends ServiceProvider
         $this->app->singleton('laravel-webex', function () {
             return new LaravelWebex();
         });
+
+        $this->loadRoutesFrom(
+            __DIR__.'/../routes/web.php'
+        );
     }
 }
