@@ -1,8 +1,9 @@
 <?php
 
-namespace Offlineagency\LaravelWebex;
+namespace Offlineagency\LaravelWebex\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Offlineagency\LaravelWebex\LaravelWebex;
 
 class LaravelWebexServiceProvider extends ServiceProvider
 {
@@ -10,7 +11,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/webex.php' => config_path('webex.php'),
+                __DIR__ . '/../../config/webex.php' => config_path('webex.php'),
             ], 'config');
         }
     }
@@ -18,7 +19,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/webex.php',
+            __DIR__ . '/../../config/webex.php',
             'webex'
         );
 
@@ -28,7 +29,9 @@ class LaravelWebexServiceProvider extends ServiceProvider
         });
 
         $this->loadRoutesFrom(
-            __DIR__.'/../routes/web.php'
+            __DIR__ . '/../../routes/web.php'
         );
+
+        $this->app->register(LaravelWebexEventServiceProvider::class);
     }
 }

@@ -5,6 +5,7 @@ namespace Offlineagency\LaravelWebex;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
+use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 
 class LaravelWebex
 {
@@ -45,6 +46,8 @@ class LaravelWebex
 
     private function setHeader()
     {
+        event(new SuccessfulAuthentication());
+
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->bearer
         ]);

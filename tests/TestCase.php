@@ -4,7 +4,7 @@ namespace Offlineagency\LaravelWebex\Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Offlineagency\LaravelWebex\LaravelWebexFacade;
-use Offlineagency\LaravelWebex\LaravelWebexServiceProvider;
+use Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider;
 use Orchestra\Testbench\Concerns\CreatesApplication;
 
 abstract class TestCase extends BaseTestCase

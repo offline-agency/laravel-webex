@@ -54,7 +54,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Offlineagency\\LaravelWebex\\LaravelWebexServiceProvider"
+        "Offlineagency\\LaravelWebex\\Providers\\LaravelWebexServiceProvider"
       ],
       "aliases": {
         "LaravelWebex": "Offlineagency\\LaravelWebex\\LaravelWebexFacade"
