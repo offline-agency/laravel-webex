@@ -5,6 +5,7 @@ namespace Offlineagency\LaravelWebex;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
+use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 
 class LaravelWebex
@@ -18,6 +19,8 @@ class LaravelWebex
     public function __construct()
     {
         $this->setBaseUrl();
+
+        event(new AuthenticationRequested());
 
         $this->auth();
 
