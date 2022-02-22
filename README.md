@@ -31,7 +31,7 @@ php artisan vendor:publish --tag="webex-config"
 Each callback accept a number of parameters equals to the sum of the required parameters +1 that is $additional_data
 that accept all optional parameters.
 
-Package provide an event to handle authentication flow.
+Package provide two events to intercept the start and the end of the authentication flow.
 
 ## Examples
 
