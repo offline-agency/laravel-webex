@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex;
 
+use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingInvitee;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;

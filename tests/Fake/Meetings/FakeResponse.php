@@ -80,6 +80,18 @@ class FakeResponse extends BaseFakeResponse
         ];
     }
 
+    public function fakeMeetingInvitee(array $params = []): object
+    {
+        return (object)[
+            'id' => $this->value($params, 'id', 'fake_id'),
+            'email' => $this->value($params, 'email', 'fake_email'),
+            'displayName' => $this->value($params, 'displayName', 'fake_displayName'),
+            'coHost' => $this->value($params, 'coHost', false),
+            'meetingId' => $this->value($params, 'meetingId', 'fake_meetingId'),
+            'panelist' => $this->value($params, 'panelist', false)
+        ];
+    }
+
     public function fakeError(array $params = []): object
     {
         return (object)[
