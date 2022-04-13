@@ -21,7 +21,7 @@ class LaravelWebex
     {
         $this->setBaseUrl();
 
-        //event(new AuthenticationRequested());
+        event(new AuthenticationRequested());
 
         $this->auth();
 
@@ -55,7 +55,7 @@ class LaravelWebex
 
     private function setHeader()
     {
-        //event(new SuccessfulAuthentication());
+        event(new SuccessfulAuthentication());
 
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->bearer
