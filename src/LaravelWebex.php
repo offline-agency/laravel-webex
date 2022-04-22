@@ -15,15 +15,11 @@ class LaravelWebex
 
     public $httpBuilder;
 
-    private $bearer;
-
     public function __construct()
     {
         $this->setBaseUrl();
 
         event(new AuthenticationRequested());
-
-        $this->auth();
 
         $this->setHeader();
     }
@@ -48,22 +44,12 @@ class LaravelWebex
         $this->base_url = config('webex.base_url');
     }
 
-    private function auth()
-    {
-        $this->setBearer('fake_bearer');
-    }
-
     private function setHeader()
     {
         event(new SuccessfulAuthentication());
 
         $this->httpBuilder = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->bearer
+            'Authorization' => 'Bearer ' . config('webex.bearer')
         ]);
-    }
-
-    private function setBearer($bearer)
-    {
-        $this->bearer = $bearer;
     }
 }
