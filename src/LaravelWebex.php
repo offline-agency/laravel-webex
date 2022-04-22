@@ -17,13 +17,13 @@ class LaravelWebex
 
     private $bearer;
 
-    public function __construct()
+    public function __construct(string $bearer)
     {
         $this->setBaseUrl();
 
         event(new AuthenticationRequested());
 
-        $this->auth();
+        $this->auth($bearer);
 
         $this->setHeader();
     }
@@ -48,9 +48,9 @@ class LaravelWebex
         $this->base_url = config('webex.base_url');
     }
 
-    private function auth()
+    private function auth($bearer)
     {
-        $this->setBearer('fake_bearer');
+        $this->setBearer($bearer);
     }
 
     private function setHeader()
