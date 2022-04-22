@@ -23,7 +23,7 @@ composer require offline-agency/laravel-webex
 You should publish config file with:
 
 ```bash
-php artisan vendor:publish --tag="webex-config"
+php artisan vendor:publish --provider="Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider"
 ```
 
 ## Usage
