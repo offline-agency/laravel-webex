@@ -11,14 +11,13 @@ abstract class AbstractApi
 
     public function __construct(
         LaravelWebex $laravel_webex
-    )
-    {
+    ) {
         $this->laravel_webex = $laravel_webex;
     }
 
     protected function get($url, $query_parameters): object
     {
-        $url = $this->laravel_webex->base_url . $url;
+        $url = $this->laravel_webex->base_url.$url;
 
         $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
 
@@ -27,7 +26,7 @@ abstract class AbstractApi
 
     protected function post($url, $body): object
     {
-        $url = $this->laravel_webex->base_url . $url;
+        $url = $this->laravel_webex->base_url.$url;
 
         $response = $this->laravel_webex->httpBuilder->post($url, $body);
 
@@ -36,7 +35,7 @@ abstract class AbstractApi
 
     protected function put($url, $body): object
     {
-        $url = $this->laravel_webex->base_url . $url;
+        $url = $this->laravel_webex->base_url.$url;
 
         $response = $this->laravel_webex->httpBuilder->put($url, $body);
 
@@ -47,7 +46,7 @@ abstract class AbstractApi
     {
         $query_parameters = http_build_query($query_parameters);
 
-        $url = $this->laravel_webex->base_url . $url . '?' . $query_parameters;
+        $url = $this->laravel_webex->base_url.$url.'?'.$query_parameters;
 
         $response = $this->laravel_webex->httpBuilder->delete($url, $query_parameters);
 
@@ -75,9 +74,9 @@ abstract class AbstractApi
 
     private function parseResponse($response): object
     {
-        return (object)[
+        return (object) [
             'success' => $response->status() === 200 || $response->status() === 204,
-            'data' => json_decode($response)
+            'data' => json_decode($response),
         ];
     }
 }

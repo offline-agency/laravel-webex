@@ -18,8 +18,7 @@ abstract class TestCase extends BaseTestCase
 
     public function getPackageProviders(
         $app
-    ): array
-    {
+    ): array {
         return [
             LaravelWebexServiceProvider::class,
         ];
@@ -27,8 +26,7 @@ abstract class TestCase extends BaseTestCase
 
     public function getPackageAliases(
         $app
-    ): array
-    {
+    ): array {
         return [
             'LaravelWebex' => LaravelWebexFacade::class,
         ];

@@ -14,6 +14,6 @@ class LaravelWebexEventServiceProvider extends ServiceProvider
         ],
         SuccessfulAuthentication::class => [
             //
-        ]
+        ],
     ];
 }

@@ -49,7 +49,7 @@ class LaravelWebex
         event(new SuccessfulAuthentication());
 
         $this->httpBuilder = Http::withHeaders([
-            'Authorization' => 'Bearer ' . config('webex.bearer')
+            'Authorization' => 'Bearer '.config('webex.bearer'),
         ]);
     }
 }

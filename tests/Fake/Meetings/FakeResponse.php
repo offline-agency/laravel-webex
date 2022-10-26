@@ -8,7 +8,7 @@ class FakeResponse extends BaseFakeResponse
 {
     public function fakeMeeting(array $params = []): object
     {
-        return (object)[
+        return (object) [
             'id' => $this->value($params, 'id', 'fake_id'),
             'meetingNumber' => $this->value($params, 'id', 'fake_meetingNumber'),
             'title' => $this->value($params, 'id', 'fake_title'),
@@ -47,15 +47,15 @@ class FakeResponse extends BaseFakeResponse
             'phoneAndVideoSystemPanelistPassword' => $this->value($params, 'phoneAndVideoSystemPanelistPassword', 'fake_phoneAndVideoSystemPanelistPassword'),
             'automaticLockMinutes' => $this->value($params, 'automaticLockMinutes', 10),
             'allowFirstUserToBeCoHost' => $this->value($params, 'allowFirstUserToBeCoHost', false),
-            'telephony' => $this->value($params, 'telephony', (object)[]),
-            'registration' => $this->value($params, 'registration', (object)[]),
+            'telephony' => $this->value($params, 'telephony', (object) []),
+            'registration' => $this->value($params, 'registration', (object) []),
             'integrationTags' => $this->value($params, 'integrationTags', []),
         ];
     }
 
     public function fakeMeetingParticipant(array $params = []): object
     {
-        return (object)[
+        return (object) [
             'id' => $this->value($params, 'id', 'fake_id'),
             'orgId' => $this->value($params, 'orgId', 'fake_orgId'),
             'host' => $this->value($params, 'host', false),
@@ -82,26 +82,26 @@ class FakeResponse extends BaseFakeResponse
 
     public function fakeMeetingInvitee(array $params = []): object
     {
-        return (object)[
+        return (object) [
             'id' => $this->value($params, 'id', 'fake_id'),
             'email' => $this->value($params, 'email', 'fake_email'),
             'displayName' => $this->value($params, 'displayName', 'fake_displayName'),
             'coHost' => $this->value($params, 'coHost', false),
             'meetingId' => $this->value($params, 'meetingId', 'fake_meetingId'),
-            'panelist' => $this->value($params, 'panelist', false)
+            'panelist' => $this->value($params, 'panelist', false),
         ];
     }
 
     public function fakeError(array $params = []): object
     {
-        return (object)[
+        return (object) [
             'message' => $this->value($params, 'id', 'fake_message'),
             'errors' => [
-                (object)[
-                    $this->value($params, 'id', 'fake_error')
-                ]
+                (object) [
+                    $this->value($params, 'id', 'fake_error'),
+                ],
             ],
-            'trackingId' => $this->value($params, 'id', 'fake_trackingId')
+            'trackingId' => $this->value($params, 'id', 'fake_trackingId'),
         ];
     }
 }
