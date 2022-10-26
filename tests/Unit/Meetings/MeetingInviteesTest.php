@@ -73,12 +73,12 @@ class MeetingInviteesTest extends TestCase
 
         $laravel_webex = new LaravelWebex();
         $new_meeting_invitees = $laravel_webex->meeting_invitees()->bulk_create('fake_id', [
-            (object)[
-                'email' => 'fake_email_one'
+            (object) [
+                'email' => 'fake_email_one',
             ],
-            (object)[
-                'email' => 'fake_email_two'
-            ]
+            (object) [
+                'email' => 'fake_email_two',
+            ],
         ]);
 
         $this->assertCount(2, $new_meeting_invitees);

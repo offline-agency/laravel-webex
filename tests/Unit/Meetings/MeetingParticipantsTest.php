@@ -45,7 +45,7 @@ class MeetingParticipantsTest extends TestCase
         //hostEmail
         $laravel_webex = new LaravelWebex();
         $meeting_participants_list = $laravel_webex->meeting_participants()->list('fake_id', [
-            'hostEmail' => 'fake_email'
+            'hostEmail' => 'fake_email',
         ]);
 
         $this->assertCount(2, $meeting_participants_list);

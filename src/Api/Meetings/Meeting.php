@@ -10,15 +10,14 @@ class Meeting extends AbstractApi
 {
     public function list(
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'meetingNumber', 'webLink', 'roomId', 'meetingType', 'state', 'participantEmail', 'current', 'from', 'to', 'max', 'hostEmail', 'siteUrl', 'integrationTag'
+            'meetingNumber', 'webLink', 'roomId', 'meetingType', 'state', 'participantEmail', 'current', 'from', 'to', 'max', 'hostEmail', 'siteUrl', 'integrationTag',
         ]);
 
         $response = $this->get('meetings', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -32,15 +31,14 @@ class Meeting extends AbstractApi
     public function detail(
         string $meetingId,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail'
+            'current', 'hostEmail',
         ]);
 
-        $response = $this->get('meetings/' . $meetingId, $additional_data);
+        $response = $this->get('meetings/'.$meetingId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -52,19 +50,18 @@ class Meeting extends AbstractApi
         string $start,
         string $end,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'agenda', 'password', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'invitees', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
+            'agenda', 'password', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'invitees', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags',
         ]);
 
         $response = $this->post('meetings', array_merge([
             'title' => $title,
             'start' => $start,
-            'end' => $end
+            'end' => $end,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -78,20 +75,19 @@ class Meeting extends AbstractApi
         string $start,
         string $end,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'agenda', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags'
+            'agenda', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags',
         ]);
 
-        $response = $this->put('meetings/' . $meeting_id, array_merge([
+        $response = $this->put('meetings/'.$meeting_id, array_merge([
             'title' => $title,
             'password' => $password,
             'start' => $start,
-            'end' => $end
+            'end' => $end,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -101,15 +97,14 @@ class Meeting extends AbstractApi
     public function destroy(
         string $meeting_id,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'sendEmail'
+            'hostEmail', 'sendEmail',
         ]);
 
-        $response = $this->delete('meetings/' . $meeting_id, $additional_data);
+        $response = $this->delete('meetings/'.$meeting_id, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 

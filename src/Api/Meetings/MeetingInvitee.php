@@ -11,17 +11,16 @@ class MeetingInvitee extends AbstractApi
     public function list(
         string $meetingId,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'max', 'hostEmail'
+            'max', 'hostEmail',
         ]);
 
         $response = $this->get('meetingInvitees', array_merge([
-            'meetingId' => $meetingId
+            'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -35,15 +34,14 @@ class MeetingInvitee extends AbstractApi
     public function detail(
         string $meetingInviteeId,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail'
+            'hostEmail',
         ]);
 
-        $response = $this->get('meetingInvitees/' . $meetingInviteeId, $additional_data);
+        $response = $this->get('meetingInvitees/'.$meetingInviteeId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -54,18 +52,17 @@ class MeetingInvitee extends AbstractApi
         string $meetingId,
         string $email,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist'
+            'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist',
         ]);
 
         $response = $this->post('meetingInvitees', array_merge([
             'meetingId' => $meetingId,
-            'email' => $email
+            'email' => $email,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -75,17 +72,16 @@ class MeetingInvitee extends AbstractApi
     public function bulk_create(
         string $meetingId,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'items'
+            'hostEmail', 'items',
         ]);
 
         $response = $this->post('meetingInvitees/bulkInsert', array_merge([
-            'meetingId' => $meetingId
+            'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -94,24 +90,22 @@ class MeetingInvitee extends AbstractApi
         return array_map(function ($meeting_invitee) {
             return new MeetingInviteeEntity($meeting_invitee);
         }, $meeting_invitees->items);
-
     }
 
     public function update(
         string $meetingInviteeId,
         string $email,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist'
+            'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist',
         ]);
 
-        $response = $this->post('meetingInvitees/' . $meetingInviteeId, array_merge([
-            'email' => $email
+        $response = $this->post('meetingInvitees/'.$meetingInviteeId, array_merge([
+            'email' => $email,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -121,15 +115,14 @@ class MeetingInvitee extends AbstractApi
     public function destroy(
         string $meetingInviteeId,
         ?array $additional_data = []
-    )
-    {
+    ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'sendEmail'
+            'hostEmail', 'sendEmail',
         ]);
 
-        $response = $this->delete('meetingInvitees/' . $meetingInviteeId, $additional_data);
+        $response = $this->delete('meetingInvitees/'.$meetingInviteeId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
