@@ -3,7 +3,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/offline-agency/laravel-webex.svg?style=flat-square)](https://packagist.org/packages/offline-agency/laravel-webex)
 [![run-tests](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml/badge.svg)](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![codecov](https://codecov.io/gh/offline-agency/laravel-webex/branch/main/graph/badge.svg?token=F5YRvU43FA)](https://codecov.io/gh/offline-agency/laravel-webex)
 [![StyleCI](https://github.styleci.io/repos/167236902/shield)](https://styleci.io/repos/167236902)
 [![codecov](https://codecov.io/gh/offline-agency/laravel-webex/branch/master/graph/badge.svg?token=0BHADJQYAW)](https://codecov.io/gh/offline-agency/laravel-webex)
 
