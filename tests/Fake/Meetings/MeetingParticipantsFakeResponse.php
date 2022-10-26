@@ -6,10 +6,10 @@ class MeetingParticipantsFakeResponse extends FakeResponse
 {
     public function getMeetingParticipantsFakeList()
     {
-        return json_encode((object)[
+        return json_encode((object) [
             'items' => [
                 $this->fakeMeetingParticipant(),
-                $this->fakeMeetingParticipant()
+                $this->fakeMeetingParticipant(),
             ],
         ]);
     }

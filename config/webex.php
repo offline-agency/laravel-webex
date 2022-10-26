@@ -33,7 +33,7 @@ return [
     */
     'access_token' => [
         'url' => 'access_token',
-        'grant_type' => 'authorization_code'
+        'grant_type' => 'authorization_code',
     ],
 
     /*
@@ -47,7 +47,7 @@ return [
     */
     'refresh_token' => [
         'url' => 'refresh_token',
-        'grant_type' => 'refresh_token'
+        'grant_type' => 'refresh_token',
     ],
 
     /*
@@ -61,7 +61,7 @@ return [
     'client' => [
         'id' => '',
         'secret' => '',
-        'code' => ''
+        'code' => '',
     ],
 
     /*
@@ -72,5 +72,5 @@ return [
     | Redirect url
     |
     */
-    'redirect_uri' => ''
+    'redirect_uri' => '',
 ];
