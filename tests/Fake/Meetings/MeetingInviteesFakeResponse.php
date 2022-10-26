@@ -6,11 +6,11 @@ class MeetingInviteesFakeResponse extends FakeResponse
 {
     public function getMeetingInviteesFakeList()
     {
-        return json_encode((object)[
+        return json_encode((object) [
             'items' => [
                 $this->fakeMeetingInvitee(),
-                $this->fakeMeetingInvitee()
-            ]
+                $this->fakeMeetingInvitee(),
+            ],
         ]);
     }
 
@@ -30,11 +30,11 @@ class MeetingInviteesFakeResponse extends FakeResponse
 
     public function getNewMeetingInviteesFakeList()
     {
-        return json_encode((object)[
+        return json_encode((object) [
             'items' => [
                 $this->fakeMeetingInvitee(),
-                $this->fakeMeetingInvitee()
-            ]
+                $this->fakeMeetingInvitee(),
+            ],
         ]);
     }
 
