@@ -29,7 +29,7 @@ php artisan vendor:publish --provider="Offlineagency\LaravelWebex\Providers\Lara
 
 ## API coverage
 
-We are committed to implementing all project endpoints in the near future to enhance your experience. Enable notifications to be notified when new API are released!
+We're actively working to expand this package to cover all Webex API endpoints.
 
 ✅ = implemented
 
