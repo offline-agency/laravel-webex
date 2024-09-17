@@ -59,6 +59,6 @@ class MeetingsFakeResponse extends FakeResponse
     {
         return json_encode(
             $this->fakeError()
-         );
+        );
     }
 }
