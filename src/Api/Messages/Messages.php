@@ -12,9 +12,22 @@ class Messages extends AbstractApi
         string $roomId,
         ?array $additional_data = []
     ) {
-        $response = $this->get('messages', [
-
-
+        $additional_data = $this->data($additional_data, [
+            'parentId', 'mentionedPeople', 'before', 'beforeMessage', 'max'
         ]);
+
+        $response = $this->get('messages', array_merge([
+            'roomId' => $roomId,
+        ], $additional_data));
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        $messages = $response->data;
+
+        return array_map(function ($message) {
+            return new MessagesEntity($message);
+        }, $messages->items);
     }
 }
