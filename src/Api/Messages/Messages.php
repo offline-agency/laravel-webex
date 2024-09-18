@@ -13,7 +13,7 @@ class Messages extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'parentId', 'mentionedPeople', 'before', 'beforeMessage', 'max'
+            'parentId', 'mentionedPeople', 'before', 'beforeMessage', 'max',
         ]);
 
         $response = $this->get('messages', array_merge([
