@@ -85,4 +85,5 @@ class Messages extends AbstractEntity
      * @var bool
      */
     public $isVoiceClip;
+
 }

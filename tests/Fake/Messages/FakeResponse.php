@@ -29,4 +29,5 @@ class FakeResponse extends BaseFakeResponse
             'isVoiceClip' => $this->value($params, 'isVoiceClip', false),
         ];
     }
+
 }
