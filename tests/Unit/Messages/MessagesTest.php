@@ -3,10 +3,7 @@
 namespace Offlineagency\LaravelWebex\Tests\Unit\Messages;
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
-use Offlineagency\LaravelWebex\Entities\Meetings\Meeting;
 use Offlineagency\LaravelWebex\LaravelWebex;
-use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingsFakeResponse;
 use Offlineagency\LaravelWebex\Tests\Fake\Messages\MessagesFakeResponse;
 use Offlineagency\LaravelWebex\Tests\TestCase;
 
