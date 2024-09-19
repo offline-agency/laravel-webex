@@ -48,4 +48,25 @@ class MeetingParticipantsFakeResponse extends FakeResponse
             $this->fakeError()
         );
     }
+
+    public function getErrorOnFakeQueryWithEmail()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
+    public function getErrorOnFakeUpdate()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
+    public function getErrorOnFakeAdmit()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
 }

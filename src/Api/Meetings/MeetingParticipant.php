@@ -34,7 +34,7 @@ class MeetingParticipant extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'meetingStartTimeFrom', 'meetingStartTimeTo', 'hostEmail', 'emails', 'joinTimeFrom', 'joinTimeTo'
+            'meetingStartTimeFrom', 'meetingStartTimeTo', 'hostEmail', 'emails', 'joinTimeFrom', 'joinTimeTo',
         ]);
 
         $response = $this->post('meetingParticipants/query', array_merge([
@@ -70,10 +70,10 @@ class MeetingParticipant extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'muted', 'admit', 'expel'
+            'muted', 'admit', 'expel',
         ]);
 
-        $response = $this->post('meetingParticipants/' . $participantId, $additional_data);
+        $response = $this->post('meetingParticipants/'.$participantId, $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -87,8 +87,8 @@ class MeetingParticipant extends AbstractApi
     ) {
         $additional_data = $this->data($additional_data, [
             'items' => [
-                'participantId'
-            ]
+                'participantId',
+            ],
         ]);
 
         $response = $this->post('meetingParticipants/admit', $additional_data);
