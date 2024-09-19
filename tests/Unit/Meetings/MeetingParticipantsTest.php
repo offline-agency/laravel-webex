@@ -94,4 +94,49 @@ class MeetingParticipantsTest extends TestCase
         $this->assertInstanceOf(MeetingParticipant::class, $meeting_participants_detail);
         $this->assertEquals('fake_id', $meeting_participants_detail->id);
     }
+
+    public function test_meeting_participants_query_with_email()
+    {
+        Http::fake([
+            'meetingParticipants/query' => Http::response(
+                (new MeetingParticipantsFakeResponse())->getMeetingParticipantsFakeQueryWithEmail()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $meeting_participants_detail = $laravel_webex->meeting_participants()->queryWIthEmail('fake_id');
+
+        $this->assertInstanceOf(MeetingParticipant::class, $meeting_participants_detail);
+        $this->assertEquals('fake_id', $meeting_participants_detail->id);
+    }
+
+    public function test_meeting_participants_update()
+    {
+        Http::fake([
+            'meetingParticipants/fake_id' => Http::response(
+                (new MeetingParticipantsFakeResponse())->getUpdatedMeetingParticipantsFakeDetail()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $meeting_participants_detail = $laravel_webex->meeting_participants()->update('fake_id');
+
+        $this->assertInstanceOf(MeetingParticipant::class, $meeting_participants_detail);
+        $this->assertEquals('fake_id', $meeting_participants_detail->id);
+    }
+
+    public function test_meeting_participants_admit()
+    {
+        Http::fake([
+            'meetingParticipants/admit' => Http::response(
+                (new MeetingParticipantsFakeResponse())->getAdmittedMeetingParticipantsFakeDetail()
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $meeting_participants_detail = $laravel_webex->meeting_participants()->admit();
+
+        $this->assertInstanceOf(MeetingParticipant::class, $meeting_participants_detail);
+        $this->assertEquals('fake_id', $meeting_participants_detail->id);
+    }
 }
