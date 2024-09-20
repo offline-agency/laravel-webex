@@ -735,7 +735,7 @@ class MeetingsTest extends TestCase
         ]);
 
         $laravel_webex = new LaravelWebex();
-        $query_registrants = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2',]);
+        $query_registrants = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2']);
 
         $this->assertInstanceOf(Meeting::class, $query_registrants);
         $this->assertEquals('fake_id', $query_registrants->id);
@@ -751,7 +751,7 @@ class MeetingsTest extends TestCase
         ]);
 
         $laravel_webex = new LaravelWebex();
-        $error_meeting = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2',]);
+        $error_meeting = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2']);
 
         $this->assertInstanceOf(Error::class, $error_meeting);
         $this->assertEquals('fake_message', $error_meeting->message);
@@ -833,7 +833,7 @@ class MeetingsTest extends TestCase
         ]);
 
         $laravel_webex = new LaravelWebex();
-        $updated_simultaneous_interpretation= $laravel_webex->meeting()->updateSimultaneousInterpretation('fake_meeting_id', 'fake_enabled');
+        $updated_simultaneous_interpretation = $laravel_webex->meeting()->updateSimultaneousInterpretation('fake_meeting_id', 'fake_enabled');
 
         $this->assertInstanceOf(Meeting::class, $updated_simultaneous_interpretation);
         $this->assertEquals('fake_id', $updated_simultaneous_interpretation->id);

@@ -166,7 +166,6 @@ class Meeting extends AbstractApi
         }
 
         return new MeetingsEntity($response->data);
-
     }
 
     public function listTemplates(
@@ -209,7 +208,6 @@ class Meeting extends AbstractApi
     public function detailControlStatus(
         string $meetingId
     ) {
-
         $response = $this->get('meetings/controls', [
             'meetingId' => $meetingId,
         ]);
@@ -584,7 +582,6 @@ class Meeting extends AbstractApi
     public function listBreakoutSessions(
         string $meetingId
     ) {
-
         $response = $this->get('meetings/'.$meetingId.'/breakoutSessions', []);
 
         if (! $response->success) {
@@ -635,7 +632,6 @@ class Meeting extends AbstractApi
     public function detailSurvey(
         string $meetingId
     ) {
-
         $response = $this->get('meetings/'.$meetingId.'/survey', []);
 
         if (! $response->success) {
@@ -703,7 +699,6 @@ class Meeting extends AbstractApi
     public function listInvitationSources(
         string $meetingId
     ) {
-
         $response = $this->get('meetings/'.$meetingId.'/invitationSources', []);
 
         if (! $response->success) {
