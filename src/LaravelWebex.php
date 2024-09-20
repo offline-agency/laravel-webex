@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingInvitee;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
+use Offlineagency\LaravelWebex\Api\Messages\Messages;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 
@@ -51,5 +52,10 @@ class LaravelWebex
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer '.config('webex.bearer'),
         ]);
+    }
+
+    public function messages(): Messages
+    {
+        return new Messages($this);
     }
 }
