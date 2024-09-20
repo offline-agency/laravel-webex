@@ -73,11 +73,11 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max' , 'from' , 'to' , 'meetingType' , 'state' , 'isModified' , 'hasChat' , 'hasRecording' , 'hasTranscription' , 'hasCloseCaption' , 'hasPolls' , 'hasQA' , 'hostEmail'
+            'max', 'from', 'to', 'meetingType', 'state', 'isModified', 'hasChat', 'hasRecording', 'hasTranscription', 'hasCloseCaption', 'hasPolls', 'hasQA', 'hostEmail',
         ]);
 
         $response = $this->get('meetings', array_merge([
-            'meetingSeriesId' => $meetingSeriesId
+            'meetingSeriesId' => $meetingSeriesId,
         ], $additional_data));
 
         if (! $response->success) {
@@ -92,7 +92,7 @@ class Meeting extends AbstractApi
     }
 
     //TODO check function patch
-    public function patch(
+    /*public function patch(
         string $meetingId,
         ?array $additional_data = []
     ) {
@@ -107,7 +107,7 @@ class Meeting extends AbstractApi
         }
 
         return new MeetingsEntity($response->data);
-    }
+    }*/
 
     public function update(
         string $meeting_id,
@@ -156,7 +156,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'meetingId', 'meetingNumber', 'webLink', 'joinDirectly', 'email', 'displayName', 'password', 'expirationMinutes', 'registrationId', 'hostEmail', 'createJoinLinkAsWebLink', 'createStartLinkAsWebLink'
+            'meetingId', 'meetingNumber', 'webLink', 'joinDirectly', 'email', 'displayName', 'password', 'expirationMinutes', 'registrationId', 'hostEmail', 'createJoinLinkAsWebLink', 'createStartLinkAsWebLink',
         ]);
 
         $response = $this->post('meetings/join', $additional_data);
@@ -173,7 +173,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'templateType', 'locale', 'isDefault', 'isStandard', 'hostEmail', 'siteUrl'
+            'templateType', 'locale', 'isDefault', 'isStandard', 'hostEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetings/templates', $additional_data);
@@ -197,7 +197,7 @@ class Meeting extends AbstractApi
             'hostEmail',
         ]);
 
-        $response = $this->get('meetings/templates'.$templateId, $additional_data);
+        $response = $this->get('meetings/templates/'.$templateId, $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -210,7 +210,9 @@ class Meeting extends AbstractApi
         string $meetingId
     ) {
 
-        $response = $this->get('meetings/controls', $meetingId);
+        $response = $this->get('meetings/controls', [
+            'meetingId' => $meetingId,
+        ]);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -225,7 +227,7 @@ class Meeting extends AbstractApi
     ) {
         $additional_data = $this->data($additional_data, [
             'recordingStarted', 'recordingPaused', 'locked',
-            ]);
+        ]);
 
         $response = $this->put('meetings/controls', array_merge([
             'meetingId' => $meetingId,
@@ -238,11 +240,11 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
-    public function detailSessionTypes(
+    public function listSessionTypes(
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'siteUrl'
+            'hostEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetings/sessionTypes', $additional_data);
@@ -251,15 +253,19 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        return new MeetingsEntity($response->data);
+        $meetings = $response->data;
+
+        return array_map(function ($meeting) {
+            return new MeetingsEntity($meeting);
+        }, $meetings->items);
     }
 
     public function detailSessionType(
-        int $sessionTypeId,
+        string $sessionTypeId,
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'siteUrl'
+            'hostEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetings/sessionTypes/'.$sessionTypeId, $additional_data);
@@ -272,11 +278,11 @@ class Meeting extends AbstractApi
     }
 
     public function detailRegistrationForm(
-        int $meetingId,
+        string $meetingId,
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail'
+            'current', 'hostEmail',
         ]);
 
         $response = $this->get('meetings/'.$meetingId.'/registration', $additional_data);
@@ -288,12 +294,12 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
-    public function updateRegistrationFrom(
+    public function updateRegistrationForm(
         string $meetingId,
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'autoAcceptRequest','requireFirstName','requireEmail','requireJobTitle','requireCompanyName','requireAddress1','requireAddress2','requireCity','requireState','requireZipCode','requireCountryRegion','requireWorkPhone','requireFax','maxRegisterNum','customizedQuestions','rules'
+            'hostEmail', 'autoAcceptRequest', 'requireFirstName', 'requireEmail', 'requireJobTitle', 'requireCompanyName', 'requireAddress1', 'requireAddress2', 'requireCity', 'requireState', 'requireZipCode', 'requireCountryRegion', 'requireWorkPhone', 'requireFax', 'maxRegisterNum', 'customizedQuestions', 'rules',
         ]);
 
         $response = $this->put('meetings/'.$meetingId.'/registration', $additional_data);
@@ -308,7 +314,7 @@ class Meeting extends AbstractApi
     public function destroyRegistrationForm(
         string $meetingId
     ) {
-        $response = $this->delete('meetings/' .$meetingId. '/registration', []);
+        $response = $this->delete('meetings/'.$meetingId.'/registration', []);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -325,14 +331,14 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail', 'sendEmail', 'jobTitle', 'companyName', 'address1', 'address2', 'city', 'state', 'zipCode', 'countryRegion', 'workPhone', 'fax', 'customizedQuestions'
+            'current', 'hostEmail', 'sendEmail', 'jobTitle', 'companyName', 'address1', 'address2', 'city', 'state', 'zipCode', 'countryRegion', 'workPhone', 'fax', 'customizedQuestions',
         ]);
 
         $response = $this->post('meetings/'.$meetingId.'/registrants', array_merge([
             'firstName' => $firstName,
             'lastName' => $lastName,
-            'email' => $email
-            ], $additional_data));
+            'email' => $email,
+        ], $additional_data));
 
         if (! $response->success) {
             return new Error($response->data);
@@ -346,7 +352,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail', 'items'
+            'current', 'hostEmail', 'items',
         ]);
 
         $response = $this->post('meetings/'.$meetingId.'/registrants/bulkInsert', $additional_data);
@@ -364,7 +370,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail'
+            'current', 'hostEmail',
         ]);
 
         $response = $this->get('meetings/'.$meetingId.'/registrants/'.$registrantId, $additional_data);
@@ -381,10 +387,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max', 'hostEmail', 'current', 'email', 'registrationTimeFrom', 'registrationTimeTo'
+            'max', 'hostEmail', 'current', 'email', 'registrationTimeFrom', 'registrationTimeTo',
         ]);
 
-        $response = $this->get('meetings/'. $meetingId .'/registrants', $additional_data);
+        $response = $this->get('meetings/'.$meetingId.'/registrants', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -403,7 +409,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max', 'current', 'hostEmail', 'status', 'orderType', 'orderBy'
+            'max', 'current', 'hostEmail', 'status', 'orderType', 'orderBy',
         ]);
 
         $response = $this->post('meetings/'.$meetingId.'/registrants/query', array_merge([
@@ -423,10 +429,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail', 'sendEmail', 'registrants'
+            'current', 'hostEmail', 'sendEmail', 'registrants',
         ]);
 
-        $response = $this->post('meetings/'.$meetingId.'/registrants/' .$statusOpType, $additional_data);
+        $response = $this->post('meetings/'.$meetingId.'/registrants/'.$statusOpType, $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -441,10 +447,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'current', 'hostEmail'
+            'current', 'hostEmail',
         ]);
 
-        $response = $this->delete('meetings/' .$meetingId. '/registrants/'. $registrantId, $additional_data);
+        $response = $this->delete('meetings/'.$meetingId.'/registrants/'.$registrantId, $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -459,7 +465,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'interpreters'
+            'interpreters',
         ]);
 
         $response = $this->put('meetings/'.$meetingId.'/simultaneousInterpretation', array_merge([
@@ -480,12 +486,12 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'email', 'displayName', 'hostEmail', 'sendEmail'
+            'email', 'displayName', 'hostEmail', 'sendEmail',
         ]);
 
         $response = $this->post('meetings/'.$meetingId.'/interpreters', array_merge([
             'languageCode1' => $languageCode1,
-            'languageCode2' => $languageCode2
+            'languageCode2' => $languageCode2,
         ], $additional_data));
 
         if (! $response->success) {
@@ -501,7 +507,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail'
+            'hostEmail',
         ]);
 
         $response = $this->get('meetings/'.$meetingId.'/interpreters/'.$interpreterId, $additional_data);
@@ -518,10 +524,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail'
+            'hostEmail',
         ]);
 
-        $response = $this->get('meetings/'. $meetingId .'interpreters', $additional_data);
+        $response = $this->get('meetings/'.$meetingId.'/interpreters', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -542,12 +548,12 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'email', 'displayName', 'hostEmail', 'sendEmail'
+            'email', 'displayName', 'hostEmail', 'sendEmail',
         ]);
 
         $response = $this->put('meetings/'.$meetingId.'/interpreters/'.$interpreterId, array_merge([
             'languageCode1' => $languageCode1,
-            'languageCode2' => $languageCode2
+            'languageCode2' => $languageCode2,
         ], $additional_data));
 
         if (! $response->success) {
@@ -563,10 +569,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'sendEmail'
+            'hostEmail', 'sendEmail',
         ]);
 
-        $response = $this->delete('meetings/' .$meetingId. '/interpreters/'.$interpreterId, $additional_data);
+        $response = $this->delete('meetings/'.$meetingId.'/interpreters/'.$interpreterId, $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -579,7 +585,7 @@ class Meeting extends AbstractApi
         string $meetingId
     ) {
 
-        $response = $this->get('meetings/'. $meetingId .'breakoutSessions', []);
+        $response = $this->get('meetings/'.$meetingId.'/breakoutSessions', []);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -597,7 +603,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'sendEmail', 'items'
+            'hostEmail', 'sendEmail', 'items',
         ]);
 
         $response = $this->put('meetings/'.$meetingId.'/breakoutSessions', $additional_data);
@@ -614,10 +620,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'sendEmail'
+            'sendEmail',
         ]);
 
-        $response = $this->delete('meetings/' .$meetingId. '/breakoutSessions', $additional_data);
+        $response = $this->delete('meetings/'.$meetingId.'/breakoutSessions', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -644,10 +650,10 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'meetingStartTimeFrom', 'meetingStartTimeTo', 'max'
+            'meetingStartTimeFrom', 'meetingStartTimeTo', 'max',
         ]);
 
-        $response = $this->get('meetings/'. $meetingId .'/surveyResults', $additional_data);
+        $response = $this->get('meetings/'.$meetingId.'/surveyResults', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -665,7 +671,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'meetingStartTimeFrom', 'meetingStartTimeTo', 'emails'
+            'hostEmail', 'meetingStartTimeFrom', 'meetingStartTimeTo', 'emails',
         ]);
 
         $response = $this->get('meetings/'.$meetingId.'/surveyLinks', $additional_data);
@@ -682,7 +688,7 @@ class Meeting extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'personId', 'items'
+            'hostEmail', 'personId', 'items',
         ]);
 
         $response = $this->post('meetings/'.$meetingId.'/invitationSources', $additional_data);
@@ -698,7 +704,7 @@ class Meeting extends AbstractApi
         string $meetingId
     ) {
 
-        $response = $this->get('meetings/'. $meetingId .'/invitationSources', []);
+        $response = $this->get('meetings/'.$meetingId.'/invitationSources', []);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -711,16 +717,16 @@ class Meeting extends AbstractApi
         }, $meetings->items);
     }
 
-    public function listMeetingTrackingCodes(
+    public function listTrackingCodes(
         string $service,
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'siteUrl', 'hostEmail'
+            'siteUrl', 'hostEmail',
         ]);
 
         $response = $this->put('meetings/trackingCodes', array_merge([
-            'service' => $service
+            'service' => $service,
         ], $additional_data));
 
         if (! $response->success) {
@@ -740,7 +746,7 @@ class Meeting extends AbstractApi
     ) {
         $response = $this->post('meetings/reassignHost', [
             'hostEmail' => $hostEmail,
-            'meetingIds' => $meetingIds
+            'meetingIds' => $meetingIds,
         ]);
 
         if (! $response->success) {
