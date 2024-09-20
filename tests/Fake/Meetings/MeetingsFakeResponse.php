@@ -168,6 +168,7 @@ class MeetingsFakeResponse extends FakeResponse
             $this->fakeError()
         );
     }
+
     public function getMeetingsFakeDetailSessionType()
     {
         return json_encode(
