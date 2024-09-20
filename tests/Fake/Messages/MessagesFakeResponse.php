@@ -6,12 +6,11 @@ class MessagesFakeResponse extends FakeResponse
 {
     public function getMessagesFakeList()
     {
-        return json_encode((object) [
+        return json_encode((object)[
             'items' => [
                 $this->fakeMessage(),
                 $this->fakeMessage(),
             ],
         ]);
     }
-
 }
