@@ -111,13 +111,10 @@ We're actively working to expand this package to cover all Webex API endpoints.
 
 
 ## Documentation
+
+Webex Meetings is a powerful conferencing solution that lets you connect with anyone, anywhere, in real time.
+
 You can find the documentation [here](https://docs.offlineagency.com/laravel-webex/)
-
-## Testing
-
-```bash
-composer test
-```
 
 ## Contributing
 
@@ -133,7 +130,7 @@ tracker.
 - [Offline Agency](https://github.com/offline-agency)
 - [Giacomo Fabbian](https://github.com/Giacomo92)
 - [Nicolas Sanavia](https://github.com/SanaviaNicolas)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/offline-agency/laravel-webex/graphs/contributors)
 
 ## About us
 
