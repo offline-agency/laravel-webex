@@ -17,11 +17,53 @@ class MeetingParticipantsFakeResponse extends FakeResponse
     public function getMeetingParticipantsFakeDetail()
     {
         return json_encode(
-            $this->fakeMeetingParticipant(),
+            $this->fakeMeetingParticipant()
+        );
+    }
+
+    public function getMeetingParticipantsFakeQueryWithEmail()
+    {
+        return json_encode(
+            $this->fakeMeetingParticipant()
+        );
+    }
+
+    public function getUpdatedMeetingParticipantsFakeDetail()
+    {
+        return json_encode(
+            $this->fakeMeetingParticipant()
+        );
+    }
+
+    public function getAdmittedMeetingParticipantsFakeDetail()
+    {
+        return json_encode(
+            $this->fakeMeetingParticipant()
         );
     }
 
     public function getErrorOnMeetingsFakeList()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
+    public function getErrorOnFakeQueryWithEmail()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
+    public function getErrorOnFakeUpdate()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
+    public function getErrorOnFakeAdmit()
     {
         return json_encode(
             $this->fakeError()
