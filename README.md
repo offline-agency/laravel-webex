@@ -40,7 +40,7 @@ Then set in your `.env` (do not commit secrets):
 
 - `WEBEX_BEARER` – Bearer token for API requests (required)
 - `WEBEX_TIMEOUT` – Request timeout in seconds (default: 30)
-- `WEBEX_CLIENT_ID`, `WEBEX_CLIENT_SECRET`, `WEBEX_REDIRECT_URI` – For OAuth flows
+- `WEBEX_CLIENT_ID`, `WEBEX_CLIENT_SECRET`, `WEBEX_CLIENT_CODE`, `WEBEX_REDIRECT_URI` – For OAuth flows
 
 ### Authentication
 

@@ -26,7 +26,7 @@ See README.md sections "Usage examples" for Meetings and Messaging (Messages, Ro
 
 ## Testing and static analysis
 
-- `composer test` – run PHPUnit.
+- `composer test` – run Pest.
 - `composer stan` – run PHPStan (Larastan).
 
 Update the docs site’s "Testing" section to include both commands.
