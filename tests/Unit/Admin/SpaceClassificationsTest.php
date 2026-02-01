@@ -62,6 +62,23 @@ describe('Admin SpaceClassifications', function () {
         expect($classification->id)->toEqual('sc2');
     });
 
+    it('updates space classification', function () {
+        Http::fake([
+            'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response(json_encode((object) [
+                'id' => 'sc1',
+                'name' => 'Updated Classification',
+                'orgId' => 'org1',
+                'created' => '2024-01-01T00:00:00Z',
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $classification = $laravel_webex->admin_space_classifications()->update('sc1', ['name' => 'Updated Classification']);
+
+        expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
+        expect($classification->name)->toEqual('Updated Classification');
+    });
+
     it('destroys space classification', function () {
         Http::fake([
             'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response('', 204),
@@ -84,6 +101,66 @@ describe('Admin SpaceClassifications', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_space_classifications()->list();
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response(json_encode((object) [
+                'message' => 'Not found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_space_classifications()->detail('sc1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/spaceClassifications' => Http::response(json_encode((object) [
+                'message' => 'Bad request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_space_classifications()->create(['name' => 'New', 'orgId' => 'org1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on update failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_space_classifications()->update('sc1', ['name' => 'Updated']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_space_classifications()->destroy('sc1');
 
         expect($result)->toBeInstanceOf(Error::class);
     });

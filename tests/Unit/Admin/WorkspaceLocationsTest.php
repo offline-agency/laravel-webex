@@ -62,6 +62,23 @@ describe('Admin WorkspaceLocations', function () {
         expect($location->id)->toEqual('wl2');
     });
 
+    it('updates workspace location', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response(json_encode((object) [
+                'id' => 'wl1',
+                'name' => 'Updated Workspace Location',
+                'orgId' => 'org1',
+                'created' => '2024-01-01T00:00:00Z',
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $location = $laravel_webex->admin_workspace_locations()->update('wl1', ['name' => 'Updated Workspace Location']);
+
+        expect($location)->toBeInstanceOf(WorkspaceLocationEntity::class);
+        expect($location->name)->toEqual('Updated Workspace Location');
+    });
+
     it('destroys workspace location', function () {
         Http::fake([
             'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response('', 204),
@@ -84,6 +101,66 @@ describe('Admin WorkspaceLocations', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspace_locations()->list();
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response(json_encode((object) [
+                'message' => 'Not found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspace_locations()->detail('wl1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaceLocations' => Http::response(json_encode((object) [
+                'message' => 'Bad request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspace_locations()->create(['name' => 'New', 'orgId' => 'org1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on update failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspace_locations()->update('wl1', ['name' => 'Updated']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspace_locations()->destroy('wl1');
 
         expect($result)->toBeInstanceOf(Error::class);
     });

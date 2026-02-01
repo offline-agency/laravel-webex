@@ -108,4 +108,64 @@ describe('Admin Workspaces', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaces/ws1*' => Http::response(json_encode((object) [
+                'message' => 'Not found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspaces()->detail('ws1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaces' => Http::response(json_encode((object) [
+                'message' => 'Bad request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspaces()->create(['name' => 'New', 'orgId' => 'org1', 'locationId' => 'loc1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on update failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaces/ws1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspaces()->update('ws1', ['name' => 'Updated']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/workspaces/ws1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_workspaces()->destroy('ws1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

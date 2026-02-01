@@ -4,14 +4,13 @@ use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\Meeting;
 use Offlineagency\LaravelWebex\LaravelWebex;
-use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingsFakeResponse;
 
 describe('Meetings', function () {
     it('lists meetings', function () {
         Http::fake([
-            'meetings' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeList()
-            ),
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -30,9 +29,9 @@ describe('Meetings', function () {
 
     it('lists filtered meetings', function () {
         Http::fake([
-            'meetings?state=inProgress' => Http::response(
-                (new MeetingsFakeResponse)->getFilteredMeetingsFakeList()
-            ),
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -53,10 +52,11 @@ describe('Meetings', function () {
 
     it('returns error on meeting list failure', function () {
         Http::fake([
-            'meetings' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeList(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -70,9 +70,9 @@ describe('Meetings', function () {
 
     it('meetings_list_series', function () {
         Http::fake([
-            'meetings?meetingSeriesId=fake_meeting_series_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListSeries()
-            ),
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -91,10 +91,11 @@ describe('Meetings', function () {
 
     it('error_on_meetings_list_series', function () {
         Http::fake([
-            'meetings?meetingSeriesId=fake_meeting_series_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListSeries(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -110,9 +111,9 @@ describe('Meetings', function () {
 
     it('meeting_detail', function () {
         Http::fake([
-            'meetings/fake_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -124,9 +125,9 @@ describe('Meetings', function () {
 
     it('filtered_meeting_detail', function () {
         Http::fake([
-            'meetings/fake_id?current=0' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -142,9 +143,11 @@ describe('Meetings', function () {
 
     it('meeting_create', function () {
         Http::fake([
-            'meetings' => Http::response(
-                (new MeetingsFakeResponse)->getNewMeetingFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetings' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'agenda' => 'fake_created_agenda',
+                'enabledAutoRecordMeeting' => true,
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -163,9 +166,11 @@ describe('Meetings', function () {
 
     it('meeting_update', function () {
         Http::fake([
-            'meetings/fake_id' => Http::response(
-                (new MeetingsFakeResponse)->getUpdatedMeetingFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'agenda' => 'fake_updated_agenda',
+                'enabledAutoRecordMeeting' => false,
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -184,9 +189,7 @@ describe('Meetings', function () {
 
     it('meeting_delete', function () {
         Http::fake([
-            'meetings/fake_id' => Http::response(
-                (new MeetingsFakeResponse)->getDeleteMeetingFakeResponse()
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -197,9 +200,7 @@ describe('Meetings', function () {
 
     it('meeting_delete_without_mail', function () {
         Http::fake([
-            'meetings/fake_id?sendEmail=0' => Http::response(
-                (new MeetingsFakeResponse)->getDeleteMeetingFakeResponse()
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -212,10 +213,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_delete', function () {
         Http::fake([
-            'meetings/fake_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeList(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -229,9 +231,9 @@ describe('Meetings', function () {
 
     it('meeting_join', function () {
         Http::fake([
-            'meetings/join' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeJoinDetail()
-            ),
+            'https://webexapis.com/v1/meetings/join*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -242,10 +244,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_join', function () {
         Http::fake([
-            'meetings/join' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeJoin(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/join*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -259,9 +262,9 @@ describe('Meetings', function () {
 
     it('meetings_list_templates', function () {
         Http::fake([
-            'meetings/templates' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListTemplates()
-            ),
+            'https://webexapis.com/v1/meetings/templates*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -280,10 +283,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_templates', function () {
         Http::fake([
-            'meetings/templates' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListTemplates(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/templates*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -297,9 +301,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_template', function () {
         Http::fake([
-            'meetings/templates/fake_template_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailTemplate()
-            ),
+            'https://webexapis.com/v1/meetings/templates/fake_template_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -311,10 +315,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_template', function () {
         Http::fake([
-            'meetings/templates/fake_template_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailTemplate(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/templates/fake_template_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -328,9 +333,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_control_status', function () {
         Http::fake([
-            'meetings/controls?meetingId=fake_meeting_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailControlStatus()
-            ),
+            'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -342,10 +347,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_control_status', function () {
         Http::fake([
-            'meetings/controls?meetingId=fake_meeting_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeControlStatus(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -359,9 +365,9 @@ describe('Meetings', function () {
 
     it('meetings_update_control_status', function () {
         Http::fake([
-            'meetings/controls' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateControlStatus()
-            ),
+            'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -373,10 +379,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_update_control_status', function () {
         Http::fake([
-            'meetings/controls' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateControlStatus(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -390,9 +397,9 @@ describe('Meetings', function () {
 
     it('meetings_list_session_types', function () {
         Http::fake([
-            'meetings/sessionTypes' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListSessionTypes()
-            ),
+            'https://webexapis.com/v1/meetings/sessionTypes*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -411,10 +418,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_session_types', function () {
         Http::fake([
-            'meetings/sessionTypes' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListSessionTypes(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/sessionTypes*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -428,9 +436,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_session_type', function () {
         Http::fake([
-            'meetings/sessionTypes/fake_session_type_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailSessionType()
-            ),
+            'https://webexapis.com/v1/meetings/sessionTypes/fake_session_type_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -442,10 +450,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_session_types', function () {
         Http::fake([
-            'meetings/sessionTypes/fake_session_type_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailSessionTypes(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/sessionTypes/fake_session_type_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -459,9 +468,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailRegistrationForm()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -473,10 +482,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailRegistrationForm(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -490,9 +500,9 @@ describe('Meetings', function () {
 
     it('meetings_update_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateRegistrationForm()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -504,10 +514,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_update_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateRegistrationForm(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -521,9 +532,7 @@ describe('Meetings', function () {
 
     it('meetings_destroy_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDestroyRegistrationForm()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -534,10 +543,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_destroy_registration_form', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registration' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDestroyRegistrationForm(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -551,9 +561,9 @@ describe('Meetings', function () {
 
     it('meetings_register', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeRegister()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -565,10 +575,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_register', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeRegister(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -582,9 +593,9 @@ describe('Meetings', function () {
 
     it('meetings_batch_register', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/bulkInsert' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeBatchRegister()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/bulkInsert*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -596,10 +607,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_batch_register', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/bulkInsert' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeBatchRegister(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/bulkInsert*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -613,9 +625,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_information_for_registrant', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_registrant_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailInformationForRegistrant()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_registrant_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -627,10 +639,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_information_for_registrant', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_registrant_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailInformationForRegistrant(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_registrant_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -644,9 +657,9 @@ describe('Meetings', function () {
 
     it('meetings_list_registrants', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListRegistrants()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -665,10 +678,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_registrants', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListRegistrants(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -682,9 +696,9 @@ describe('Meetings', function () {
 
     it('meetings_query_registrants', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/query' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeQueryRegistrants()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/query*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -696,10 +710,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_query_registrants', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/query' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeQueryRegistrants(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/query*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -713,9 +728,9 @@ describe('Meetings', function () {
 
     it('meetings_batch_update_registrants_status', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_status_op_type' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateRegistrantsStatus()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_status_op_type*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -727,10 +742,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_batch_update_registrants_status', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_status_op_type' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateRegistrantsStatus(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_status_op_type*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -744,9 +760,7 @@ describe('Meetings', function () {
 
     it('meetings_destroy_registrant', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_registrant_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDestroyRegistrant()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_registrant_id*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -757,10 +771,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_destroy_registrant', function () {
         Http::fake([
-            'meetings/fake_meeting_id/registrants/fake_registrant_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDestroyRegistrant(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_registrant_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -774,9 +789,9 @@ describe('Meetings', function () {
 
     it('meetings_update_simultaneous_interpretation', function () {
         Http::fake([
-            'meetings/fake_meeting_id/simultaneousInterpretation' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateSimultaneousInterpretation()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/simultaneousInterpretation*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -788,10 +803,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_update_simultaneous_interpretation', function () {
         Http::fake([
-            'meetings/fake_meeting_id/simultaneousInterpretation' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateSimultaneousInterpretation(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/simultaneousInterpretation*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -805,9 +821,9 @@ describe('Meetings', function () {
 
     it('meetings_create_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeCreateInterpreter()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -819,10 +835,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_create_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeCreateInterpreter(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -836,9 +853,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailInterpreter()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -850,10 +867,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailInterpreter(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -867,9 +885,9 @@ describe('Meetings', function () {
 
     it('meetings_list_interpreters', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListInterpreters()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -888,10 +906,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_interpreters', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListInterpreters(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -905,9 +924,9 @@ describe('Meetings', function () {
 
     it('meetings_update_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateInterpreters()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -919,10 +938,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_update_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateInterpreters(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -936,9 +956,7 @@ describe('Meetings', function () {
 
     it('meetings_destroy_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDestroyInterpreter()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -949,10 +967,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_destroy_interpreter', function () {
         Http::fake([
-            'meetings/fake_meeting_id/interpreters/fake_interpreter_id' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDestroyInterpreter(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -966,9 +985,9 @@ describe('Meetings', function () {
 
     it('meetings_list_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListBreakoutSessions()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -987,10 +1006,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListBreakoutSession(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1004,9 +1024,9 @@ describe('Meetings', function () {
 
     it('meetings_update_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeUpdateBreakoutSession()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1018,10 +1038,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_update_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeUpdateBreakoutSession(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1035,9 +1056,7 @@ describe('Meetings', function () {
 
     it('meetings_destroy_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDestroyBreakoutSession()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1048,10 +1067,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_destroy_breakout_sessions', function () {
         Http::fake([
-            'meetings/fake_meeting_id/breakoutSessions' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDestroyBreakoutSessions(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1065,9 +1085,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_survey', function () {
         Http::fake([
-            'meetings/fake_meeting_id/survey' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailSurvey()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/survey*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1079,10 +1099,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_survey', function () {
         Http::fake([
-            'meetings/fake_meeting_id/survey' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailSurvey(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/survey*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1096,9 +1117,9 @@ describe('Meetings', function () {
 
     it('meetings_list_survey_results', function () {
         Http::fake([
-            'meetings/fake_meeting_id/surveyResults' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListSurveyResults()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/surveyResults*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1117,10 +1138,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_survey_results', function () {
         Http::fake([
-            'meetings/fake_meeting_id/surveyResults' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListSurveyResults(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/surveyResults*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1134,9 +1156,9 @@ describe('Meetings', function () {
 
     it('meetings_detail_survey_links', function () {
         Http::fake([
-            'meetings/fake_meeting_id/surveyLinks' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeDetailSurveyLinks()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/surveyLinks*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1148,10 +1170,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_detail_survey_links', function () {
         Http::fake([
-            'meetings/fake_meeting_id/surveyLinks' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeDetailSurveyLinks(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/surveyLinks*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1165,9 +1188,9 @@ describe('Meetings', function () {
 
     it('meetings_create_invitation_sources', function () {
         Http::fake([
-            'meetings/fake_meeting_id/invitationSources' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeCreateInvitationSources()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1179,10 +1202,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_create_invitation_sources', function () {
         Http::fake([
-            'meetings/fake_meeting_id/invitationSources' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeCreateInvitationSources(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1196,9 +1220,9 @@ describe('Meetings', function () {
 
     it('meetings_list_invitation_sources', function () {
         Http::fake([
-            'meetings/fake_meeting_id/invitationSources' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListInvitationSources()
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1217,10 +1241,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_invitation_sources', function () {
         Http::fake([
-            'meetings/fake_meeting_id/invitationSources' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListInvitationSources(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1234,9 +1259,9 @@ describe('Meetings', function () {
 
     it('meetings_list_tracking_codes', function () {
         Http::fake([
-            'meetings/trackingCodes' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeListTrackingCodes()
-            ),
+            'https://webexapis.com/v1/meetings/trackingCodes*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1255,10 +1280,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_list_tracking_codes', function () {
         Http::fake([
-            'meetings/trackingCodes' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeListTrackingCodes(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/trackingCodes*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1272,9 +1298,9 @@ describe('Meetings', function () {
 
     it('meetings_reassign_to_new_host', function () {
         Http::fake([
-            'meetings/reassignHost' => Http::response(
-                (new MeetingsFakeResponse)->getMeetingsFakeReassignToNewHost()
-            ),
+            'https://webexapis.com/v1/meetings/reassignHost*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -1286,10 +1312,11 @@ describe('Meetings', function () {
 
     it('error_on_meeting_reassign_to_new_host', function () {
         Http::fake([
-            'meetings/reassignHost' => Http::response(
-                (new MeetingsFakeResponse)->getErrorOnMeetingsFakeReassignToNewHost(),
-                401
-            ),
+            'https://webexapis.com/v1/meetings/reassignHost*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
