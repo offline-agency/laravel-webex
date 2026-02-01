@@ -26,14 +26,95 @@ You should publish config file with:
 php artisan vendor:publish --provider="Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider"
 ```
 
+
+## API coverage
+
+We're actively working to expand this package to cover all Webex API endpoints.
+
+✅ = implemented
+
+🔜 = coming soon
+
+❌ = not implemented
+
+### Admin
+- #### ❌ Admin Audit Events
+- #### ❌ Events
+- #### ❌ Historical Analytics
+- #### ❌ Hybrid Clusters
+- #### ❌ Hybrid Connectors
+- #### ❌ Licenses
+- #### ❌ Locations
+- #### ❌ Meeting Qualities
+- #### ❌ Memberships
+- #### ❌ Organizations
+- #### ❌ People
+- #### ❌ Recording Report
+- #### ❌ Recordings
+- #### ❌ Report Templates
+- #### ❌ Reports
+- #### ❌ Resource Group Memberships
+- #### ❌ Resource Group
+- #### ❌ Roles
+- #### ❌ Space Classifications
+- #### ❌ Webex Calling Organization Settings
+- #### ❌ Webex Calling Person Settings
+- #### ❌ Workspace Locations
+- #### ❌ Workspace Metrics
+- #### ❌ Workspaces
+
+### Calling
+- #### ❌ BroadWorks Enterprises
+- #### ❌ BroadWorks Subscribers
+- #### ❌ Call Controls
+- #### ❌ Locations
+- #### ❌ People
+- #### ❌ Recording Report
+- #### ❌ Webex Calling Organization Settings
+- #### ❌ Webex Calling Person Settings
+- #### ❌ Webex Calling Voice Messaging
+
+### Devices
+- #### ❌ Device Configurations
+- #### ❌ Devices
+- #### ❌ Places
+- #### ❌ Workspace Locations
+- #### ❌ Workspace Metrics
+- #### ❌ Workspace Personalization
+- #### ❌ Workspaces
+- #### ❌ xAPI
+
+### Meetings
+- #### ✅ Meeting Invitees
+- #### ✅ Meeting Participants
+- #### ❌ Meeting Preferences
+- #### ❌ Meeting Qualities
+- #### ❌ Meeting Transcripts
+- #### ✅ Meetings
+- #### ❌ People
+- #### ❌ Recording Report
+- #### ❌ Recordings
+- #### ❌ Webhooks
+
+### Messaging
+- #### ❌ Attachment Actions
+- #### ❌ Events
+- #### ❌ Memberships
+- #### ❌ Messages
+- #### ❌ Messages with Edit
+- #### ❌ People
+- #### ❌ Room Tabs
+- #### ❌ Rooms
+- #### ❌ Team Memberships
+- #### ❌ Teams
+- #### ❌ Webhooks
+
+
 ## Documentation
+
+Webex Meetings is a powerful conferencing solution that lets you connect with anyone, anywhere, in real time.
+
 You can find the documentation [here](https://docs.offlineagency.com/laravel-webex/)
-
-## Testing
-
-```bash
-composer test
-```
 
 ## Contributing
 
@@ -49,7 +130,7 @@ tracker.
 - [Offline Agency](https://github.com/offline-agency)
 - [Giacomo Fabbian](https://github.com/Giacomo92)
 - [Nicolas Sanavia](https://github.com/SanaviaNicolas)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/offline-agency/laravel-webex/graphs/contributors)
 
 ## About us
 
