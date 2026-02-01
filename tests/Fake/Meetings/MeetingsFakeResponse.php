@@ -23,6 +23,23 @@ class MeetingsFakeResponse extends FakeResponse
         ]);
     }
 
+    public function getMeetingsFakeListSeries()
+    {
+        return json_encode((object) [
+            'items' => [
+                $this->fakeMeeting(),
+                $this->fakeMeeting(),
+            ],
+        ]);
+    }
+
+    public function getErrorOnMeetingsFakeListSeries()
+    {
+        return json_encode(
+            $this->fakeError()
+        );
+    }
+
     public function getMeetingFakeDetail()
     {
         return json_encode(
