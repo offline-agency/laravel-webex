@@ -112,4 +112,34 @@ describe('People', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on create person failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->people()->createPerson('bad@example.com');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on update person failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/people/p1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->people()->updatePerson('p1', 'Updated Name');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

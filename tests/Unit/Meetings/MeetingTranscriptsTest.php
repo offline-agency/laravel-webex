@@ -124,4 +124,19 @@ describe('MeetingTranscripts', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on update transcript snippet failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->meeting_transcripts()->updateTranscriptSnippet('t1', 's1', 'Updated');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

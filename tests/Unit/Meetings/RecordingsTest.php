@@ -134,4 +134,19 @@ describe('Recordings', function () {
 
         expect($result)->toBeInstanceOf(RecordingsEntity::class);
     });
+
+    it('returns error on move recordings into recycle bin failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/recordings/softDelete*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->recordings()->moveRecordingsIntoRecycleBin(['rec1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

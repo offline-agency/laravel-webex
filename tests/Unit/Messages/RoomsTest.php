@@ -128,4 +128,42 @@ describe('Rooms', function () {
         expect($result)->toBeObject();
         expect($result->meetingLink)->toEqual('https://example.webex.com/meet/r1');
     });
+
+    it('lists rooms with pagination and returns next link', function () {
+        Http::fake([
+            'https://webexapis.com/v1/rooms*' => Http::response(
+                json_encode((object) [
+                    'items' => [
+                        (object) ['id' => 'r1', 'title' => 'Room 1', 'type' => 'group'],
+                    ],
+                ]),
+                200,
+                ['Link' => '<https://webexapis.com/v1/rooms?max=2&before=xyz>; rel="next"']
+            ),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->rooms()->listWithPagination(['max' => 2]);
+
+        expect($result)->toBeArray();
+        expect($result)->toHaveKey('items');
+        expect($result)->toHaveKey('nextLink');
+        expect($result['items'])->toHaveCount(1);
+        expect($result['nextLink'])->toEqual('https://webexapis.com/v1/rooms?max=2&before=xyz');
+    });
+
+    it('returns error on create room failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->rooms()->create('New Room');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });
