@@ -1,4 +1,4 @@
-name: run-tests
+name: CI
 
 on:
     push:
@@ -48,6 +48,8 @@ jobs:
               run: ./vendor/bin/pest --coverage-clover coverage.xml
             - name: Run PHPStan
               run: ./vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+            - name: Run Pint
+              run: ./vendor/bin/pint --test
             - uses: codecov/codecov-action@v4
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}

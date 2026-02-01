@@ -49,7 +49,9 @@
   "scripts": {
     "test": "vendor/bin/pest",
     "test-coverage": "vendor/bin/pest --coverage-html coverage",
-    "stan": "vendor/bin/phpstan analyse --memory-limit=512M"
+    "stan": "vendor/bin/phpstan analyse --memory-limit=512M",
+    "pint": "vendor/bin/pint",
+    "pint:check": "vendor/bin/pint --test"
   },
   "config": {
     "sort-packages": true,
