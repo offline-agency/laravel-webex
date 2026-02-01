@@ -19,23 +19,25 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": "^8.4",
     "ext-json": "*",
-    "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0",
-    "guzzlehttp/guzzle": "^6.5|7.0.1|^7.2",
-    "illuminate/container": "^6.0|^7.0|^8.0|^9.0",
-    "illuminate/http": "^6.0|^7.0|^8.0|^9.0"
+    "illuminate/support": "^11.0|^12.0",
+    "illuminate/container": "^11.0|^12.0",
+    "illuminate/http": "^11.0|^12.0"
   },
   "require-dev": {
-    "doctrine/dbal": "^2.5",
-    "mockery/mockery": "^1.0",
-    "orchestra/testbench": "^4.0|^6.0",
+    "larastan/larastan": "^2.9",
+    "mockery/mockery": "^1.6",
+    "orchestra/testbench": "^9.0|^10.0",
+    "pestphp/pest": "^3.0",
+    "pestphp/pest-plugin-laravel": "^3.0",
     "php-coveralls/php-coveralls": "^2.4",
-    "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
+    "phpunit/phpunit": "^10.0|^11.0"
   },
   "autoload": {
     "psr-4": {
-      "Offlineagency\\LaravelWebex\\": "src"
+      "Offlineagency\\LaravelWebex\\": "src",
+      "Offlineagency\\LaravelWebex\\Http\\": "Http"
     }
   },
   "autoload-dev": {
@@ -44,11 +46,16 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    "test": "vendor/bin/pest",
+    "test-coverage": "vendor/bin/pest --coverage-html coverage",
+    "stan": "vendor/bin/phpstan analyse --memory-limit=512M"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "pestphp/pest-plugin": true
+    }
   },
   "extra": {
     "laravel": {

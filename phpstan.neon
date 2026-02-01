@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    paths:
+        - src
+        - Http
+        - tests
+    level: 5
+    excludePaths:
+        - tests/Fake/*
+    universalObjectCratesClasses:
+        - Offlineagency\LaravelWebex\Entities\AbstractEntity
+    ignoreErrors:
+        - '#Call to static method test\(\) on an unknown class LaravelWebex#'
+        # Pest test files: $this is bound to TestCase (Testbench) at runtime
+        - '#Call to an undefined method PHPUnit\\Framework\\TestCase::get\(\)#'
+        - '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$app#'
