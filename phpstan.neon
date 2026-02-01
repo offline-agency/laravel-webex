@@ -16,3 +16,7 @@ parameters:
         # Pest test files: $this is bound to TestCase (Testbench) at runtime
         - '#Call to an undefined method PHPUnit\\Framework\\TestCase::get\(\)#'
         - '#Access to an undefined property PHPUnit\\Framework\\TestCase::\$app#'
+        # Response::header() can return array|null; PHPStan stub narrows to string
+        -
+            message: '#Call to function is_string\(\) with string will always evaluate to true\.#'
+            path: src/Api/AbstractApi.php
