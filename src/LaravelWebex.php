@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
 use Offlineagency\LaravelWebex\Api\Meetings\MeetingChats;
@@ -61,9 +62,9 @@ use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 
 class LaravelWebex
 {
-    public $base_url;
+    public string $base_url;
 
-    public $httpBuilder;
+    public PendingRequest $httpBuilder;
 
     public function __construct()
     {

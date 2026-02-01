@@ -7,7 +7,7 @@ use Offlineagency\LaravelWebex\LaravelWebex;
 
 class LaravelWebexServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -16,7 +16,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
         }
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../../config/webex.php',

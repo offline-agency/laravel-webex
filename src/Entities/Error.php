@@ -4,18 +4,22 @@ namespace Offlineagency\LaravelWebex\Entities;
 
 class Error extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public $message;
+    public ?string $message = null;
 
-    /**
-     * @var array
-     */
-    public $errors;
+    /** @var array<int, mixed>|null */
+    public ?array $errors = null;
 
-    /**
-     * @var string
-     */
-    public $trackingId;
+    public ?string $trackingId = null;
+
+    public function build(array $parameters): void
+    {
+        parent::build($parameters);
+
+        if ($this->message === null) {
+            $this->message = 'Unknown error';
+        }
+        if ($this->errors === null) {
+            $this->errors = [];
+        }
+    }
 }
