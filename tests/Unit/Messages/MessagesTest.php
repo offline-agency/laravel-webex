@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Messages as MessageEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
-use Offlineagency\LaravelWebex\Tests\Fake\Messages\MessagesFakeResponse;
 
 dataset('messages_error_responses', [
     'unauthorized' => [401, 'fake_message'],
@@ -15,9 +14,9 @@ dataset('messages_error_responses', [
 describe('Messages', function () {
     it('lists messages', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages*' => Http::response(
-                (new MessagesFakeResponse)->getMessagesFakeList()
-            ),
+            'https://webexapis.com/v1/messages*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id', 'text' => 'fake_text'], (object) ['id' => 'fake_id', 'text' => 'fake_text']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -36,10 +35,11 @@ describe('Messages', function () {
 
     it('returns error on messages list failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages*' => Http::response(
-                (new MessagesFakeResponse)->getMessagesFakeError(),
-                401
-            ),
+            'https://webexapis.com/v1/messages*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -79,9 +79,9 @@ describe('Messages', function () {
 
     it('lists messages via container singleton', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages*' => Http::response(
-                (new MessagesFakeResponse)->getMessagesFakeList()
-            ),
+            'https://webexapis.com/v1/messages*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id', 'text' => 'fake_text'], (object) ['id' => 'fake_id', 'text' => 'fake_text']],
+            ])),
         ]);
 
         $laravel_webex = app('laravel-webex');
@@ -94,10 +94,11 @@ describe('Messages', function () {
     });
 
     it('lists messages with pagination and returns next link', function () {
-        $fake = new MessagesFakeResponse;
         Http::fake([
             'https://webexapis.com/v1/messages*' => Http::response(
-                $fake->getMessagesFakeList(),
+                json_encode((object) [
+                    'items' => [(object) ['id' => 'fake_id', 'text' => 'fake_text'], (object) ['id' => 'fake_id', 'text' => 'fake_text']],
+                ]),
                 200,
                 [
                     'Link' => '<https://webexapis.com/v1/messages?roomId=fake_id&max=2&before=abc>; rel="next"',
@@ -119,9 +120,10 @@ describe('Messages', function () {
 
     it('creates message and sends correct request', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages' => Http::response(
-                (new MessagesFakeResponse)->getMessagesFakeCreate()
-            ),
+            'https://webexapis.com/v1/messages' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'text' => 'new message',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -139,9 +141,10 @@ describe('Messages', function () {
 
     it('gets message detail', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages/fake_msg_id' => Http::response(
-                (new MessagesFakeResponse)->getMessagesFakeDetail()
-            ),
+            'https://webexapis.com/v1/messages/fake_msg_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'text' => 'fake_text',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -153,7 +156,7 @@ describe('Messages', function () {
 
     it('destroys message', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages/fake_msg_id' => Http::response(null, 204),
+            'https://webexapis.com/v1/messages/fake_msg_id*' => Http::response(null, 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -179,7 +182,7 @@ describe('Messages', function () {
 
     it('returns error on message detail failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/messages/msg1' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/messages/msg1*' => Http::response(json_encode((object) [
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',

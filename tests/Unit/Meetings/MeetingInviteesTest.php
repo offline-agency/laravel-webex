@@ -3,14 +3,13 @@
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingInvitee;
 use Offlineagency\LaravelWebex\LaravelWebex;
-use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingInviteesFakeResponse;
 
 describe('Meeting Invitees', function () {
     it('lists meeting invitees', function () {
         Http::fake([
-            'meetingInvitees?meetingId=fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse)->getMeetingInviteesFakeList()
-            ),
+            'https://webexapis.com/v1/meetingInvitees*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id', 'email' => 'fake_email'], (object) ['id' => 'fake_id', 'email' => 'fake_email']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -29,9 +28,10 @@ describe('Meeting Invitees', function () {
 
     it('gets meeting invitee detail', function () {
         Http::fake([
-            'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse)->getMeetingInviteesFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingInvitees/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'email' => 'fake_email',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -43,9 +43,10 @@ describe('Meeting Invitees', function () {
 
     it('creates meeting invitee', function () {
         Http::fake([
-            'meetingInvitees' => Http::response(
-                (new MeetingInviteesFakeResponse)->getNewMeetingInviteeFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingInvitees' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'email' => 'fake_email',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -58,9 +59,9 @@ describe('Meeting Invitees', function () {
 
     it('bulk creates meeting invitees', function () {
         Http::fake([
-            'meetingInvitees/bulkInsert' => Http::response(
-                (new MeetingInviteesFakeResponse)->getNewMeetingInviteesFakeList()
-            ),
+            'https://webexapis.com/v1/meetingInvitees/bulkInsert*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id', 'email' => 'fake_email'], (object) ['id' => 'fake_id', 'email' => 'fake_email']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -82,9 +83,10 @@ describe('Meeting Invitees', function () {
 
     it('updates meeting invitee', function () {
         Http::fake([
-            'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse)->getUpdatedMeetingInviteeFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingInvitees/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'email' => 'fake_email',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -97,9 +99,7 @@ describe('Meeting Invitees', function () {
 
     it('deletes meeting invitee', function () {
         Http::fake([
-            'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse)->getDeleteMeetingInviteeFakeResponse()
-            ),
+            'https://webexapis.com/v1/meetingInvitees/fake_id*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -4,14 +4,13 @@ use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingParticipant;
 use Offlineagency\LaravelWebex\LaravelWebex;
-use Offlineagency\LaravelWebex\Tests\Fake\Meetings\MeetingParticipantsFakeResponse;
 
 describe('Meeting Participants', function () {
     it('lists meeting participants', function () {
         Http::fake([
-            'meetingParticipants?meetingId=fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeList()
-            ),
+            'https://webexapis.com/v1/meetingParticipants*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -30,9 +29,9 @@ describe('Meeting Participants', function () {
 
     it('lists filtered meeting participants', function () {
         Http::fake([
-            'meetingParticipants?meetingId=fake_id&hostEmail=fake_email' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeList()
-            ),
+            'https://webexapis.com/v1/meetingParticipants*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'fake_id', 'hostEmail' => 'fake_hostEmail'], (object) ['id' => 'fake_id', 'hostEmail' => 'fake_hostEmail']],
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -54,10 +53,11 @@ describe('Meeting Participants', function () {
 
     it('returns error on meeting participants list failure', function () {
         Http::fake([
-            'meetingParticipants?meetingId=fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getErrorOnMeetingsFakeList(),
-                401
-            ),
+            'https://webexapis.com/v1/meetingParticipants*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -71,9 +71,9 @@ describe('Meeting Participants', function () {
 
     it('gets meeting participants detail', function () {
         Http::fake([
-            'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -85,9 +85,9 @@ describe('Meeting Participants', function () {
 
     it('queries meeting participants with email', function () {
         Http::fake([
-            'meetingParticipants/query' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeQueryWithEmail()
-            ),
+            'https://webexapis.com/v1/meetingParticipants/query*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -99,9 +99,9 @@ describe('Meeting Participants', function () {
 
     it('updates meeting participants', function () {
         Http::fake([
-            'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getUpdatedMeetingParticipantsFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -113,9 +113,9 @@ describe('Meeting Participants', function () {
 
     it('admits meeting participants', function () {
         Http::fake([
-            'meetingParticipants/admit' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getAdmittedMeetingParticipantsFakeDetail()
-            ),
+            'https://webexapis.com/v1/meetingParticipants/admit*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+            ])),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -127,10 +127,11 @@ describe('Meeting Participants', function () {
 
     it('returns error on meeting participants query failure', function () {
         Http::fake([
-            'meetingParticipants/query' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getErrorOnFakeQueryWithEmail(),
-                401
-            ),
+            'https://webexapis.com/v1/meetingParticipants/query*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -144,10 +145,11 @@ describe('Meeting Participants', function () {
 
     it('returns error on update failure', function () {
         Http::fake([
-            'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getErrorOnFakeUpdate(),
-                401
-            ),
+            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -161,10 +163,11 @@ describe('Meeting Participants', function () {
 
     it('returns error on admit failure', function () {
         Http::fake([
-            'meetingParticipants/admit' => Http::response(
-                (new MeetingParticipantsFakeResponse)->getErrorOnFakeAdmit(),
-                401
-            ),
+            'https://webexapis.com/v1/meetingParticipants/admit*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ]), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
