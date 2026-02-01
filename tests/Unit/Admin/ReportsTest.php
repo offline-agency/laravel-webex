@@ -59,6 +59,36 @@ describe('Admin Reports', function () {
         expect($report->id)->toEqual('rep2');
     });
 
+    it('returns error on report detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/reports/rep1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_reports()->detail('rep1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create report failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/reports' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_reports()->create(['templateId' => 'tpl1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('returns error on list failure', function () {
         Http::fake([
             'https://webexapis.com/v1/reports*' => Http::response(json_encode((object) [

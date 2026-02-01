@@ -90,6 +90,66 @@ describe('Admin ResourceGroups', function () {
         expect($result)->toBeTrue();
     });
 
+    it('returns error on resource group detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroups/rg1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_groups()->detail('rg1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create resource group failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroups' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_groups()->create(['name' => 'New', 'orgId' => 'org1']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on update resource group failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroups/rg1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_groups()->update('rg1', ['name' => 'Updated']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy resource group failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroups/rg1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_groups()->destroy('rg1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('returns error on list failure', function () {
         Http::fake([
             'https://webexapis.com/v1/resourceGroups*' => Http::response(json_encode((object) [

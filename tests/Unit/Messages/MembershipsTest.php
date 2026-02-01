@@ -55,6 +55,21 @@ describe('Memberships', function () {
         expect($membership->id)->toEqual('mem1');
     });
 
+    it('returns error on create membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/memberships*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->memberships()->create('r1', 'user@example.com');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('gets membership detail', function () {
         Http::fake([
             'https://webexapis.com/v1/memberships/mem1*' => Http::response(json_encode((object) [
@@ -71,6 +86,21 @@ describe('Memberships', function () {
         expect($membership->id)->toEqual('mem1');
     });
 
+    it('returns error on membership detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/memberships/mem1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->memberships()->detail('mem1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('updates membership', function () {
         Http::fake([
             'https://webexapis.com/v1/memberships/mem1*' => Http::response(json_encode((object) [
@@ -85,6 +115,21 @@ describe('Memberships', function () {
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
         expect($membership->isModerator)->toBeTrue();
+    });
+
+    it('returns error on update membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/memberships/mem1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->memberships()->update('mem1', ['isModerator' => true]);
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('destroys membership', function () {

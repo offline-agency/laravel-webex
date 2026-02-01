@@ -84,6 +84,36 @@ describe('CallControls', function () {
         expect($result)->toBeInstanceOf(Error::class);
     });
 
+    it('returns error on list calls failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/telephony/calls*' => Http::response(json_encode((object) [
+                'message' => 'Unauthorized',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->call_controls()->list();
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on call detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/telephony/calls/call1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->call_controls()->detail('call1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('answers call', function () {
         Http::fake([
             'https://webexapis.com/v1/telephony/calls/answer*' => Http::response(json_encode((object) [

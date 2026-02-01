@@ -43,6 +43,21 @@ describe('Calling VoiceMessaging', function () {
         expect($message->id)->toEqual('vm1');
     });
 
+    it('returns error on voicemail message detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/voiceMessaging/messages/vm1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->voice_messaging()->detail('vm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('returns error on list failure', function () {
         Http::fake([
             'https://webexapis.com/v1/voiceMessaging/messages*' => Http::response(json_encode((object) [

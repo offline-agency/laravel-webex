@@ -52,4 +52,19 @@ describe('MeetingQAndA', function () {
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingQAndAEntity::class);
     });
+
+    it('returns error on list answers of a question failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings/q_and_a/q1/answers*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_q_and_a()->listAnswersOfAQuestion('q1', 'm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

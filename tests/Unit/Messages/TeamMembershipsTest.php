@@ -68,6 +68,21 @@ describe('TeamMemberships', function () {
         expect($membership->teamId)->toEqual('team1');
     });
 
+    it('returns error on create team membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/team/memberships*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->team_memberships()->create('team1', 'user@example.com');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('gets team membership detail', function () {
         Http::fake([
             'https://webexapis.com/v1/team/memberships/tm1*' => Http::response(json_encode((object) [
@@ -85,6 +100,21 @@ describe('TeamMemberships', function () {
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
         expect($membership->id)->toEqual('tm1');
+    });
+
+    it('returns error on team membership detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/team/memberships/tm1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->team_memberships()->detail('tm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('updates team membership', function () {
@@ -106,6 +136,21 @@ describe('TeamMemberships', function () {
         expect($membership->isModerator)->toBeTrue();
     });
 
+    it('returns error on update team membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/team/memberships/tm1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->team_memberships()->update('tm1', ['isModerator' => true]);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('destroys team membership', function () {
         Http::fake([
             'https://webexapis.com/v1/team/memberships/tm1*' => Http::response('', 204),
@@ -115,5 +160,20 @@ describe('TeamMemberships', function () {
         $result = $laravel_webex->team_memberships()->destroy('tm1');
 
         expect($result)->toBeTrue();
+    });
+
+    it('returns error on destroy team membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/team/memberships/tm1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->team_memberships()->destroy('tm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 });

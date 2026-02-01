@@ -73,6 +73,51 @@ describe('Admin ResourceGroupMemberships', function () {
         expect($result)->toBeTrue();
     });
 
+    it('returns error on resource group membership detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_group_memberships()->detail('rgm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on create resource group membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroupMemberships' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_group_memberships()->create(['resourceGroupId' => 'rg1', 'personId' => 'p2']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy resource group membership failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_resource_group_memberships()->destroy('rgm1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('returns error on list failure', function () {
         Http::fake([
             'https://webexapis.com/v1/resourceGroupMemberships*' => Http::response(json_encode((object) [

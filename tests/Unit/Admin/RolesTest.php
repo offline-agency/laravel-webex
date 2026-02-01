@@ -43,6 +43,21 @@ describe('Admin Roles', function () {
         expect($role->id)->toEqual('role1');
     });
 
+    it('returns error on role detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/roles/role1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->admin_roles()->detail('role1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('returns error on list failure', function () {
         Http::fake([
             'https://webexapis.com/v1/roles*' => Http::response(json_encode((object) [
