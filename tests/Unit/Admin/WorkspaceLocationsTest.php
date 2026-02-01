@@ -20,7 +20,7 @@ describe('Admin WorkspaceLocations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_workspace_locations()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin WorkspaceLocations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_workspace_locations()->detail('wl1');
 
         expect($location)->toBeInstanceOf(WorkspaceLocationEntity::class);
@@ -55,7 +55,7 @@ describe('Admin WorkspaceLocations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_workspace_locations()->create(['name' => 'New Workspace Location', 'orgId' => 'org1']);
 
         expect($location)->toBeInstanceOf(WorkspaceLocationEntity::class);
@@ -67,7 +67,7 @@ describe('Admin WorkspaceLocations', function () {
             'https://webexapis.com/v1/workspaceLocations/wl1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspace_locations()->destroy('wl1');
 
         expect($result)->toBeTrue();
@@ -82,7 +82,7 @@ describe('Admin WorkspaceLocations', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspace_locations()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

@@ -15,7 +15,7 @@ describe('Teams', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->teams()->list();
 
         expect($list)->toHaveCount(1);
@@ -33,7 +33,7 @@ describe('Teams', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->teams()->list();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -48,7 +48,7 @@ describe('Teams', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->create('New Team');
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
@@ -65,7 +65,7 @@ describe('Teams', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->detail('team1');
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
@@ -81,7 +81,7 @@ describe('Teams', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->update('team1', 'Updated Team');
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
@@ -93,7 +93,7 @@ describe('Teams', function () {
             'https://webexapis.com/v1/teams/team1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->teams()->destroy('team1');
 
         expect($result)->toBeTrue();
@@ -108,7 +108,7 @@ describe('Teams', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->teams()->destroy('team1');
 
         expect($result)->toBeInstanceOf(Error::class);

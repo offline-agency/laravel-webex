@@ -15,7 +15,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->tracking_codes()->listTrackingCodes();
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('TrackingCodes', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->listTrackingCodes();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->detailTrackingCode('tc1');
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
@@ -61,7 +61,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->createTrackingCode(
             'New Code',
             'https://example.webex.com',
@@ -83,7 +83,7 @@ describe('TrackingCodes', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->createTrackingCode(
             'New Code',
             'https://example.webex.com',
@@ -105,7 +105,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->updateTrackingCode(
             'Updated Code',
             'https://example.webex.com',
@@ -127,7 +127,7 @@ describe('TrackingCodes', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->updateTrackingCode(
             'Updated Code',
             'https://example.webex.com',
@@ -145,7 +145,7 @@ describe('TrackingCodes', function () {
             'https://webexapis.com/v1/admin/meeting/config/trackingCodes/tc1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->destroyTrackingCode('tc1', 'https://example.webex.com');
 
         expect($result)->toEqual('Tracking code deleted');
@@ -160,7 +160,7 @@ describe('TrackingCodes', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->destroyTrackingCode('tc1', 'https://example.webex.com');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -174,7 +174,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->detailUserTrackingCodes();
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
@@ -188,7 +188,7 @@ describe('TrackingCodes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->tracking_codes()->updateUserTrackingCodes('https://example.webex.com');
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);

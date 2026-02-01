@@ -9,11 +9,11 @@ describe('Meeting Invitees', function () {
     it('lists meeting invitees', function () {
         Http::fake([
             'meetingInvitees?meetingId=fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse())->getMeetingInviteesFakeList()
+                (new MeetingInviteesFakeResponse)->getMeetingInviteesFakeList()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_invitees_list = $laravel_webex->meeting_invitees()->list('fake_id');
 
         expect($meeting_invitees_list)->toHaveCount(2);
@@ -30,11 +30,11 @@ describe('Meeting Invitees', function () {
     it('gets meeting invitee detail', function () {
         Http::fake([
             'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse())->getMeetingInviteesFakeDetail()
+                (new MeetingInviteesFakeResponse)->getMeetingInviteesFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_invitee_detail = $laravel_webex->meeting_invitees()->detail('fake_id');
 
         expect($meeting_invitee_detail)->toBeInstanceOf(MeetingInvitee::class);
@@ -44,11 +44,11 @@ describe('Meeting Invitees', function () {
     it('creates meeting invitee', function () {
         Http::fake([
             'meetingInvitees' => Http::response(
-                (new MeetingInviteesFakeResponse())->getNewMeetingInviteeFakeDetail()
+                (new MeetingInviteesFakeResponse)->getNewMeetingInviteeFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $new_meeting_invitee = $laravel_webex->meeting_invitees()->create('fake_id', 'fake_email');
 
         expect($new_meeting_invitee)->toBeInstanceOf(MeetingInvitee::class);
@@ -59,11 +59,11 @@ describe('Meeting Invitees', function () {
     it('bulk creates meeting invitees', function () {
         Http::fake([
             'meetingInvitees/bulkInsert' => Http::response(
-                (new MeetingInviteesFakeResponse())->getNewMeetingInviteesFakeList()
+                (new MeetingInviteesFakeResponse)->getNewMeetingInviteesFakeList()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $new_meeting_invitees = $laravel_webex->meeting_invitees()->bulk_create('fake_id', [
             (object) ['email' => 'fake_email_one'],
             (object) ['email' => 'fake_email_two'],
@@ -83,11 +83,11 @@ describe('Meeting Invitees', function () {
     it('updates meeting invitee', function () {
         Http::fake([
             'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse())->getUpdatedMeetingInviteeFakeDetail()
+                (new MeetingInviteesFakeResponse)->getUpdatedMeetingInviteeFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $updated_meeting = $laravel_webex->meeting_invitees()->update('fake_id', 'fake_email');
 
         expect($updated_meeting)->toBeInstanceOf(MeetingInvitee::class);
@@ -98,11 +98,11 @@ describe('Meeting Invitees', function () {
     it('deletes meeting invitee', function () {
         Http::fake([
             'meetingInvitees/fake_id' => Http::response(
-                (new MeetingInviteesFakeResponse())->getDeleteMeetingInviteeFakeResponse()
+                (new MeetingInviteesFakeResponse)->getDeleteMeetingInviteeFakeResponse()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $delete_response = $laravel_webex->meeting_invitees()->destroy('fake_id');
 
         expect($delete_response)->toEqual('Meeting invitee deleted');

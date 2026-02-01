@@ -19,7 +19,7 @@ describe('Calling BroadWorksEnterprises', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->broadworks_enterprises()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Calling BroadWorksEnterprises', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $enterprise = $laravel_webex->broadworks_enterprises()->detail('ent1');
 
         expect($enterprise)->toBeInstanceOf(BroadWorksEnterpriseEntity::class);
@@ -52,7 +52,7 @@ describe('Calling BroadWorksEnterprises', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->broadworks_enterprises()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

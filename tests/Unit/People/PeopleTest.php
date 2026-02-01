@@ -15,7 +15,7 @@ describe('People', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->people()->listPeople();
 
         expect($list)->toHaveCount(1);
@@ -32,7 +32,7 @@ describe('People', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->listPeople();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -48,7 +48,7 @@ describe('People', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->createPerson('new@example.com');
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
@@ -64,7 +64,7 @@ describe('People', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->detailPerson('p1');
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
@@ -80,7 +80,7 @@ describe('People', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->updatePerson('p1', 'Updated Name');
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
@@ -92,7 +92,7 @@ describe('People', function () {
             'https://webexapis.com/v1/people/p1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->destroyPerson('p1');
 
         expect($result)->toEqual('Person deleted');
@@ -107,7 +107,7 @@ describe('People', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->destroyPerson('p1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -122,7 +122,7 @@ describe('People', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->createPerson('bad@example.com');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -137,7 +137,7 @@ describe('People', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->updatePerson('p1', 'Updated Name');
 
         expect($result)->toBeInstanceOf(Error::class);

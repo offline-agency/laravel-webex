@@ -31,7 +31,7 @@ class MeetingPolls extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max'
+            'max',
         ]);
 
         $response = $this->get('meetings/pollResults', array_merge([
@@ -52,7 +52,7 @@ class MeetingPolls extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max'
+            'max',
         ]);
 
         $response = $this->get('meetings/polls/'.$pollId.'/questions/'.$questionId.'/respondents', array_merge([

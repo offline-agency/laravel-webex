@@ -18,7 +18,7 @@ class SessionTypes extends AbstractApi
 
         $response = $this->get('admin/meeting/config/sessionTypes', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -38,7 +38,7 @@ class SessionTypes extends AbstractApi
 
         $response = $this->get('admin/meeting/userconfig/sessionTypes', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 

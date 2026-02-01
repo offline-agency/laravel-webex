@@ -19,7 +19,7 @@ describe('Admin HistoricalAnalytics', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_historical_analytics()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Admin HistoricalAnalytics', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_historical_analytics()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

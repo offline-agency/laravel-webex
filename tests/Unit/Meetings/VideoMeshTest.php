@@ -17,7 +17,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -33,7 +33,7 @@ describe('VideoMesh', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->listClusterAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -47,7 +47,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailClusterAvailability('c1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -62,7 +62,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listNodeAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($list)->toHaveCount(1);
@@ -78,7 +78,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailNodeAvailability('n1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -93,7 +93,7 @@ describe('VideoMesh', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->listNodeAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -106,7 +106,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listMediaHealthMonitoringToolResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -120,7 +120,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listMediaHealthMonitoringToolResultsV2('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($list)->toHaveCount(1);
@@ -132,7 +132,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailMediaHealthMonitoringToolClusterResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -143,7 +143,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailMediaHealthMonitoringToolClusterResultsV2('c1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -154,7 +154,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailMediaHealthMonitoringToolNodeResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -165,7 +165,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailMediaHealthMonitoringToolNodeResultsV2('n1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -178,7 +178,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listOverflowToCloudDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -192,7 +192,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterRedirectDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -204,7 +204,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/clusters/callRedirects/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailClusterRedirectDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -217,7 +217,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClustersUtilization('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -229,7 +229,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/clusters/utilization/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailClusterUtilizationDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -242,7 +242,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listReachabilityTestResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toHaveCount(1);
@@ -256,7 +256,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listReachabilityTestResultsV2('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($list)->toHaveCount(1);
@@ -268,7 +268,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailReachabilityTestResultsForCluster('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -279,7 +279,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailReachabilityTestResultsForClusterV2('c1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -290,7 +290,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailReachabilityTestResultsForNode('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'n1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -301,7 +301,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailReachabilityTestResultsForNodeV2('n1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -314,7 +314,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterDetails('o1');
 
         expect($list)->toHaveCount(1);
@@ -326,7 +326,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/clusters/c1*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailCluster('c1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -337,7 +337,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/triggerTest/clusters/c1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->triggerOnDemandTestForCluster('c1');
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
@@ -348,7 +348,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/triggerTest/nodes/n1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->triggerOnDemandTestForNode('n1');
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
@@ -359,7 +359,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testStatus*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'status' => 'completed'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailTriggeredTestStatus('cmd1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -370,7 +370,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'results' => []])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailTriggeredTestResults('cmd1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -383,7 +383,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listNetworkTestResults('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($list)->toHaveCount(1);
@@ -395,7 +395,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/networkTest/clusters*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailNetworkTestResultsForCluster('c1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -406,7 +406,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/testResults/networkTest/nodes*' => Http::response(json_encode((object) ['id' => 'n1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailNetworkTestResultsForNode('n1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -419,7 +419,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterClientTypeDistributionDetails('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'web');
 
         expect($list)->toHaveCount(1);
@@ -431,7 +431,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/clientTypeDistribution/clusters*' => Http::response(json_encode((object) ['id' => 'c1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailClusterClientTypeDistributionDetails('c1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'web');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -444,7 +444,7 @@ describe('VideoMesh', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listEventThresholdConfiguration();
 
         expect($list)->toHaveCount(1);
@@ -456,7 +456,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/eventThresholds/et1*' => Http::response(json_encode((object) ['id' => 'et1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->detailEventThresholdConfiguration('et1');
 
         expect($result)->toBeInstanceOf(VideoMeshEntity::class);
@@ -467,7 +467,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/eventThresholds*' => Http::response(json_encode((object) ['id' => 'et1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->updateEventThresholdConfiguration(['et1']);
 
         expect($result)->toBeInstanceOf(MeetingsEntity::class);
@@ -478,7 +478,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/eventThresholds/reset*' => Http::response(json_encode((object) ['id' => null])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->resetEventThresholdConfiguration(['et1']);
 
         expect($result)->toBeInstanceOf(MeetingsEntity::class);
@@ -493,7 +493,7 @@ describe('VideoMesh', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->listMediaHealthMonitoringToolResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -508,7 +508,7 @@ describe('VideoMesh', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->video_mesh()->triggerOnDemandTestForCluster('c1');
 
         expect($result)->toBeInstanceOf(Error::class);

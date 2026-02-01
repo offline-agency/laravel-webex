@@ -15,7 +15,7 @@ describe('MeetingsSummaryReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meetings_summary_report()->listUsageReports('https://example.webex.com');
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('MeetingsSummaryReport', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meetings_summary_report()->listUsageReports('https://example.webex.com');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('MeetingsSummaryReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meetings_summary_report()->listAttendeeReports('https://example.webex.com');
 
         expect($list)->toHaveCount(1);

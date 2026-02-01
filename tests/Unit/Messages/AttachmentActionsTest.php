@@ -19,7 +19,7 @@ describe('AttachmentActions', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $action = $laravel_webex->attachment_actions()->create('submit', 'msg1', ['key' => 'value']);
 
         expect($action)->toBeInstanceOf(AttachmentActionEntity::class);
@@ -37,7 +37,7 @@ describe('AttachmentActions', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->attachment_actions()->create('submit', 'msg1', []);
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -55,7 +55,7 @@ describe('AttachmentActions', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $action = $laravel_webex->attachment_actions()->detail('action1');
 
         expect($action)->toBeInstanceOf(AttachmentActionEntity::class);

@@ -12,7 +12,7 @@ class People extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'email', 'displayName', 'id', 'orgId', 'roles', 'callingData','locationId','max'
+            'email', 'displayName', 'id', 'orgId', 'roles', 'callingData', 'locationId', 'max',
         ]);
 
         $response = $this->get('people', $additional_data);
@@ -52,7 +52,7 @@ class People extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'callingData'
+            'callingData',
         ]);
 
         $response = $this->get('people/'.$personId, array_merge([
@@ -72,7 +72,7 @@ class People extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'callingData', 'showAllTypes', 'minResponse', 'emails', 'phoneNumbers', 'extension', 'locationId', 'firstName', 'lastName', 'nickName', 'avatar', 'orgId', 'roles', 'licenses', 'department', 'manager', 'managerId', 'title', 'addresses','siteUrls', 'loginEnabled'
+            'callingData', 'showAllTypes', 'minResponse', 'emails', 'phoneNumbers', 'extension', 'locationId', 'firstName', 'lastName', 'nickName', 'avatar', 'orgId', 'roles', 'licenses', 'department', 'manager', 'managerId', 'title', 'addresses', 'siteUrls', 'loginEnabled',
         ]);
 
         $response = $this->put('people/'.$personId, array_merge([
@@ -103,7 +103,7 @@ class People extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'callingData'
+            'callingData',
         ]);
 
         $response = $this->get('people/', $additional_data);

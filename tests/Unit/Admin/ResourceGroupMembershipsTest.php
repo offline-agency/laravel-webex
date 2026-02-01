@@ -20,7 +20,7 @@ describe('Admin ResourceGroupMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_resource_group_memberships()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin ResourceGroupMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->admin_resource_group_memberships()->detail('rgm1');
 
         expect($membership)->toBeInstanceOf(ResourceGroupMembershipEntity::class);
@@ -55,7 +55,7 @@ describe('Admin ResourceGroupMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->admin_resource_group_memberships()->create(['resourceGroupId' => 'rg1', 'personId' => 'p2']);
 
         expect($membership)->toBeInstanceOf(ResourceGroupMembershipEntity::class);
@@ -67,7 +67,7 @@ describe('Admin ResourceGroupMemberships', function () {
             'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_resource_group_memberships()->destroy('rgm1');
 
         expect($result)->toBeTrue();
@@ -82,7 +82,7 @@ describe('Admin ResourceGroupMemberships', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_resource_group_memberships()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

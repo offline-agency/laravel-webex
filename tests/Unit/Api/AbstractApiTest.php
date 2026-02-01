@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Api\Admin\Licenses;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 use Offlineagency\LaravelWebex\LaravelWebex;
@@ -13,7 +12,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('data() returns only allowed keys from array', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->data(['a' => 1, 'b' => 2, 'c' => 3], ['a', 'c']);
 
@@ -21,7 +20,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('data() omits keys not in fields', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->data(['x' => 1, 'y' => 2], ['x']);
 
@@ -30,7 +29,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('data() returns empty array when fields is empty', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->data(['a' => 1, 'b' => 2], []);
 
@@ -38,7 +37,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('value() returns value when key exists', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->value(['x' => 1], 'x');
 
@@ -46,7 +45,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('value() returns null when key is missing and no default', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->value(['x' => 1], 'y');
 
@@ -54,7 +53,7 @@ describe('AbstractApi helpers', function () {
     });
 
     it('value() returns default when key is missing', function () {
-        $api = (new LaravelWebex())->admin_licenses();
+        $api = (new LaravelWebex)->admin_licenses();
 
         $result = $api->value([], 'y', 'default');
 
@@ -68,7 +67,7 @@ describe('AbstractApi helpers', function () {
             ]), 200, []),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination();
 
         expect($result)->toBeArray();
@@ -82,7 +81,7 @@ describe('AbstractApi helpers', function () {
             'https://webexapis.com/v1/videoMesh/clusters/availability*' => Http::response(json_encode((object) [])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
 
         expect($list)->toBeArray();

@@ -23,7 +23,7 @@ describe('Devices', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->devices()->list();
 
         expect($list)->toHaveCount(1);
@@ -44,7 +44,7 @@ describe('Devices', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $device = $laravel_webex->devices()->detail('dev1');
 
         expect($device)->toBeInstanceOf(DeviceEntity::class);
@@ -56,7 +56,7 @@ describe('Devices', function () {
             'https://webexapis.com/v1/devices/dev1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->devices()->destroy('dev1');
 
         expect($result)->toBeTrue();
@@ -71,7 +71,7 @@ describe('Devices', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->devices()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

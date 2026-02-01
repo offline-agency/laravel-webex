@@ -51,7 +51,7 @@ class MeetingClosedCaptions extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'format'
+            'format',
         ]);
 
         $response = $this->get('meetingClosedCaptions/'.$closedCaptionId.'/download', array_merge([

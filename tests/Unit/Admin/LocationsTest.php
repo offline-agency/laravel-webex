@@ -20,7 +20,7 @@ describe('Admin Locations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_locations()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin Locations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->detail('loc1');
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
@@ -55,7 +55,7 @@ describe('Admin Locations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->create(['name' => 'New Location', 'orgId' => 'org1']);
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
@@ -72,7 +72,7 @@ describe('Admin Locations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->update('loc1', ['name' => 'Updated Location']);
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
@@ -84,7 +84,7 @@ describe('Admin Locations', function () {
             'https://webexapis.com/v1/locations/loc1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_locations()->destroy('loc1');
 
         expect($result)->toBeTrue();
@@ -99,7 +99,7 @@ describe('Admin Locations', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_locations()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

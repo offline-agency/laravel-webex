@@ -20,7 +20,7 @@ describe('Admin Licenses', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_licenses()->list();
 
         expect($list)->toHaveCount(1);
@@ -37,7 +37,7 @@ describe('Admin Licenses', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $license = $laravel_webex->admin_licenses()->detail('lic1');
 
         expect($license)->toBeInstanceOf(LicenseEntity::class);
@@ -53,7 +53,7 @@ describe('Admin Licenses', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_licenses()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

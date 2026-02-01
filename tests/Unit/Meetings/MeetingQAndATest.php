@@ -15,7 +15,7 @@ describe('MeetingQAndA', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_q_and_a()->listQAndA('m1');
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('MeetingQAndA', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_q_and_a()->listQAndA('m1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('MeetingQAndA', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_q_and_a()->listAnswersOfAQuestion('q1', 'm1');
 
         expect($list)->toHaveCount(1);

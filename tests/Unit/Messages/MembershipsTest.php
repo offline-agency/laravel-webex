@@ -15,7 +15,7 @@ describe('Memberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->memberships()->list();
 
         expect($list)->toHaveCount(1);
@@ -32,7 +32,7 @@ describe('Memberships', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->memberships()->list();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -48,7 +48,7 @@ describe('Memberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->create('r1', 'user@example.com');
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
@@ -64,7 +64,7 @@ describe('Memberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->detail('mem1');
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
@@ -80,7 +80,7 @@ describe('Memberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->update('mem1', ['isModerator' => true]);
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
@@ -92,7 +92,7 @@ describe('Memberships', function () {
             'https://webexapis.com/v1/memberships/mem1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->memberships()->destroy('mem1');
 
         expect($result)->toBeTrue();
@@ -107,7 +107,7 @@ describe('Memberships', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->memberships()->destroy('mem1');
 
         expect($result)->toBeInstanceOf(Error::class);

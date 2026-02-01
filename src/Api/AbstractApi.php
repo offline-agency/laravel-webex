@@ -17,7 +17,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $query_parameters
+     * @param  array<string, mixed>  $query_parameters
      */
     protected function get(string $url, array $query_parameters): object
     {
@@ -75,7 +75,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $body
+     * @param  array<string, mixed>  $body
      */
     protected function post(string $url, array $body): object
     {
@@ -93,7 +93,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $body
+     * @param  array<string, mixed>  $body
      */
     protected function put(string $url, array $body): object
     {
@@ -111,7 +111,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $body
+     * @param  array<string, mixed>  $body
      */
     protected function patch(string $url, array $body): object
     {
@@ -129,7 +129,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $query_parameters
+     * @param  array<string, mixed>  $query_parameters
      */
     protected function delete(string $url, array $query_parameters): object
     {
@@ -148,8 +148,8 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $data
-     * @param list<string> $fields
+     * @param  array<string, mixed>  $data
+     * @param  list<string>  $fields
      * @return array<string, mixed>
      */
     public function data(array $data, array $fields): array
@@ -165,8 +165,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param array<string, mixed> $arr
-     * @return mixed
+     * @param  array<string, mixed>  $arr
      */
     public function value(array $arr, string $key, mixed $default = null): mixed
     {

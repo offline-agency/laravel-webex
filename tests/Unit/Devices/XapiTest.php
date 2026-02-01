@@ -14,7 +14,7 @@ describe('Devices Xapi', function () {
             'https://webexapis.com/v1/xapi/commands/dev1*' => Http::response(json_encode($responseData)),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->xapi()->command('dev1', 'Dial', ['Number' => '1234']);
 
         expect($result)->toEqual($responseData);
@@ -27,7 +27,7 @@ describe('Devices Xapi', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->xapi()->status('dev1', 'Audio.Volume');
 
         expect($result)->toBeObject();
@@ -43,7 +43,7 @@ describe('Devices Xapi', function () {
             ]), 404),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->xapi()->command('dev1', 'Dial', []);
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -58,7 +58,7 @@ describe('Devices Xapi', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->xapi()->status('dev1', 'Audio.Volume');
 
         expect($result)->toBeInstanceOf(Error::class);

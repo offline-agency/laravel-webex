@@ -9,7 +9,7 @@ class BaseFakeResponse
     public function value(
         array $params,
         string $key,
-               $default
+        $default
     ) {
         return Arr::has($params, $key)
             ? Arr::get($params, $key)

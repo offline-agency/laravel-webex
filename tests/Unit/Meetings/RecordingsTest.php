@@ -15,7 +15,7 @@ describe('Recordings', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recordings()->listRecordings();
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('Recordings', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->listRecordings();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('Recordings', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $recording = $laravel_webex->recordings()->detailRecording('rec1');
 
         expect($recording)->toBeInstanceOf(RecordingsEntity::class);
@@ -61,7 +61,7 @@ describe('Recordings', function () {
             ]), 404),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->detailRecording('rec1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -72,7 +72,7 @@ describe('Recordings', function () {
             'https://webexapis.com/v1/recordings/rec1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->destroyRecording('rec1');
 
         expect($result)->toEqual('Recording deleted');
@@ -87,7 +87,7 @@ describe('Recordings', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->destroyRecording('rec1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -101,7 +101,7 @@ describe('Recordings', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->moveRecordingsIntoRecycleBin(['rec1']);
 
         expect($result)->toBeInstanceOf(RecordingsEntity::class);
@@ -115,7 +115,7 @@ describe('Recordings', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->restoreRecordingsFromRecycleBin();
 
         expect($result)->toBeInstanceOf(RecordingsEntity::class);
@@ -129,7 +129,7 @@ describe('Recordings', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->purgeRecordingsFromRecycleBin();
 
         expect($result)->toBeInstanceOf(RecordingsEntity::class);
@@ -144,7 +144,7 @@ describe('Recordings', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recordings()->moveRecordingsIntoRecycleBin(['rec1']);
 
         expect($result)->toBeInstanceOf(Error::class);

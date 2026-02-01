@@ -8,7 +8,7 @@ describe('SuccessfulAuthentication event', function () {
     it('triggers event when LaravelWebex is instantiated', function () {
         Event::fake();
 
-        new LaravelWebex();
+        new LaravelWebex;
 
         Event::assertDispatched(SuccessfulAuthentication::class);
     });

@@ -20,7 +20,7 @@ describe('Admin Organizations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_organizations()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin Organizations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $org = $laravel_webex->admin_organizations()->detail('org1');
 
         expect($org)->toBeInstanceOf(OrganizationEntity::class);
@@ -50,7 +50,7 @@ describe('Admin Organizations', function () {
             'https://webexapis.com/v1/organizations/org1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_organizations()->destroy('org1');
 
         expect($result)->toBeTrue();
@@ -65,7 +65,7 @@ describe('Admin Organizations', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_organizations()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

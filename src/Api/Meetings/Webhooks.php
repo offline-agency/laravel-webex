@@ -17,7 +17,7 @@ class Webhooks extends AbstractApi
 
         $response = $this->get('webhooks', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -58,7 +58,7 @@ class Webhooks extends AbstractApi
     ) {
         $response = $this->get('webhooks/'.$webhookId, []);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 

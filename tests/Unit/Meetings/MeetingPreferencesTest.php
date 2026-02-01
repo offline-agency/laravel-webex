@@ -14,7 +14,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailPreference();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -29,7 +29,7 @@ describe('MeetingPreferences', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_preferences()->detailPreference();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -44,7 +44,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailPersonalRoomOptions();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -57,7 +57,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailAudioOptions();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -70,7 +70,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailVideoOptions();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -85,7 +85,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->updatePersonalRoomOptions(
             'My Room',
             '1234',
@@ -106,7 +106,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->updateVideoOptions([]);
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -120,7 +120,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailSchedulingOptions();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -134,7 +134,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->updateSchedulingOptions([], true, 0, false);
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -147,7 +147,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->insertDelegateEmails(['emails' => ['d@example.com']]);
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -160,7 +160,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->deleteDelegateEmails(['emails' => ['d@example.com']]);
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -174,7 +174,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->detailSiteList();
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -188,7 +188,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->updateDefaultSite(true, 'https://example.webex.com');
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -201,7 +201,7 @@ describe('MeetingPreferences', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $prefs = $laravel_webex->meeting_preferences()->batchRefreshPersonalMeetingRoomID('https://example.webex.com');
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
@@ -216,7 +216,7 @@ describe('MeetingPreferences', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_preferences()->updatePersonalRoomOptions(
             'My Room',
             '1234',

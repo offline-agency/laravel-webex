@@ -15,7 +15,7 @@ describe('MeetingClosedCaptions', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_closed_captions()->listClosedCaptions('m1');
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('MeetingClosedCaptions', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_closed_captions()->listClosedCaptions('m1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('MeetingClosedCaptions', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_closed_captions()->listClosedCaptionSnippets('cc1', 'm1');
 
         expect($list)->toHaveCount(1);
@@ -61,7 +61,7 @@ describe('MeetingClosedCaptions', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_closed_captions()->downloadClosedCaptionSnippets('cc1', 'm1');
 
         expect($result)->toBeInstanceOf(MeetingClosedCaptionsEntity::class);

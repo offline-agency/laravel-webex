@@ -15,7 +15,7 @@ describe('MeetingTranscripts', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_transcripts()->listTranscripts();
 
         expect($list)->toHaveCount(1);
@@ -32,7 +32,7 @@ describe('MeetingTranscripts', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_transcripts()->listTranscripts();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -46,7 +46,7 @@ describe('MeetingTranscripts', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $transcript = $laravel_webex->meeting_transcripts()->downloadTranscript('t1');
 
         expect($transcript)->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -62,7 +62,7 @@ describe('MeetingTranscripts', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_transcripts()->listSnippetsOfTranscript('t1');
 
         expect($list)->toHaveCount(1);
@@ -77,7 +77,7 @@ describe('MeetingTranscripts', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $snippet = $laravel_webex->meeting_transcripts()->detailTranscriptSnippet('t1', 's1');
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -92,7 +92,7 @@ describe('MeetingTranscripts', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $snippet = $laravel_webex->meeting_transcripts()->updateTranscriptSnippet('t1', 's1', 'Updated text');
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -104,7 +104,7 @@ describe('MeetingTranscripts', function () {
             'https://webexapis.com/v1/meetingTranscripts/t1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_transcripts()->destroyTranscript('t1');
 
         expect($result)->toEqual('Transcript deleted');
@@ -119,7 +119,7 @@ describe('MeetingTranscripts', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_transcripts()->destroyTranscript('t1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -134,7 +134,7 @@ describe('MeetingTranscripts', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_transcripts()->updateTranscriptSnippet('t1', 's1', 'Updated');
 
         expect($result)->toBeInstanceOf(Error::class);

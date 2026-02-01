@@ -18,7 +18,7 @@ describe('CallControls', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->dial([
             'callbackNumber' => '+15551234567',
             'destination' => '+15559876543',
@@ -43,7 +43,7 @@ describe('CallControls', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->call_controls()->list();
 
         expect($list)->toHaveCount(1);
@@ -62,7 +62,7 @@ describe('CallControls', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $call = $laravel_webex->call_controls()->detail('call1');
 
         expect($call)->toBeInstanceOf(CallEntity::class);
@@ -78,7 +78,7 @@ describe('CallControls', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->dial([]);
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -92,7 +92,7 @@ describe('CallControls', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->answer(['callId' => 'call1']);
 
         expect($result)->toBeObject();
@@ -104,7 +104,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/reject*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->reject(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -115,7 +115,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/hangup*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->hangup(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -126,7 +126,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/hold*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'held'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->hold(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -137,7 +137,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/resume*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'connected'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->resume(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -148,7 +148,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/mute*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->mute(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -159,7 +159,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/unmute*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->unmute(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -170,7 +170,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/divert*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->divert(['callId' => 'call1', 'destination' => '+15551234567']);
 
         expect($result->success)->toBeTrue();
@@ -181,7 +181,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/transfer*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->transfer(['callId' => 'call1', 'transferTo' => '+15551234567']);
 
         expect($result->success)->toBeTrue();
@@ -192,7 +192,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/park*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->park(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -203,7 +203,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/retrieve*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->retrieve(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -214,7 +214,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/startRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->startRecording(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -225,7 +225,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/stopRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->stopRecording(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -236,7 +236,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/pauseRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->pauseRecording(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -247,7 +247,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/resumeRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->resumeRecording(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -258,7 +258,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/transmitDtmf*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->transmitDtmf(['callId' => 'call1', 'dtmf' => '1']);
 
         expect($result->success)->toBeTrue();
@@ -269,7 +269,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/push*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->push(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -280,7 +280,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/pickup*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->pickup(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -291,7 +291,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/bargeIn*' => Http::response(json_encode((object) ['callId' => 'call1'])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->bargeIn(['callId' => 'call1']);
 
         expect($result->success)->toBeTrue();
@@ -311,7 +311,7 @@ describe('CallControls', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->call_controls()->history();
 
         expect($list)->toHaveCount(1);
@@ -327,7 +327,7 @@ describe('CallControls', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->history();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -342,7 +342,7 @@ describe('CallControls', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->answer(['callId' => 'call1']);
 
         expect($result->success)->toBeFalse();

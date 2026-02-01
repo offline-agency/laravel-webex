@@ -20,7 +20,7 @@ describe('Admin ResourceGroups', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_resource_groups()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin ResourceGroups', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->detail('rg1');
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
@@ -55,7 +55,7 @@ describe('Admin ResourceGroups', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->create(['name' => 'New Resource Group', 'orgId' => 'org1']);
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
@@ -72,7 +72,7 @@ describe('Admin ResourceGroups', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->update('rg1', ['name' => 'Updated Resource Group']);
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
@@ -84,7 +84,7 @@ describe('Admin ResourceGroups', function () {
             'https://webexapis.com/v1/resourceGroups/rg1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_resource_groups()->destroy('rg1');
 
         expect($result)->toBeTrue();
@@ -99,7 +99,7 @@ describe('Admin ResourceGroups', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_resource_groups()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

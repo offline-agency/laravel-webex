@@ -20,7 +20,7 @@ describe('Calling BroadWorksSubscribers', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->broadworks_subscribers()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Calling BroadWorksSubscribers', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $subscriber = $laravel_webex->broadworks_subscribers()->detail('sub1');
 
         expect($subscriber)->toBeInstanceOf(BroadWorksSubscriberEntity::class);
@@ -54,7 +54,7 @@ describe('Calling BroadWorksSubscribers', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->broadworks_subscribers()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

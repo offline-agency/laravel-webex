@@ -15,7 +15,7 @@ describe('Webhooks', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->webhooks()->listWebhooks();
 
         expect($list)->toHaveCount(1);
@@ -32,7 +32,7 @@ describe('Webhooks', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->webhooks()->listWebhooks();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -50,7 +50,7 @@ describe('Webhooks', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $webhook = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', ['meetings'], ['created']);
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
@@ -67,7 +67,7 @@ describe('Webhooks', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $webhook = $laravel_webex->webhooks()->detailWebhook('w1');
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
@@ -83,7 +83,7 @@ describe('Webhooks', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $webhook = $laravel_webex->webhooks()->updateWebhook('w1', 'Updated Webhook', 'https://example.com/updated');
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
@@ -99,7 +99,7 @@ describe('Webhooks', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $webhook = $laravel_webex->webhooks()->updateTrackingCode('w1', 'Alias Updated', 'https://example.com/alias');
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
@@ -111,7 +111,7 @@ describe('Webhooks', function () {
             'https://webexapis.com/v1/webhooks/w1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->webhooks()->destroyWebhook('w1');
 
         expect($result)->toEqual('Webhook deleted');
@@ -126,7 +126,7 @@ describe('Webhooks', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->webhooks()->destroyWebhook('w1');
 
         expect($result)->toBeInstanceOf(Error::class);

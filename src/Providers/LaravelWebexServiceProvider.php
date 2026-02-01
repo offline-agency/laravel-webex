@@ -25,7 +25,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('laravel-webex', function () {
-            return new LaravelWebex();
+            return new LaravelWebex;
         });
 
         $this->loadRoutesFrom(

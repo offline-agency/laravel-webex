@@ -23,7 +23,7 @@ describe('TeamMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->team_memberships()->list(['teamId' => 'team1']);
 
         expect($list)->toHaveCount(1);
@@ -41,7 +41,7 @@ describe('TeamMemberships', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->team_memberships()->list();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -60,7 +60,7 @@ describe('TeamMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->create('team1', 'user@example.com');
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
@@ -80,7 +80,7 @@ describe('TeamMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->detail('tm1');
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
@@ -99,7 +99,7 @@ describe('TeamMemberships', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->update('tm1', ['isModerator' => true]);
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
@@ -111,7 +111,7 @@ describe('TeamMemberships', function () {
             'https://webexapis.com/v1/team/memberships/tm1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->team_memberships()->destroy('tm1');
 
         expect($result)->toBeTrue();

@@ -12,12 +12,12 @@ class TrackingCodes extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'siteUrl'
+            'siteUrl',
         ]);
 
         $response = $this->get('admin/meeting/config/trackingCodes/', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -33,12 +33,12 @@ class TrackingCodes extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'siteUrl'
+            'siteUrl',
         ]);
 
         $response = $this->get('admin/meeting/config/trackingCodes/'.$trackingCodeId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -117,7 +117,7 @@ class TrackingCodes extends AbstractApi
 
         $response = $this->get('admin/meeting/userconfig/trackingCodes', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 

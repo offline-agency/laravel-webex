@@ -21,7 +21,7 @@ describe('Events', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->events()->list();
 
         expect($list)->toHaveCount(1);
@@ -40,7 +40,7 @@ describe('Events', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->events()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

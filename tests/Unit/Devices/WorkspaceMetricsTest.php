@@ -20,7 +20,7 @@ describe('Devices WorkspaceMetrics', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_workspace_metrics()->list();
 
         expect($list)->toHaveCount(1);
@@ -37,7 +37,7 @@ describe('Devices WorkspaceMetrics', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_workspace_metrics()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

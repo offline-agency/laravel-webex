@@ -15,7 +15,7 @@ describe('MeetingChats', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_chats()->listChats('m1');
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('MeetingChats', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_chats()->listChats('m1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -42,7 +42,7 @@ describe('MeetingChats', function () {
             'https://webexapis.com/v1/meetings/postMeetingChats/m1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_chats()->destroyChats('m1');
 
         expect($result)->toEqual('Meeting chats deleted');
@@ -57,7 +57,7 @@ describe('MeetingChats', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_chats()->destroyChats('m1');
 
         expect($result)->toBeInstanceOf(Error::class);

@@ -17,7 +17,7 @@ class Recordings extends AbstractApi
 
         $response = $this->get('recordings', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -37,7 +37,7 @@ class Recordings extends AbstractApi
 
         $response = $this->get('admin/recordings', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -58,7 +58,7 @@ class Recordings extends AbstractApi
 
         $response = $this->get('recordings/'.$recordingId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -69,13 +69,13 @@ class Recordings extends AbstractApi
         string $recordingId,
         ?array $additional_data = []
     ) {
-        $additional_data  = $this->data($additional_data, [
+        $additional_data = $this->data($additional_data, [
             'reason', 'comment',
         ]);
 
         $response = $this->delete('recordings/'.$recordingId, $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -105,7 +105,7 @@ class Recordings extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'restoreAll', 'recordingIds','siteUrl',
+            'hostEmail', 'restoreAll', 'recordingIds', 'siteUrl',
         ]);
 
         $response = $this->post('recordings/restore', $additional_data);
@@ -121,7 +121,7 @@ class Recordings extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'hostEmail', 'purgeAll', 'recordingIds','siteUrl',
+            'hostEmail', 'purgeAll', 'recordingIds', 'siteUrl',
         ]);
 
         $response = $this->post('recordings/purge', $additional_data);

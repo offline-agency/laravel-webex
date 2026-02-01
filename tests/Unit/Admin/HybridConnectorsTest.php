@@ -20,7 +20,7 @@ describe('Admin HybridConnectors', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_hybrid_connectors()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin HybridConnectors', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $connector = $laravel_webex->admin_hybrid_connectors()->detail('hconn1');
 
         expect($connector)->toBeInstanceOf(HybridConnectorEntity::class);
@@ -55,7 +55,7 @@ describe('Admin HybridConnectors', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $connector = $laravel_webex->admin_hybrid_connectors()->create(['name' => 'New Connector', 'clusterId' => 'hc1']);
 
         expect($connector)->toBeInstanceOf(HybridConnectorEntity::class);
@@ -67,7 +67,7 @@ describe('Admin HybridConnectors', function () {
             'https://webexapis.com/v1/hybridConnectors/hconn1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_hybrid_connectors()->destroy('hconn1');
 
         expect($result)->toBeTrue();
@@ -82,7 +82,7 @@ describe('Admin HybridConnectors', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_hybrid_connectors()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

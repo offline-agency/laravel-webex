@@ -19,7 +19,7 @@ describe('Admin Roles', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_roles()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Admin Roles', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $role = $laravel_webex->admin_roles()->detail('role1');
 
         expect($role)->toBeInstanceOf(RoleEntity::class);
@@ -52,7 +52,7 @@ describe('Admin Roles', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_roles()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

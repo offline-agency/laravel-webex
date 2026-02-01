@@ -13,7 +13,7 @@ class MeetingQualities extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max', 'offset'
+            'max', 'offset',
         ]);
 
         $response = $this->get('meeting/qualities', array_merge([

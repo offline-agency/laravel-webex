@@ -21,7 +21,7 @@ describe('Devices Workspaces', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_workspaces()->list();
 
         expect($list)->toHaveCount(1);
@@ -40,7 +40,7 @@ describe('Devices Workspaces', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->detail('dws1');
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
@@ -58,7 +58,7 @@ describe('Devices Workspaces', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->create(['name' => 'New Device Workspace', 'orgId' => 'org1', 'locationId' => 'loc1']);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
@@ -76,7 +76,7 @@ describe('Devices Workspaces', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->update('dws1', ['displayName' => 'Updated Device Workspace']);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
@@ -88,7 +88,7 @@ describe('Devices Workspaces', function () {
             'https://webexapis.com/v1/workspaces/dws1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_workspaces()->destroy('dws1');
 
         expect($result)->toBeTrue();
@@ -103,7 +103,7 @@ describe('Devices Workspaces', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_workspaces()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

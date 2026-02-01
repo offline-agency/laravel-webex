@@ -13,7 +13,7 @@ class MeetingQAndA extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max'
+            'max',
         ]);
 
         $response = $this->get('meetings/q_and_a', array_merge([
@@ -37,7 +37,7 @@ class MeetingQAndA extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'max'
+            'max',
         ]);
 
         $response = $this->get('meetings/q_and_a/'.$questionId.'/answers', array_merge([

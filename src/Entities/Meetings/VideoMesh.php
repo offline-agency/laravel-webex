@@ -4,7 +4,4 @@ namespace Offlineagency\LaravelWebex\Entities\Meetings;
 
 use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
-class VideoMesh extends AbstractEntity
-{
-
-}
+class VideoMesh extends AbstractEntity {}

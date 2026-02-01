@@ -21,7 +21,7 @@ describe('RoomTabs', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->room_tabs()->list('room1');
 
         expect($list)->toHaveCount(1);
@@ -39,7 +39,7 @@ describe('RoomTabs', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->room_tabs()->list('room1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -56,7 +56,7 @@ describe('RoomTabs', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $tab = $laravel_webex->room_tabs()->create('room1', [
             'contentUrl' => 'https://example.com/tab',
             'displayName' => 'New Tab',
@@ -79,7 +79,7 @@ describe('RoomTabs', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $tab = $laravel_webex->room_tabs()->detail('tab1');
 
         expect($tab)->toBeInstanceOf(RoomTabEntity::class);
@@ -98,7 +98,7 @@ describe('RoomTabs', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $tab = $laravel_webex->room_tabs()->update('tab1', [
             'contentUrl' => 'https://example.com/new',
             'displayName' => 'Updated Tab',
@@ -113,7 +113,7 @@ describe('RoomTabs', function () {
             'https://webexapis.com/v1/room/tabs/tab1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->room_tabs()->destroy('tab1');
 
         expect($result)->toBeTrue();

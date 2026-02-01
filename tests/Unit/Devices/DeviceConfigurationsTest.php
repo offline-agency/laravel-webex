@@ -21,7 +21,7 @@ describe('Device Configurations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_configurations()->list();
 
         expect($list)->toHaveCount(1);
@@ -37,7 +37,7 @@ describe('Device Configurations', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_configurations()->update([
             'deviceId' => 'dev1',
             'configurations' => [],
@@ -55,7 +55,7 @@ describe('Device Configurations', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_configurations()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

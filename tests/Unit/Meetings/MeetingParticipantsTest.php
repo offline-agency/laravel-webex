@@ -10,11 +10,11 @@ describe('Meeting Participants', function () {
     it('lists meeting participants', function () {
         Http::fake([
             'meetingParticipants?meetingId=fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getMeetingParticipantsFakeList()
+                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeList()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_list = $laravel_webex->meeting_participants()->list('fake_id');
 
         expect($meeting_participants_list)->toHaveCount(2);
@@ -31,11 +31,11 @@ describe('Meeting Participants', function () {
     it('lists filtered meeting participants', function () {
         Http::fake([
             'meetingParticipants?meetingId=fake_id&hostEmail=fake_email' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getMeetingParticipantsFakeList()
+                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeList()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_list = $laravel_webex->meeting_participants()->list('fake_id', [
             'hostEmail' => 'fake_email',
         ]);
@@ -55,12 +55,12 @@ describe('Meeting Participants', function () {
     it('returns error on meeting participants list failure', function () {
         Http::fake([
             'meetingParticipants?meetingId=fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getErrorOnMeetingsFakeList(),
+                (new MeetingParticipantsFakeResponse)->getErrorOnMeetingsFakeList(),
                 401
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $error_meeting_participants_list = $laravel_webex->meeting_participants()->list('fake_id');
 
         expect($error_meeting_participants_list)->toBeInstanceOf(Error::class);
@@ -72,11 +72,11 @@ describe('Meeting Participants', function () {
     it('gets meeting participants detail', function () {
         Http::fake([
             'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getMeetingParticipantsFakeDetail()
+                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_detail = $laravel_webex->meeting_participants()->detail('fake_id');
 
         expect($meeting_participants_detail)->toBeInstanceOf(MeetingParticipant::class);
@@ -86,11 +86,11 @@ describe('Meeting Participants', function () {
     it('queries meeting participants with email', function () {
         Http::fake([
             'meetingParticipants/query' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getMeetingParticipantsFakeQueryWithEmail()
+                (new MeetingParticipantsFakeResponse)->getMeetingParticipantsFakeQueryWithEmail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_detail = $laravel_webex->meeting_participants()->queryWIthEmail('fake_id');
 
         expect($meeting_participants_detail)->toBeInstanceOf(MeetingParticipant::class);
@@ -100,11 +100,11 @@ describe('Meeting Participants', function () {
     it('updates meeting participants', function () {
         Http::fake([
             'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getUpdatedMeetingParticipantsFakeDetail()
+                (new MeetingParticipantsFakeResponse)->getUpdatedMeetingParticipantsFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_detail = $laravel_webex->meeting_participants()->update('fake_id');
 
         expect($meeting_participants_detail)->toBeInstanceOf(MeetingParticipant::class);
@@ -114,11 +114,11 @@ describe('Meeting Participants', function () {
     it('admits meeting participants', function () {
         Http::fake([
             'meetingParticipants/admit' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getAdmittedMeetingParticipantsFakeDetail()
+                (new MeetingParticipantsFakeResponse)->getAdmittedMeetingParticipantsFakeDetail()
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $meeting_participants_detail = $laravel_webex->meeting_participants()->admit();
 
         expect($meeting_participants_detail)->toBeInstanceOf(MeetingParticipant::class);
@@ -128,12 +128,12 @@ describe('Meeting Participants', function () {
     it('returns error on meeting participants query failure', function () {
         Http::fake([
             'meetingParticipants/query' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getErrorOnFakeQueryWithEmail(),
+                (new MeetingParticipantsFakeResponse)->getErrorOnFakeQueryWithEmail(),
                 401
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $error_meeting_participants_detail = $laravel_webex->meeting_participants()->queryWIthEmail('fake_id');
 
         expect($error_meeting_participants_detail)->toBeInstanceOf(Error::class);
@@ -145,12 +145,12 @@ describe('Meeting Participants', function () {
     it('returns error on update failure', function () {
         Http::fake([
             'meetingParticipants/fake_id' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getErrorOnFakeUpdate(),
+                (new MeetingParticipantsFakeResponse)->getErrorOnFakeUpdate(),
                 401
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $error_meeting_participants_detail = $laravel_webex->meeting_participants()->update('fake_id');
 
         expect($error_meeting_participants_detail)->toBeInstanceOf(Error::class);
@@ -162,12 +162,12 @@ describe('Meeting Participants', function () {
     it('returns error on admit failure', function () {
         Http::fake([
             'meetingParticipants/admit' => Http::response(
-                (new MeetingParticipantsFakeResponse())->getErrorOnFakeAdmit(),
+                (new MeetingParticipantsFakeResponse)->getErrorOnFakeAdmit(),
                 401
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $error_meeting_participants_detail = $laravel_webex->meeting_participants()->admit();
 
         expect($error_meeting_participants_detail)->toBeInstanceOf(Error::class);

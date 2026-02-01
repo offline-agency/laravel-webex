@@ -15,7 +15,7 @@ describe('Rooms', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->rooms()->list();
 
         expect($list)->toHaveCount(1);
@@ -33,7 +33,7 @@ describe('Rooms', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->list();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -48,7 +48,7 @@ describe('Rooms', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->create('New Room');
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
@@ -65,7 +65,7 @@ describe('Rooms', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->detail('r1');
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
@@ -81,7 +81,7 @@ describe('Rooms', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->update('r1', ['title' => 'Updated Room']);
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
@@ -93,7 +93,7 @@ describe('Rooms', function () {
             'https://webexapis.com/v1/rooms/r1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->destroy('r1');
 
         expect($result)->toBeTrue();
@@ -108,7 +108,7 @@ describe('Rooms', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->destroy('r1');
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -122,7 +122,7 @@ describe('Rooms', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->meetingDetails('r1');
 
         expect($result)->toBeObject();
@@ -142,7 +142,7 @@ describe('Rooms', function () {
             ),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination(['max' => 2]);
 
         expect($result)->toBeArray();
@@ -161,7 +161,7 @@ describe('Rooms', function () {
             ]), 400),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->create('New Room');
 
         expect($result)->toBeInstanceOf(Error::class);

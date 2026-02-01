@@ -16,7 +16,7 @@ describe('SessionTypes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->session_types()->listSiteSessionTypes();
 
         expect($list)->toHaveCount(1);
@@ -32,7 +32,7 @@ describe('SessionTypes', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->session_types()->listSiteSessionTypes();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -47,7 +47,7 @@ describe('SessionTypes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->session_types()->listUserSessionType();
 
         expect($list)->toHaveCount(1);
@@ -62,7 +62,7 @@ describe('SessionTypes', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->session_types()->update('https://example.webex.com', ['st1']);
 
         expect($result)->toBeInstanceOf(MeetingEntity::class);

@@ -19,7 +19,7 @@ describe('Calling VoiceMessaging', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->voice_messaging()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Calling VoiceMessaging', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $message = $laravel_webex->voice_messaging()->detail('vm1');
 
         expect($message)->toBeInstanceOf(VoicemailMessageEntity::class);
@@ -52,7 +52,7 @@ describe('Calling VoiceMessaging', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->voice_messaging()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

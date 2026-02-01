@@ -14,7 +14,7 @@ describe('MeetingQualities', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_qualities()->detailQualities('m1');
 
         expect($result)->toBeInstanceOf(MeetingQualitiesEntity::class);
@@ -29,7 +29,7 @@ describe('MeetingQualities', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->meeting_qualities()->detailQualities('m1');
 
         expect($result)->toBeInstanceOf(Error::class);

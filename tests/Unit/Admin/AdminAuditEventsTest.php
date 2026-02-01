@@ -20,7 +20,7 @@ describe('AdminAuditEvents', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_audit_events()->list();
 
         expect($list)->toHaveCount(1);
@@ -37,7 +37,7 @@ describe('AdminAuditEvents', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_audit_events()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

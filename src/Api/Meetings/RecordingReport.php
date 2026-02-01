@@ -17,7 +17,7 @@ class RecordingReport extends AbstractApi
 
         $response = $this->get('recordingReport/accessSummary', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -40,7 +40,7 @@ class RecordingReport extends AbstractApi
             'recordingId' => $recordingId,
         ], $additional_data));
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -56,7 +56,7 @@ class RecordingReport extends AbstractApi
 
         $response = $this->get('recordingReport/meetingArchiveSummaries', $additional_data);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 
@@ -72,7 +72,7 @@ class RecordingReport extends AbstractApi
     ) {
         $response = $this->get('recordingReport/meetingArchives/'.$archiveId, []);
 
-        if (!$response->success) {
+        if (! $response->success) {
             return new Error($response->data);
         }
 

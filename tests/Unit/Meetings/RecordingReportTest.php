@@ -15,7 +15,7 @@ describe('RecordingReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recording_report()->listRecordingAuditReportSummaries();
 
         expect($list)->toHaveCount(1);
@@ -31,7 +31,7 @@ describe('RecordingReport', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recording_report()->listRecordingAuditReportSummaries();
 
         expect($result)->toBeInstanceOf(Error::class);
@@ -45,7 +45,7 @@ describe('RecordingReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recording_report()->detailRecordAuditReport('rec1');
 
         expect($result)->toBeInstanceOf(RecordingReportEntity::class);
@@ -60,7 +60,7 @@ describe('RecordingReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recording_report()->listArchiveSummaries();
 
         expect($list)->toHaveCount(1);
@@ -75,7 +75,7 @@ describe('RecordingReport', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->recording_report()->detailArchive('arch1');
 
         expect($result)->toBeInstanceOf(RecordingReportEntity::class);

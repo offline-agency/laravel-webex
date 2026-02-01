@@ -19,7 +19,7 @@ describe('Admin ReportTemplates', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_report_templates()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Admin ReportTemplates', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $template = $laravel_webex->admin_report_templates()->detail('tpl1');
 
         expect($template)->toBeInstanceOf(ReportTemplateEntity::class);
@@ -52,7 +52,7 @@ describe('Admin ReportTemplates', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_report_templates()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

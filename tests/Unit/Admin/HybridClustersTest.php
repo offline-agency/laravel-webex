@@ -19,7 +19,7 @@ describe('Admin HybridClusters', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_hybrid_clusters()->list();
 
         expect($list)->toHaveCount(1);
@@ -36,7 +36,7 @@ describe('Admin HybridClusters', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $cluster = $laravel_webex->admin_hybrid_clusters()->detail('hc1');
 
         expect($cluster)->toBeInstanceOf(HybridClusterEntity::class);
@@ -52,7 +52,7 @@ describe('Admin HybridClusters', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $cluster = $laravel_webex->admin_hybrid_clusters()->create(['name' => 'New Cluster']);
 
         expect($cluster)->toBeInstanceOf(HybridClusterEntity::class);
@@ -64,7 +64,7 @@ describe('Admin HybridClusters', function () {
             'https://webexapis.com/v1/hybridClusters/hc1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_hybrid_clusters()->destroy('hc1');
 
         expect($result)->toBeTrue();
@@ -79,7 +79,7 @@ describe('Admin HybridClusters', function () {
             ]), 403),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_hybrid_clusters()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

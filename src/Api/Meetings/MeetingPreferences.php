@@ -12,7 +12,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences', $additional_data);
@@ -28,7 +28,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences/personalMeetingRoom', $additional_data);
@@ -75,7 +75,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences/audio', $additional_data);
@@ -91,7 +91,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences/video', $additional_data);
@@ -108,11 +108,11 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->put('meetingPreferences/video/', array_merge([
-            'videoDevices' => $videoDevices
+            'videoDevices' => $videoDevices,
         ], $additional_data));
 
         if (! $response->success) {
@@ -126,7 +126,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences/schedulingOptions', $additional_data);
@@ -146,14 +146,14 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl', 'enabledWebexAssistantByDefault', 'delegateEmails'
+            'userEmail', 'siteUrl', 'enabledWebexAssistantByDefault', 'delegateEmails',
         ]);
 
         $response = $this->put('meetingPreferences/schedulingOptions/', array_merge([
             'videoDevices' => $videoDevices,
             'enabledJoinBeforeHost' => $enabledJoinBeforeHost,
             'joinBeforeHostMinutes' => $joinBeforeHostMinutes,
-            'enabledAutoShareRecording' => $enabledAutoShareRecording
+            'enabledAutoShareRecording' => $enabledAutoShareRecording,
         ], $additional_data));
 
         if (! $response->success) {
@@ -167,7 +167,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl', 'emails'
+            'userEmail', 'siteUrl', 'emails',
         ]);
 
         $response = $this->post('meetingPreferences/schedulingOptions/delegateEmails/insert/', $additional_data);
@@ -183,7 +183,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl', 'emails'
+            'userEmail', 'siteUrl', 'emails',
         ]);
 
         $response = $this->post('meetingPreferences/schedulingOptions/delegateEmails/delete/', $additional_data);
@@ -199,7 +199,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail', 'siteUrl'
+            'userEmail', 'siteUrl',
         ]);
 
         $response = $this->get('meetingPreferences/sites', $additional_data);
@@ -217,7 +217,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'userEmail'
+            'userEmail',
         ]);
 
         $response = $this->put('meetingPreferences/sites/', array_merge([
@@ -237,7 +237,7 @@ class MeetingPreferences extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'personalMeetingRoomIds'
+            'personalMeetingRoomIds',
         ]);
 
         $response = $this->post('meetingPreferences/personalMeetingRoom/refreshId/', array_merge([

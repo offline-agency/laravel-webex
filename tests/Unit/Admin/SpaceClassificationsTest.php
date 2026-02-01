@@ -20,7 +20,7 @@ describe('Admin SpaceClassifications', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_space_classifications()->list();
 
         expect($list)->toHaveCount(1);
@@ -38,7 +38,7 @@ describe('Admin SpaceClassifications', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $classification = $laravel_webex->admin_space_classifications()->detail('sc1');
 
         expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
@@ -55,7 +55,7 @@ describe('Admin SpaceClassifications', function () {
             ])),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $classification = $laravel_webex->admin_space_classifications()->create(['name' => 'New Classification', 'orgId' => 'org1']);
 
         expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
@@ -67,7 +67,7 @@ describe('Admin SpaceClassifications', function () {
             'https://webexapis.com/v1/spaceClassifications/sc1*' => Http::response('', 204),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_space_classifications()->destroy('sc1');
 
         expect($result)->toBeTrue();
@@ -82,7 +82,7 @@ describe('Admin SpaceClassifications', function () {
             ]), 401),
         ]);
 
-        $laravel_webex = new LaravelWebex();
+        $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_space_classifications()->list();
 
         expect($result)->toBeInstanceOf(Error::class);

@@ -4,7 +4,4 @@ namespace Offlineagency\LaravelWebex\Entities\Meetings;
 
 use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
-class MeetingClosedCaptions extends AbstractEntity
-{
-
-}
+class MeetingClosedCaptions extends AbstractEntity {}

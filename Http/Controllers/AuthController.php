@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function auth(): Response
     {
-        event(new SuccessfulAuthentication());
+        event(new SuccessfulAuthentication);
 
         return response('OK', 200);
     }

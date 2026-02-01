@@ -4,26 +4,22 @@ namespace Offlineagency\LaravelWebex;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingChats;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingClosedCaptions;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingInvitee;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingMessages;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingPolls;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingPreferences;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingQAndA;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingQualities;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingTranscripts;
-use Offlineagency\LaravelWebex\Api\Meetings\MeetingsSummaryReport;
-use Offlineagency\LaravelWebex\Api\Meetings\People;
-use Offlineagency\LaravelWebex\Api\Meetings\RecordingReport;
-use Offlineagency\LaravelWebex\Api\Meetings\Recordings;
-use Offlineagency\LaravelWebex\Api\Meetings\SessionTypes;
-use Offlineagency\LaravelWebex\Api\Meetings\TrackingCodes;
-use Offlineagency\LaravelWebex\Api\Meetings\VideoMesh;
-use Offlineagency\LaravelWebex\Api\Meetings\Webhooks;
 use Offlineagency\LaravelWebex\Api\Admin\AdminAuditEvents;
+use Offlineagency\LaravelWebex\Api\Admin\HistoricalAnalytics as AdminHistoricalAnalytics;
+use Offlineagency\LaravelWebex\Api\Admin\HybridClusters;
+use Offlineagency\LaravelWebex\Api\Admin\HybridConnectors;
+use Offlineagency\LaravelWebex\Api\Admin\Licenses;
+use Offlineagency\LaravelWebex\Api\Admin\Locations;
+use Offlineagency\LaravelWebex\Api\Admin\Organizations;
+use Offlineagency\LaravelWebex\Api\Admin\Reports;
+use Offlineagency\LaravelWebex\Api\Admin\ReportTemplates;
+use Offlineagency\LaravelWebex\Api\Admin\ResourceGroupMemberships;
+use Offlineagency\LaravelWebex\Api\Admin\ResourceGroups;
+use Offlineagency\LaravelWebex\Api\Admin\Roles;
+use Offlineagency\LaravelWebex\Api\Admin\SpaceClassifications;
+use Offlineagency\LaravelWebex\Api\Admin\WorkspaceLocations;
+use Offlineagency\LaravelWebex\Api\Admin\WorkspaceMetrics;
+use Offlineagency\LaravelWebex\Api\Admin\Workspaces as AdminWorkspaces;
 use Offlineagency\LaravelWebex\Api\Calling\BroadWorksEnterprises;
 use Offlineagency\LaravelWebex\Api\Calling\BroadWorksSubscribers;
 use Offlineagency\LaravelWebex\Api\Calling\CallControls;
@@ -34,27 +30,31 @@ use Offlineagency\LaravelWebex\Api\Devices\WorkspaceLocations as DeviceWorkspace
 use Offlineagency\LaravelWebex\Api\Devices\WorkspaceMetrics as DeviceWorkspaceMetrics;
 use Offlineagency\LaravelWebex\Api\Devices\Workspaces as DeviceWorkspaces;
 use Offlineagency\LaravelWebex\Api\Devices\Xapi;
-use Offlineagency\LaravelWebex\Api\Admin\HistoricalAnalytics as AdminHistoricalAnalytics;
-use Offlineagency\LaravelWebex\Api\Admin\HybridClusters;
-use Offlineagency\LaravelWebex\Api\Admin\HybridConnectors;
-use Offlineagency\LaravelWebex\Api\Admin\Licenses;
-use Offlineagency\LaravelWebex\Api\Admin\Locations;
-use Offlineagency\LaravelWebex\Api\Admin\Organizations;
-use Offlineagency\LaravelWebex\Api\Admin\ReportTemplates;
-use Offlineagency\LaravelWebex\Api\Admin\Reports;
-use Offlineagency\LaravelWebex\Api\Admin\ResourceGroupMemberships;
-use Offlineagency\LaravelWebex\Api\Admin\ResourceGroups;
-use Offlineagency\LaravelWebex\Api\Admin\Roles;
-use Offlineagency\LaravelWebex\Api\Admin\SpaceClassifications;
-use Offlineagency\LaravelWebex\Api\Admin\WorkspaceLocations;
-use Offlineagency\LaravelWebex\Api\Admin\WorkspaceMetrics;
-use Offlineagency\LaravelWebex\Api\Admin\Workspaces as AdminWorkspaces;
+use Offlineagency\LaravelWebex\Api\Meetings\Meeting;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingChats;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingClosedCaptions;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingInvitee;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingMessages;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingParticipant;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingPolls;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingPreferences;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingQAndA;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingQualities;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingsSummaryReport;
+use Offlineagency\LaravelWebex\Api\Meetings\MeetingTranscripts;
+use Offlineagency\LaravelWebex\Api\Meetings\People;
+use Offlineagency\LaravelWebex\Api\Meetings\RecordingReport;
+use Offlineagency\LaravelWebex\Api\Meetings\Recordings;
+use Offlineagency\LaravelWebex\Api\Meetings\SessionTypes;
+use Offlineagency\LaravelWebex\Api\Meetings\TrackingCodes;
+use Offlineagency\LaravelWebex\Api\Meetings\VideoMesh;
+use Offlineagency\LaravelWebex\Api\Meetings\Webhooks;
 use Offlineagency\LaravelWebex\Api\Messages\AttachmentActions;
 use Offlineagency\LaravelWebex\Api\Messages\Events;
 use Offlineagency\LaravelWebex\Api\Messages\Memberships;
 use Offlineagency\LaravelWebex\Api\Messages\Messages;
-use Offlineagency\LaravelWebex\Api\Messages\RoomTabs;
 use Offlineagency\LaravelWebex\Api\Messages\Rooms;
+use Offlineagency\LaravelWebex\Api\Messages\RoomTabs;
 use Offlineagency\LaravelWebex\Api\Messages\TeamMemberships;
 use Offlineagency\LaravelWebex\Api\Messages\Teams;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
@@ -70,7 +70,7 @@ class LaravelWebex
     {
         $this->setBaseUrl();
 
-        event(new AuthenticationRequested());
+        event(new AuthenticationRequested);
 
         $this->setHeader();
     }
@@ -347,7 +347,7 @@ class LaravelWebex
 
     private function setHeader(): void
     {
-        event(new SuccessfulAuthentication());
+        event(new SuccessfulAuthentication);
 
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer '.config('webex.bearer'),
