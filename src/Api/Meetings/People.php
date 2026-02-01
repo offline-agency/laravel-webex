@@ -21,11 +21,11 @@ class People extends AbstractApi
             return new Error($response->data);
         }
 
-        $people = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($peoples) {
-            return new PeopleEntity($peoples);
-        }, $people->items);
+        return array_map(function ($person) {
+            return new PeopleEntity($person);
+        }, $items);
     }
 
     public function createPerson(
@@ -90,7 +90,7 @@ class People extends AbstractApi
     public function destroyPerson(
         string $personId
     ) {
-        $response = $this->delete('meetingTranscripts/'.$personId, []);
+        $response = $this->delete('people/'.$personId, []);
 
         if (! $response->success) {
             return new Error($response->data);

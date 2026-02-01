@@ -21,11 +21,11 @@ class MeetingTranscripts extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingTranscripts = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meetingTranscript) {
             return new MeetingTranscriptsEntity($meetingTranscript);
-        }, $meetingTranscripts->items);
+        }, $items);
     }
 
     public function listTranscriptsForComplianceOfficer(
@@ -44,11 +44,11 @@ class MeetingTranscripts extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingTranscripts = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meetingTranscript) {
             return new MeetingTranscriptsEntity($meetingTranscript);
-        }, $meetingTranscripts->items);
+        }, $items);
     }
 
     public function downloadTranscript(
@@ -76,17 +76,17 @@ class MeetingTranscripts extends AbstractApi
             'max',
         ]);
 
-        $response = $this->get('meetingTranscripts'.$transcriptId, $additional_data);
+        $response = $this->get('meetingTranscripts/'.$transcriptId.'/snippets', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
         }
 
-        $meetingTranscripts = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meetingTranscript) {
             return new MeetingTranscriptsEntity($meetingTranscript);
-        }, $meetingTranscripts->items);
+        }, $items);
     }
 
     public function detailTranscriptSnippet(

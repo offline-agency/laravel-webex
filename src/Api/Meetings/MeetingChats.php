@@ -17,27 +17,25 @@ class MeetingChats extends AbstractApi
         ]);
 
         $response = $this->get('meetings/postMeetingChats', array_merge([
-            'meeting_Id' => $meetingId
-            ], $additional_data));
+            'meetingId' => $meetingId,
+        ], $additional_data));
 
         if (! $response->success) {
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingChatsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function destroyChats(
         string $meeting_id
     ) {
 
-        $response = $this->delete('meetings/postMeetingChats'.$meeting_id, [
-            'meeting_Id' => $meeting_id
-        ]);
+        $response = $this->delete('meetings/postMeetingChats/'.$meeting_id, []);
 
         if (! $response->success) {
             return new Error($response->data);

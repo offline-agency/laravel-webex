@@ -22,11 +22,11 @@ class MeetingParticipant extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_participants = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_participant) {
             return new MeetingParticipantEntity($meeting_participant);
-        }, $meeting_participants->items);
+        }, $items);
     }
 
     public function queryWIthEmail(
@@ -86,9 +86,7 @@ class MeetingParticipant extends AbstractApi
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
-            'items' => [
-                'participantId',
-            ],
+            'items',
         ]);
 
         $response = $this->post('meetingParticipants/admit', $additional_data);
