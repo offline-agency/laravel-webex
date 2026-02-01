@@ -1,13 +1,12 @@
 <?php
 
-namespace Offlineagency\LaravelWebex\Tests\Unit;
+describe('Authentication', function () {
+    it('passes auth placeholder', function () {
+        expect(true)->toBeTrue();
+    });
 
-use Offlineagency\LaravelWebex\Tests\TestCase;
-
-class AuthenticationTest extends TestCase
-{
-    public function test_auth()
-    {
-        $this->assertTrue(true);
-    }
-}
+    it('asserts thrown exception with expect()->toThrow()', function () {
+        expect(fn () => throw new \RuntimeException('expected message'))
+            ->toThrow(\RuntimeException::class, 'expected message');
+    });
+});

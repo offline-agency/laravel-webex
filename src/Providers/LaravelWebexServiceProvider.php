@@ -7,16 +7,16 @@ use Offlineagency\LaravelWebex\LaravelWebex;
 
 class LaravelWebexServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../../config/webex.php' => config_path('webex.php'),
-            ], 'config');
+            ], ['config', 'webex-config']);
         }
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../../config/webex.php',
@@ -25,7 +25,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
 
         // Register the main class to use with the facade
         $this->app->singleton('laravel-webex', function () {
-            return new LaravelWebex();
+            return new LaravelWebex;
         });
 
         $this->loadRoutesFrom(

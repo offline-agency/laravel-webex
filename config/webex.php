@@ -14,6 +14,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Request timeout
+    |--------------------------------------------------------------------------
+    |
+    | Timeout in seconds for API requests. Prevents indefinite hangs.
+    |
+    */
+    'timeout' => env('WEBEX_TIMEOUT', 30),
+
+    /*
+    |--------------------------------------------------------------------------
     | Bearer
     |--------------------------------------------------------------------------
     |
@@ -28,7 +38,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Access token suffix to make request.
-    | Gran type for request body
+    | Grant type for request body
     |
     */
     'access_token' => [
@@ -42,7 +52,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Refresh token suffix to make request.
-    | Gran type for request body
+    | Grant type for request body
     |
     */
     'refresh_token' => [
@@ -59,9 +69,9 @@ return [
     |
     */
     'client' => [
-        'id' => '',
-        'secret' => '',
-        'code' => '',
+        'id' => env('WEBEX_CLIENT_ID', ''),
+        'secret' => env('WEBEX_CLIENT_SECRET', ''),
+        'code' => env('WEBEX_CLIENT_CODE', ''),
     ],
 
     /*
@@ -69,8 +79,18 @@ return [
     | Redirect uri
     |--------------------------------------------------------------------------
     |
-    | Redirect url
+    | Redirect url for OAuth callback.
     |
     */
-    'redirect_uri' => '',
+    'redirect_uri' => env('WEBEX_REDIRECT_URI', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Auth route middleware
+    |--------------------------------------------------------------------------
+    |
+    | Middleware applied to the /auth route (e.g. throttle). Set to [] to disable.
+    |
+    */
+    'auth_route_middleware' => ['throttle:60,1'],
 ];

@@ -4,10 +4,13 @@ namespace Offlineagency\LaravelWebex\Entities;
 
 abstract class AbstractEntity
 {
+    /**
+     * @param  object|array|null  $parameters  Data to populate the entity. Pass null to build an empty entity.
+     */
     public function __construct($parameters)
     {
         if (is_null($parameters)) {
-            return null;
+            $parameters = [];
         }
 
         if (is_object($parameters)) {

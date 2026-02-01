@@ -27,3 +27,4 @@ after.sh
 
 # PHPUnit
 .phpunit.result.cache
+.phpunit.cache/

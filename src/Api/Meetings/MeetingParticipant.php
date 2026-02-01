@@ -22,11 +22,30 @@ class MeetingParticipant extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_participants = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_participant) {
             return new MeetingParticipantEntity($meeting_participant);
-        }, $meeting_participants->items);
+        }, $items);
+    }
+
+    public function queryWIthEmail(
+        string $meetingId,
+        ?array $additional_data = []
+    ) {
+        $additional_data = $this->data($additional_data, [
+            'meetingStartTimeFrom', 'meetingStartTimeTo', 'hostEmail', 'emails', 'joinTimeFrom', 'joinTimeTo',
+        ]);
+
+        $response = $this->post('meetingParticipants/query', array_merge([
+            'meetingId' => $meetingId,
+        ], $additional_data));
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        return new MeetingParticipantEntity($response->data);
     }
 
     public function detail(
@@ -38,6 +57,39 @@ class MeetingParticipant extends AbstractApi
         ]);
 
         $response = $this->get('meetingParticipants/'.$meetingParticipantId, $additional_data);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        return new MeetingParticipantEntity($response->data);
+    }
+
+    public function update(
+        string $participantId,
+        ?array $additional_data = []
+    ) {
+        $additional_data = $this->data($additional_data, [
+            'muted', 'admit', 'expel',
+        ]);
+
+        $response = $this->post('meetingParticipants/'.$participantId, $additional_data);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        return new MeetingParticipantEntity($response->data);
+    }
+
+    public function admit(
+        ?array $additional_data = []
+    ) {
+        $additional_data = $this->data($additional_data, [
+            'items',
+        ]);
+
+        $response = $this->post('meetingParticipants/admit', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);

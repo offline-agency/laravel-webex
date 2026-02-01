@@ -1,15 +1,10 @@
 <?php
 
-namespace Offlineagency\LaravelWebex\Tests\Feature\Http\Controllers;
+describe('AuthController', function () {
+    it('auth route returns 200 and OK', function () {
+        $response = $this->get(route('auth'));
 
-use Offlineagency\LaravelWebex\Tests\TestCase;
-
-class AuthControllerTest extends TestCase
-{
-    public function test_auth_route()
-    {
-        $this->get(route('auth'));
-
-        $this->assertTrue(true);
-    }
-}
+        $response->assertStatus(200);
+        $response->assertSee('OK');
+    });
+});
