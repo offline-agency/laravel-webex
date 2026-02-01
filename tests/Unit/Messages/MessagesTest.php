@@ -64,6 +64,35 @@ describe('Messages', function () {
         expect($result->message)->toEqual($message);
     })->with('messages_error_responses');
 
+    it('returns error with safe defaults when response body is null or empty', function () {
+        Http::fake([
+            'https://webexapis.com/v1/messages*' => Http::response('', 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex();
+        $result = $laravel_webex->messages()->list('fake_id');
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Unknown error');
+        expect($result->errors)->toEqual([]);
+    });
+
+    it('lists messages via container singleton', function () {
+        Http::fake([
+            'https://webexapis.com/v1/messages*' => Http::response(
+                (new MessagesFakeResponse())->getMessagesFakeList()
+            ),
+        ]);
+
+        $laravel_webex = app('laravel-webex');
+        expect($laravel_webex)->toBeInstanceOf(LaravelWebex::class);
+
+        $messages_list = $laravel_webex->messages()->list('fake_id');
+
+        expect($messages_list)->toHaveCount(2);
+        expect($messages_list[0])->toBeInstanceOf(MessageEntity::class);
+    });
+
     it('lists messages with pagination and returns next link', function () {
         $fake = new MessagesFakeResponse();
         Http::fake([
