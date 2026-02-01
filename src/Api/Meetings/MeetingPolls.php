@@ -19,11 +19,11 @@ class MeetingPolls extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingPolls = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($meetingPolls) {
-            return new MeetingPollsEntity($meetingPolls);
-        }, $meetingPolls->items);
+        return array_map(function ($poll) {
+            return new MeetingPollsEntity($poll);
+        }, $items);
     }
 
     public function detailPollResults(
@@ -63,10 +63,10 @@ class MeetingPolls extends AbstractApi
             return new Error($response->data);
         }
 
-        $listRespondentsQuestion = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($listRespondentsQuestion) {
-            return new MeetingPollsEntity($listRespondentsQuestion);
-        }, $listRespondentsQuestion->items);
+        return array_map(function ($respondent) {
+            return new MeetingPollsEntity($respondent);
+        }, $items);
     }
 }

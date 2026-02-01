@@ -61,11 +61,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function listSeries(
@@ -84,30 +84,12 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
-
-    //TODO check function patch
-    /*public function patch(
-        string $meetingId,
-        ?array $additional_data = []
-    ) {
-        $additional_data = $this->data($additional_data, [
-            'title', 'agenda', 'password', 'start', 'end', 'timezone', 'recurrence', 'enabledAutoRecordMeeting', 'allowAnyUserToBeCoHost', 'enabledJoinBeforeHost', 'enableConnectAudioBeforeHost', 'joinBeforeHostMinutes', 'excludePassword', 'publicMeeting', 'reminderTime', 'sessionTypeId', 'scheduledType', 'enabledWebcastView', 'panelistPassword', 'enableAutomaticLock', 'automaticLockMinutes', 'allowFirstUserToBeCoHost', 'allowAuthenticatedDevices', 'sendEmail', 'hostEmail', 'siteUrl', 'registration', 'integrationTags',
-        ]);
-
-        $response = $this->put('meetings/'.$meetingId, $additional_data);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
-    }*/
 
     public function update(
         string $meeting_id,
@@ -181,11 +163,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function detailTemplate(
@@ -251,11 +233,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function detailSessionType(
@@ -394,11 +376,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function queryRegistrants(
@@ -531,11 +513,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function updateInterpreter(
@@ -588,11 +570,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function updateBreakoutSessions(
@@ -655,11 +637,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function detailSurveyLinks(
@@ -705,11 +687,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function listTrackingCodes(
@@ -728,11 +710,11 @@ class Meeting extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting) {
             return new MeetingsEntity($meeting);
-        }, $meetings->items);
+        }, $items);
     }
 
     public function reassignToNewHost(

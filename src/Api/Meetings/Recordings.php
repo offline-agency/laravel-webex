@@ -21,11 +21,11 @@ class Recordings extends AbstractApi
             return new Error($response->data);
         }
 
-        $recordings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($recording) {
             return new RecordingsEntity($recording);
-        }, $recordings->items);
+        }, $items);
     }
 
     public function listRecordingsForAnAdminOrComplianceOfficer(
@@ -41,11 +41,11 @@ class Recordings extends AbstractApi
             return new Error($response->data);
         }
 
-        $recordings = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($recording) {
             return new RecordingsEntity($recording);
-        }, $recordings->items);
+        }, $items);
     }
 
     public function detailRecording(

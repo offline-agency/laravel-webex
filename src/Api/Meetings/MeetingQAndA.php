@@ -24,11 +24,11 @@ class MeetingQAndA extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingQAndA = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($meetingQAndA) {
-            return new MeetingQAndAEntity($meetingQAndA);
-        }, $meetingQAndA->items);
+        return array_map(function ($item) {
+            return new MeetingQAndAEntity($item);
+        }, $items);
     }
 
     public function listAnswersOfAQuestion(
@@ -48,10 +48,10 @@ class MeetingQAndA extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingQAndA = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($meetingQAndA) {
-            return new MeetingQAndAEntity($meetingQAndA);
-        }, $meetingQAndA->items);
+        return array_map(function ($item) {
+            return new MeetingQAndAEntity($item);
+        }, $items);
     }
 }

@@ -24,11 +24,11 @@ class MeetingsSummaryReport extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingQAndA = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($meetingQAndA) {
-            return new MeetingsSummaryReportEntity($meetingQAndA);
-        }, $meetingQAndA->items);
+        return array_map(function ($report) {
+            return new MeetingsSummaryReportEntity($report);
+        }, $items);
     }
 
     public function listAttendeeReports(
@@ -47,10 +47,10 @@ class MeetingsSummaryReport extends AbstractApi
             return new Error($response->data);
         }
 
-        $meetingQAndA = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($meetingQAndA) {
-            return new MeetingsSummaryReportEntity($meetingQAndA);
-        }, $meetingQAndA->items);
+        return array_map(function ($report) {
+            return new MeetingsSummaryReportEntity($report);
+        }, $items);
     }
 }

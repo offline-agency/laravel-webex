@@ -21,11 +21,11 @@ class Webhooks extends AbstractApi
             return new Error($response->data);
         }
 
-        $webhooks = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($webhook) {
             return new WebhooksEntity($webhook);
-        }, $webhooks->items);
+        }, $items);
     }
 
     public function createWebhook(
@@ -65,7 +65,12 @@ class Webhooks extends AbstractApi
         return new WebhooksEntity($response->data);
     }
 
-    public function updateTrackingCode(
+    /**
+     * Update a webhook (name, targetUrl, secret, status).
+     *
+     * @return WebhooksEntity|Error
+     */
+    public function updateWebhook(
         string $webhookId,
         string $name,
         string $targetUrl,
@@ -85,6 +90,20 @@ class Webhooks extends AbstractApi
         }
 
         return new WebhooksEntity($response->data);
+    }
+
+    /**
+     * @deprecated Use updateWebhook() instead. This method name was misleading; it updates the webhook, not a tracking code.
+     *
+     * @return WebhooksEntity|Error
+     */
+    public function updateTrackingCode(
+        string $webhookId,
+        string $name,
+        string $targetUrl,
+        ?array $additional_data = []
+    ) {
+        return $this->updateWebhook($webhookId, $name, $targetUrl, $additional_data);
     }
 
     public function destroyWebhook(

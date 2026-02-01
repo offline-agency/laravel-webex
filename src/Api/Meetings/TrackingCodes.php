@@ -21,11 +21,11 @@ class TrackingCodes extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($TrackingCode) {
             return new TrackingCodesEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        }, $items);
     }
 
     public function detailTrackingCode(

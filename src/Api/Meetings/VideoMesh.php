@@ -25,11 +25,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailClusterAvailability(
@@ -64,11 +64,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailNodeAvailability(
@@ -103,11 +103,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function listMediaHealthMonitoringToolResultsV2(
@@ -128,11 +128,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailMediaHealthMonitoringToolClusterResults(
@@ -226,11 +226,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function listClusterRedirectDetails(
@@ -248,11 +248,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailClusterRedirectDetails(
@@ -288,11 +288,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailClusterUtilizationDetails(
@@ -328,11 +328,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function listReachabilityTestResultsV2(
@@ -353,11 +353,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailReachabilityTestResultsForCluster(
@@ -447,11 +447,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailCluster(
@@ -547,11 +547,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailNetworkTestResultsForCluster(
@@ -611,11 +611,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailClusterClientTypeDistributionDetails(
@@ -651,11 +651,11 @@ class VideoMesh extends AbstractApi
             return new Error($response->data);
         }
 
-        $TrackingCodes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
-        return array_map(function ($TrackingCode) {
-            return new VideoMeshEntity($TrackingCode);
-        }, $TrackingCodes->items);
+        return array_map(function ($item) {
+            return new VideoMeshEntity($item);
+        }, $items);
     }
 
     public function detailEventThresholdConfiguration(

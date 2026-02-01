@@ -19,11 +19,11 @@ class MeetingClosedCaptions extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingClosedCaptionsEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
     public function listClosedCaptionSnippets(
@@ -38,11 +38,11 @@ class MeetingClosedCaptions extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingClosedCaptionsEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
     public function downloadClosedCaptionSnippets(

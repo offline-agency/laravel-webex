@@ -24,11 +24,11 @@ class MeetingInvitee extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingInviteeEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
     public function detail(
@@ -85,11 +85,11 @@ class MeetingInvitee extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingInviteeEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
     public function update(

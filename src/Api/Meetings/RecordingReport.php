@@ -21,11 +21,11 @@ class RecordingReport extends AbstractApi
             return new Error($response->data);
         }
 
-        $recordingReports = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($recordingReport) {
             return new RecordingReportEntity($recordingReport);
-        }, $recordingReports->items);
+        }, $items);
     }
 
     public function detailRecordAuditReport(
@@ -60,11 +60,11 @@ class RecordingReport extends AbstractApi
             return new Error($response->data);
         }
 
-        $recordingReports = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($recordingReport) {
             return new RecordingReportEntity($recordingReport);
-        }, $recordingReports->items);
+        }, $items);
     }
 
     public function detailArchive(

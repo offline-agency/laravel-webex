@@ -22,11 +22,11 @@ class SessionTypes extends AbstractApi
             return new Error($response->data);
         }
 
-        $sessionTypes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($sessionType) {
             return new SessionTypesEntity($sessionType);
-        }, $sessionTypes->items);
+        }, $items);
     }
 
     public function listUserSessionType(
@@ -42,11 +42,11 @@ class SessionTypes extends AbstractApi
             return new Error($response->data);
         }
 
-        $sessionTypes = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($sessionType) {
             return new SessionTypesEntity($sessionType);
-        }, $sessionTypes->items);
+        }, $items);
     }
 
     public function update(
