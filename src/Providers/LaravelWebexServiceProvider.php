@@ -12,7 +12,7 @@ class LaravelWebexServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../../config/webex.php' => config_path('webex.php'),
-            ], 'config');
+            ], ['config', 'webex-config']);
         }
     }
 
