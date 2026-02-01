@@ -38,8 +38,8 @@ jobs:
               uses: actions/cache@v4
               with:
                 path: ${{ steps.composer-cache.outputs.dir }}
-                key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                restore-keys: ${{ matrix.os }}-composer-
+                key: ${{ matrix.os }}-composer-${{ matrix.php }}-${{ matrix.laravel }}-${{ hashFiles('**/composer.lock') }}
+                restore-keys: ${{ matrix.os }}-composer-${{ matrix.php }}-${{ matrix.laravel }}-
             - name: Install dependencies
               run: |
                 composer require "laravel/framework:^${{ matrix.laravel }}" --no-interaction --no-update
