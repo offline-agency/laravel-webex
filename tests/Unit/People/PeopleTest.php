@@ -142,4 +142,36 @@ describe('People', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('gets current user (detail own)', function () {
+        Http::fake([
+            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
+                'id' => 'me1',
+                'emails' => ['me@example.com'],
+                'displayName' => 'Current User',
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $person = $laravel_webex->people()->detailOwn();
+
+        expect($person)->toBeInstanceOf(PeopleEntity::class);
+        expect($person->id)->toEqual('me1');
+        expect($person->displayName)->toEqual('Current User');
+    });
+
+    it('returns error on detail own failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
+                'message' => 'Unauthorized',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->people()->detailOwn();
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
 });

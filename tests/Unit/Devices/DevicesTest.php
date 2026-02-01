@@ -51,6 +51,21 @@ describe('Devices', function () {
         expect($device->id)->toEqual('dev1');
     });
 
+    it('creates activation code', function () {
+        Http::fake([
+            'https://webexapis.com/v1/devices/activationCode*' => Http::response(json_encode((object) [
+                'activationCode' => 'CODE123',
+                'expiration' => '2024-12-31T23:59:59Z',
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->devices()->createActivationCode(['placeId' => 'place1']);
+
+        expect($result)->toBeObject();
+        expect($result->activationCode)->toEqual('CODE123');
+    });
+
     it('destroys device', function () {
         Http::fake([
             'https://webexapis.com/v1/devices/dev1*' => Http::response('', 204),
@@ -60,6 +75,51 @@ describe('Devices', function () {
         $result = $laravel_webex->devices()->destroy('dev1');
 
         expect($result)->toBeTrue();
+    });
+
+    it('returns error on create activation code failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/devices/activationCode*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->devices()->createActivationCode([]);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on device detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/devices/dev1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->devices()->detail('dev1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('returns error on destroy device failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/devices/dev1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->devices()->destroy('dev1');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('returns error on list failure', function () {

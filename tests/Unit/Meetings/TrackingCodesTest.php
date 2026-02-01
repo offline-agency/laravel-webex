@@ -52,6 +52,21 @@ describe('TrackingCodes', function () {
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
     });
 
+    it('returns error on detail tracking code failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meeting/config/trackingCodes/tc1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->tracking_codes()->detailTrackingCode('tc1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('creates tracking code', function () {
         Http::fake([
             'https://webexapis.com/v1/admin/meeting/config/trackingCodes*' => Http::response(json_encode((object) [
@@ -180,6 +195,21 @@ describe('TrackingCodes', function () {
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
     });
 
+    it('returns error on detail user tracking codes failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meeting/userconfig/trackingCodes*' => Http::response(json_encode((object) [
+                'message' => 'Unauthorized',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->tracking_codes()->detailUserTrackingCodes();
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('updates user tracking codes', function () {
         Http::fake([
             'https://webexapis.com/v1/admin/meeting/userconfig/trackingCodes*' => Http::response(json_encode((object) [
@@ -192,5 +222,20 @@ describe('TrackingCodes', function () {
         $result = $laravel_webex->tracking_codes()->updateUserTrackingCodes('https://example.webex.com');
 
         expect($result)->toBeInstanceOf(TrackingCodesEntity::class);
+    });
+
+    it('returns error on update user tracking codes failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meeting/userconfig/trackingCodes*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->tracking_codes()->updateUserTrackingCodes('https://example.webex.com');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 });

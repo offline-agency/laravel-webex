@@ -38,6 +38,38 @@ describe('MeetingTranscripts', function () {
         expect($result)->toBeInstanceOf(Error::class);
     });
 
+    it('lists transcripts for compliance officer', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meetingTranscripts*' => Http::response(json_encode((object) [
+                'items' => [
+                    (object) ['id' => 't2', 'meetingId' => 'm2', 'topic' => 'Compliance Meeting'],
+                ],
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $list = $laravel_webex->meeting_transcripts()->listTranscriptsForComplianceOfficer('https://example.webex.com');
+
+        expect($list)->toHaveCount(1);
+        expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
+        expect($list[0]->id)->toEqual('t2');
+    });
+
+    it('returns error on list transcripts for compliance officer failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meetingTranscripts*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_transcripts()->listTranscriptsForComplianceOfficer('https://example.webex.com');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('downloads transcript', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingTranscripts/t1/download*' => Http::response(json_encode((object) [
@@ -51,6 +83,21 @@ describe('MeetingTranscripts', function () {
 
         expect($transcript)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($transcript->id)->toEqual('t1');
+    });
+
+    it('returns error on download transcript failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingTranscripts/t1/download*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_transcripts()->downloadTranscript('t1');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('lists snippets of transcript', function () {
@@ -69,6 +116,21 @@ describe('MeetingTranscripts', function () {
         expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
     });
 
+    it('returns error on list snippets failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingTranscripts/t1/snippets*' => Http::response(json_encode((object) [
+                'message' => 'Unauthorized',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_transcripts()->listSnippetsOfTranscript('t1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('gets transcript snippet detail', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
@@ -82,6 +144,21 @@ describe('MeetingTranscripts', function () {
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($snippet->id)->toEqual('s1');
+    });
+
+    it('returns error on detail transcript snippet failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_transcripts()->detailTranscriptSnippet('t1', 's1');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('updates transcript snippet', function () {

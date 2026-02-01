@@ -83,6 +83,38 @@ describe('Meeting Participants', function () {
         expect($meeting_participants_detail->id)->toEqual('fake_id');
     });
 
+    it('gets meeting participant detail with host email', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
+                'id' => 'fake_id',
+                'hostEmail' => 'host@example.com',
+            ])),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $meeting_participants_detail = $laravel_webex->meeting_participants()->detail('fake_id', [
+            'hostEmail' => 'host@example.com',
+        ]);
+
+        expect($meeting_participants_detail)->toBeInstanceOf(MeetingParticipant::class);
+        expect($meeting_participants_detail->id)->toEqual('fake_id');
+    });
+
+    it('returns error on meeting participant detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_participants()->detail('fake_id');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('queries meeting participants with email', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingParticipants/query*' => Http::response(json_encode((object) [

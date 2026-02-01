@@ -58,6 +58,21 @@ describe('Webhooks', function () {
         expect($webhook->name)->toEqual('New Webhook');
     });
 
+    it('returns error on create webhook failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/webhooks*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', ['meetings'], ['created']);
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('gets webhook detail', function () {
         Http::fake([
             'https://webexapis.com/v1/webhooks/w1*' => Http::response(json_encode((object) [
@@ -74,6 +89,21 @@ describe('Webhooks', function () {
         expect($webhook->id)->toEqual('w1');
     });
 
+    it('returns error on webhook detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/webhooks/w1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->webhooks()->detailWebhook('w1');
+
+        expect($result)->toBeInstanceOf(Error::class);
+    });
+
     it('updates webhook', function () {
         Http::fake([
             'https://webexapis.com/v1/webhooks/w1*' => Http::response(json_encode((object) [
@@ -88,6 +118,21 @@ describe('Webhooks', function () {
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
         expect($webhook->name)->toEqual('Updated Webhook');
+    });
+
+    it('returns error on update webhook failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/webhooks/w1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ]), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->webhooks()->updateWebhook('w1', 'Updated Webhook', 'https://example.com/updated');
+
+        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('updateTrackingCode is alias for updateWebhook', function () {
