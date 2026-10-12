@@ -183,8 +183,9 @@ composer stan
 ```
 
 - `composer test` – runs Pest (unit and feature tests).
-- `./vendor/bin/pest` – run tests directly; use `./vendor/bin/pest --coverage-html coverage` for local HTML coverage.
-- `composer stan` – runs PHPStan (Larastan) for static analysis.
+- `./vendor/bin/pest` – run tests directly; use `./vendor/bin/pest --coverage-html coverage` for local HTML coverage. CI requires 100% line coverage (`--coverage --min=100`).
+- `composer stan` – runs PHPStan (Larastan) at `level: max` over `src`, `Http` and `tests`, with no ignored errors.
+- `composer pint` – formats code with Laravel Pint (`composer pint:check` to verify only).
 
 ## Documentation
 
