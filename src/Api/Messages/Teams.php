@@ -31,7 +31,7 @@ class Teams extends AbstractApi
      */
     public function create(string $name, ?array $additional_data = [])
     {
-        $response = $this->post('teams', array_merge(['name' => $name], $additional_data));
+        $response = $this->post('teams', array_merge(['name' => $name], $additional_data ?? []));
 
         if (! $response->success) {
             return new Error($response->data);

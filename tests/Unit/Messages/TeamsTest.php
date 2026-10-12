@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Team as TeamEntity;
@@ -112,5 +113,23 @@ describe('Teams', function () {
         $result = $laravel_webex->teams()->destroy('team1');
 
         expect($result)->toBeInstanceOf(Error::class);
+    });
+
+    it('creates team with null additional data', function () {
+        Http::fake([
+            'https://webexapis.com/v1/teams*' => Http::response(json_encode((object) [
+                'id' => 'team2',
+                'name' => 'Team A',
+                'creatorId' => 'u1',
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $team = $laravel_webex->teams()->create('Team A', null);
+        assert($team instanceof TeamEntity);
+
+        expect($team)->toBeInstanceOf(TeamEntity::class);
+        expect($team->name)->toEqual('Team A');
+        Http::assertSent(fn (Request $request) => $request['name'] === 'Team A');
     });
 });

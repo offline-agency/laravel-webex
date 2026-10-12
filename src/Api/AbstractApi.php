@@ -148,14 +148,14 @@ abstract class AbstractApi
     }
 
     /**
-     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>|null  $data
      * @param  list<string>  $fields
      * @return array<string, mixed>
      */
-    public function data(array $data, array $fields): array
+    public function data(?array $data, array $fields): array
     {
         $parsed_data = [];
-        foreach ($data as $key => $value) {
+        foreach ($data ?? [] as $key => $value) {
             if (in_array($key, $fields)) {
                 $parsed_data[$key] = $value;
             }
@@ -165,19 +165,20 @@ abstract class AbstractApi
     }
 
     /**
-     * @param  array<string, mixed>  $arr
+     * @param  array<string, mixed>|null  $arr
      */
-    public function value(array $arr, string $key, mixed $default = null): mixed
+    public function value(?array $arr, string $key, mixed $default = null): mixed
     {
-        return Arr::has($arr, $key)
-            ? Arr::get($arr, $key)
+        return Arr::has($arr ?? [], $key)
+            ? Arr::get($arr ?? [], $key)
             : $default;
     }
 
     /**
      * Safely get items array from a list response. Returns empty array when data or items is missing.
+     * Items that are not objects are skipped.
      *
-     * @return array<int, object>
+     * @return list<object>
      */
     protected function getItemsFromResponse(object $response): array
     {
@@ -186,10 +187,13 @@ abstract class AbstractApi
         }
 
         return isset($response->data->items) && is_array($response->data->items)
-            ? $response->data->items
+            ? array_values(array_filter($response->data->items, is_object(...)))
             : [];
     }
 
+    /**
+     * Decode the response body. Bodies that do not decode to a JSON object or array yield null data.
+     */
     private function parseResponse(Response $response): object
     {
         $success = $response->status() === 200 || $response->status() === 204;
@@ -198,7 +202,7 @@ abstract class AbstractApi
 
         return (object) [
             'success' => $success,
-            'data' => $data,
+            'data' => is_array($data) || is_object($data) ? $data : null,
         ];
     }
 }

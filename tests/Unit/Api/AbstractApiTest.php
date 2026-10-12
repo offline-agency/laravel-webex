@@ -4,6 +4,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Error;
+use Offlineagency\LaravelWebex\Entities\Messages\Room as RoomEntity;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 use Offlineagency\LaravelWebex\LaravelWebex;
@@ -60,6 +61,18 @@ describe('AbstractApi helpers', function () {
         $result = $api->value([], 'y', 'default');
 
         expect($result)->toBe('default');
+    });
+
+    it('data() treats null data as empty', function () {
+        $api = (new LaravelWebex)->admin_licenses();
+
+        expect($api->data(null, ['a']))->toBe([]);
+    });
+
+    it('value() treats null array as empty', function () {
+        $api = (new LaravelWebex)->admin_licenses();
+
+        expect($api->value(null, 'x', 'default'))->toBe('default');
     });
 
     it('getWithLink returns nextLink null when response has no Link header', function () {
@@ -202,5 +215,59 @@ describe('AbstractApi helpers', function () {
         expect($result)->toHaveKey('nextLink');
         expect($result['nextLink'])->toBeNull();
         expect($result['items'])->toHaveCount(1);
+    });
+
+    it('builds an empty entity when a successful response body is a JSON scalar', function () {
+        Http::fake([
+            'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode('unexpected', JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $room = $laravel_webex->rooms()->detail('r1');
+        assert($room instanceof RoomEntity);
+
+        expect($room)->toBeInstanceOf(RoomEntity::class);
+        expect($room->id)->toBeNull();
+    });
+
+    it('returns unknown error when a failed response body is a JSON scalar', function () {
+        Http::fake([
+            'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode(42, JSON_THROW_ON_ERROR), 500),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->rooms()->detail('r1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Unknown error');
+    });
+
+    it('returns null data on raw responses whose body is a JSON scalar', function () {
+        Http::fake([
+            'https://webexapis.com/v1/telephony/calls/answer*' => Http::response(json_encode(true, JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->call_controls()->answer(['callId' => 'c1']);
+
+        expect($result->success)->toBeTrue();
+        expect($result->data)->toBeNull();
+    });
+
+    it('getItemsFromResponse skips items that are not objects', function () {
+        Http::fake([
+            'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
+                'items' => [(object) ['id' => 'r1'], 'oops', 42, [1, 2], null],
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $list = $laravel_webex->rooms()->list();
+        assert(is_array($list));
+
+        expect($list)->toHaveCount(1);
+        expect($list[0])->toBeInstanceOf(RoomEntity::class);
+        expect($list[0]->id)->toEqual('r1');
     });
 });
