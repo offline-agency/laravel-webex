@@ -11,6 +11,9 @@ class Error extends AbstractEntity
 
     public ?string $trackingId = null;
 
+    /**
+     * @param  array<mixed>  $parameters
+     */
     public function build(array $parameters): void
     {
         parent::build($parameters);

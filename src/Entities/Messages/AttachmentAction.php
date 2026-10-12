@@ -6,17 +6,17 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class AttachmentAction extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $type;
+    public mixed $type = null;
 
-    public $messageId;
+    public mixed $messageId = null;
 
-    public $personId;
+    public mixed $personId = null;
 
-    public $personEmail;
+    public mixed $personEmail = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $inputs;
+    public mixed $inputs = null;
 }

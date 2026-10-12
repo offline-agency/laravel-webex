@@ -6,15 +6,15 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class DeviceConfiguration extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $deviceId;
+    public mixed $deviceId = null;
 
-    public $configKey;
+    public mixed $configKey = null;
 
-    public $value;
+    public mixed $value = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }

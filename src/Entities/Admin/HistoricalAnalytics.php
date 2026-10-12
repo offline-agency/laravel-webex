@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class HistoricalAnalytics extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $description;
+    public mixed $description = null;
 
-    public $data;
+    public mixed $data = null;
 }

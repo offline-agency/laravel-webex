@@ -42,7 +42,7 @@ class Messages extends AbstractEntity
     public $html;
 
     /**
-     * @var array
+     * @var array<int, string>|null
      */
     public $files;
 
@@ -57,17 +57,17 @@ class Messages extends AbstractEntity
     public $personEmail;
 
     /**
-     * @var array
+     * @var array<int, string>|null
      */
     public $mentionedPeople;
 
     /**
-     * @var array
+     * @var array<int, string>|null
      */
     public $mentionedGroups;
 
     /**
-     * @var array
+     * @var array<int, mixed>|null
      */
     public $attachments;
 

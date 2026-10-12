@@ -6,13 +6,13 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class License extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $totalUnits;
+    public mixed $totalUnits = null;
 
-    public $consumedUnits;
+    public mixed $consumedUnits = null;
 
-    public $provisionedUnits;
+    public mixed $provisionedUnits = null;
 }

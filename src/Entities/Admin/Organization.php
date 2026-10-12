@@ -6,17 +6,17 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Organization extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $displayName;
+    public mixed $displayName = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $orgPreferences;
+    public mixed $orgPreferences = null;
 
-    public $licenses;
+    public mixed $licenses = null;
 
-    public $preferredGeo;
+    public mixed $preferredGeo = null;
 }

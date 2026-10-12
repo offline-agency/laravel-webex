@@ -6,13 +6,13 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class HybridConnector extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $clusterId;
+    public mixed $clusterId = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }

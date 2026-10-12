@@ -6,13 +6,13 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class ResourceGroupMembership extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $resourceGroupId;
+    public mixed $resourceGroupId = null;
 
-    public $personId;
+    public mixed $personId = null;
 
-    public $personOrgId;
+    public mixed $personOrgId = null;
 
-    public $created;
+    public mixed $created = null;
 }

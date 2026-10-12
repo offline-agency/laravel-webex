@@ -6,31 +6,31 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class People extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $emails;
+    public mixed $emails = null;
 
-    public $displayName;
+    public mixed $displayName = null;
 
-    public $firstName;
+    public mixed $firstName = null;
 
-    public $lastName;
+    public mixed $lastName = null;
 
-    public $avatar;
+    public mixed $avatar = null;
 
-    public $orgId;
+    public mixed $orgId = null;
 
-    public $roles;
+    public mixed $roles = null;
 
-    public $licenses;
+    public mixed $licenses = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $lastActivity;
+    public mixed $lastActivity = null;
 
-    public $status;
+    public mixed $status = null;
 
-    public $type;
+    public mixed $type = null;
 
-    public $loginEnabled;
+    public mixed $loginEnabled = null;
 }

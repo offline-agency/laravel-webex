@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class WorkspaceMetrics extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $metrics;
+    public mixed $metrics = null;
 
-    public $created;
+    public mixed $created = null;
 }

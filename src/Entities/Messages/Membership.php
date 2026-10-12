@@ -6,23 +6,23 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Membership extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $roomId;
+    public mixed $roomId = null;
 
-    public $personId;
+    public mixed $personId = null;
 
-    public $personEmail;
+    public mixed $personEmail = null;
 
-    public $personDisplayName;
+    public mixed $personDisplayName = null;
 
-    public $isModerator;
+    public mixed $isModerator = null;
 
-    public $isMonitor;
+    public mixed $isMonitor = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $isRoomHidden;
+    public mixed $isRoomHidden = null;
 
-    public $type;
+    public mixed $type = null;
 }

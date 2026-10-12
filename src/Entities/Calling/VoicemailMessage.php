@@ -6,17 +6,17 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class VoicemailMessage extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $userId;
+    public mixed $userId = null;
 
-    public $from;
+    public mixed $from = null;
 
-    public $duration;
+    public mixed $duration = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $read;
+    public mixed $read = null;
 
-    public $mediaUrl;
+    public mixed $mediaUrl = null;
 }

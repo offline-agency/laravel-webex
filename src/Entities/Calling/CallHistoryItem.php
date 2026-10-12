@@ -6,19 +6,19 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class CallHistoryItem extends AbstractEntity
 {
-    public $callId;
+    public mixed $callId = null;
 
-    public $callSessionId;
+    public mixed $callSessionId = null;
 
-    public $state;
+    public mixed $state = null;
 
-    public $direction;
+    public mixed $direction = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $answered;
+    public mixed $answered = null;
 
-    public $ended;
+    public mixed $ended = null;
 
-    public $duration;
+    public mixed $duration = null;
 }

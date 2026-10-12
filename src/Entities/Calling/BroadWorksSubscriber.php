@@ -6,15 +6,15 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class BroadWorksSubscriber extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $userId;
+    public mixed $userId = null;
 
-    public $enterpriseId;
+    public mixed $enterpriseId = null;
 
-    public $primaryNumber;
+    public mixed $primaryNumber = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }

@@ -6,31 +6,31 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Room extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $title;
+    public mixed $title = null;
 
-    public $type;
+    public mixed $type = null;
 
-    public $isLocked;
+    public mixed $isLocked = null;
 
-    public $teamId;
+    public mixed $teamId = null;
 
-    public $lastActivity;
+    public mixed $lastActivity = null;
 
-    public $creatorId;
+    public mixed $creatorId = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $ownerId;
+    public mixed $ownerId = null;
 
-    public $classificationId;
+    public mixed $classificationId = null;
 
-    public $isAnnouncementOnly;
+    public mixed $isAnnouncementOnly = null;
 
-    public $isModerated;
+    public mixed $isModerated = null;
 
-    public $isReadOnly;
+    public mixed $isReadOnly = null;
 
-    public $description;
+    public mixed $description = null;
 }

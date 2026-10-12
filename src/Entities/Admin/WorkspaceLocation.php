@@ -6,19 +6,19 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class WorkspaceLocation extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $address;
+    public mixed $address = null;
 
-    public $capacity;
+    public mixed $capacity = null;
 
-    public $timezone;
+    public mixed $timezone = null;
 
-    public $orgId;
+    public mixed $orgId = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }

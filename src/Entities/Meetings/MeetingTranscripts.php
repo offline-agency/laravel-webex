@@ -6,13 +6,13 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class MeetingTranscripts extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $downloadUrl;
+    public mixed $downloadUrl = null;
 
-    public $text;
+    public mixed $text = null;
 
-    public $meetingId;
+    public mixed $meetingId = null;
 
-    public $topic;
+    public mixed $topic = null;
 }

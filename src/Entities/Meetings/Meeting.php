@@ -207,7 +207,7 @@ class Meeting extends AbstractEntity
     public $registration;
 
     /**
-     * @var array
+     * @var array<int, string>|null
      */
     public $integrationTags;
 }

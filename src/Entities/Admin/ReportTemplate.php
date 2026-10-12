@@ -6,15 +6,15 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class ReportTemplate extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $description;
+    public mixed $description = null;
 
-    public $reportSections;
+    public mixed $reportSections = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }

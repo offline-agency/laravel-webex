@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class BroadWorksEnterprise extends AbstractEntity
 {
-    public $id;
+    public mixed $id = null;
 
-    public $name;
+    public mixed $name = null;
 
-    public $created;
+    public mixed $created = null;
 
-    public $updated;
+    public mixed $updated = null;
 }
