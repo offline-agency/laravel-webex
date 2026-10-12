@@ -44,11 +44,11 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/pest",
-    "test-coverage": "vendor/bin/pest --coverage-html coverage",
-    "stan": "vendor/bin/phpstan analyse --memory-limit=512M",
-    "pint": "vendor/bin/pint",
-    "pint:check": "vendor/bin/pint --test"
+    "test": "@php vendor/bin/pest",
+    "test-coverage": "@php vendor/bin/pest --coverage-html coverage",
+    "stan": "@php vendor/bin/phpstan analyse --memory-limit=512M",
+    "pint": "@php vendor/bin/pint",
+    "pint:check": "@php vendor/bin/pint --test"
   },
   "config": {
     "sort-packages": true,

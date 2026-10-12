@@ -1,6 +1,6 @@
 # Webex API Endpoint Implementation Coverage
 
-Summary of what is implemented in this package vs exposed on the facade vs known gaps.
+Summary of what is implemented in this package vs exposed on the facade vs known gaps. It is maintained by hand: the package does not cover the whole Webex API. The methods and paths used in the README examples are checked by `tests/Feature/ReadmeExamplesTest.php` against the official specification ([webex/webex-openapi-specs](https://github.com/webex/webex-openapi-specs) `a3cb121`, `public-spec/webex-messaging.json` and `webex-meeting.json`).
 
 ---
 

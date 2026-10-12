@@ -1,211 +1,148 @@
 # Laravel Webex
 
-[![Latest Stable Version](https://poser.pugx.org/offline-agency/laravel-webex/v/stable)](https://packagist.org/packages/offline-agency/laravel-webex)
-[![Total Downloads](https://img.shields.io/packagist/dt/offline-agency/laravel-webex.svg?style=flat-square)](https://packagist.org/packages/offline-agency/laravel-webex)
-[![run-tests](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml/badge.svg)](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml)
-[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![codecov](https://codecov.io/gh/offline-agency/laravel-webex/branch/develop/graph/badge.svg?token=0BHADJQYAW)](https://codecov.io/gh/offline-agency/laravel-webex)
+[![CI](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/offline-agency/laravel-webex/actions/workflows/main.yml?query=branch%3Amain)
+[![Release](https://github.com/offline-agency/laravel-webex/actions/workflows/release.yml/badge.svg)](https://github.com/offline-agency/laravel-webex/actions/workflows/release.yml)
+[![Latest Stable Version](https://img.shields.io/packagist/v/offline-agency/laravel-webex.svg)](https://packagist.org/packages/offline-agency/laravel-webex)
+[![Total Downloads](https://img.shields.io/packagist/dt/offline-agency/laravel-webex.svg)](https://packagist.org/packages/offline-agency/laravel-webex)
+[![PHP 8.4 | 8.5](https://img.shields.io/badge/PHP-8.4%20%7C%208.5-777bb4.svg)](#supported-platforms)
+[![Laravel 12 | 13](https://img.shields.io/badge/Laravel-12%20%7C%2013-ff2d20.svg)](#supported-platforms)
+[![codecov](https://codecov.io/gh/offline-agency/laravel-webex/branch/main/graph/badge.svg)](https://codecov.io/gh/offline-agency/laravel-webex)
+[![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
 
-A simple Laravel integration with Webex (Meetings and Messaging APIs).
+A Laravel client for the Webex REST APIs: Meetings, Messaging, Admin, Calling and Devices modules, returned as typed entities or an `Error`.
 
-## Requirements
+## Supported platforms
 
-- PHP 8.4+
-- Laravel 11+ (or 12+)
-- Webex API bearer token
+| Package | PHP | Laravel |
+| --- | --- | --- |
+| 2.x | 8.4, 8.5 | 12 (from 12.69.2), 13 (from 13.32) |
+| 1.x | see the 1.x README | |
+
+Policy: the package supports the Laravel majors that still receive security fixes and the PHP branches the selected Laravel majors support, starting from PHP 8.4. Laravel 11, PHP 8.3 and older are not supported by 2.x (PHP 8.3 is still maintained upstream, but outside this package's policy). Pre-release PHP or Laravel versions are never added to the supported set. Both floors and both majors run in CI.
 
 ## Installation
-
-Install the package via Composer:
 
 ```bash
 composer require offline-agency/laravel-webex
 ```
 
-### Configuration
-
-Publish the config file using either:
-
-```bash
-php artisan vendor:publish --provider="Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider"
-```
-
-or:
+The service provider and the `LaravelWebex` facade are auto-discovered. Publish the configuration:
 
 ```bash
 php artisan vendor:publish --tag=webex-config
 ```
 
-Then set in your `.env` (do not commit secrets):
+and set in `.env` (never commit tokens):
 
-- `WEBEX_BEARER` – Bearer token for API requests (required)
-- `WEBEX_TIMEOUT` – Request timeout in seconds (default: 30)
-- `WEBEX_CLIENT_ID`, `WEBEX_CLIENT_SECRET`, `WEBEX_CLIENT_CODE`, `WEBEX_REDIRECT_URI` – For OAuth flows
+| Variable | Purpose |
+| --- | --- |
+| `WEBEX_BEARER` | bearer token sent with every request (required) |
+| `WEBEX_TIMEOUT` | request timeout in seconds (default 30) |
+| `WEBEX_CLIENT_ID`, `WEBEX_CLIENT_SECRET`, `WEBEX_CLIENT_CODE`, `WEBEX_REDIRECT_URI` | OAuth integration values |
+| `WEBEX_AUTH_ROUTE_ENABLED` | `false` to not register the package's `GET /auth` route |
 
-### Authentication
+### Authentication events
 
-The package uses a **Bearer token** for all API requests. Set `WEBEX_BEARER` in your environment or in `config/webex.php` after publishing.
+Each `LaravelWebex` instance reads the bearer token when it is created:
 
-Two events are fired during the auth flow:
+1. `AuthenticationRequested` is dispatched first: a listener may set `config(['webex.bearer' => ...])` here.
+2. The HTTP client is built with that token and the configured timeout.
+3. `SuccessfulAuthentication` is dispatched: the client is configured. It does **not** mean that Webex accepted the token; a rejected token shows up as an `Error` (HTTP 401) on the first request.
 
-- `Offlineagency\LaravelWebex\Events\AuthenticationRequested` – before the HTTP client is built
-- `Offlineagency\LaravelWebex\Events\SuccessfulAuthentication` – after headers (including Authorization) are set
+The facade resolves a singleton, so its token is fixed for the life of the process (queue workers, Octane). Create `new \Offlineagency\LaravelWebex\LaravelWebex` when the token changes.
 
-You can listen to these to inject or refresh the token dynamically.
+The package also registers `GET /auth` (route name `auth`, throttled), which only dispatches `SuccessfulAuthentication`. Configure `webex.auth_route` (`enabled`, `path`, `name`) if your application uses that path or name.
+
+## Usage
+
+Every example below is executed by `tests/Feature/ReadmeExamplesTest.php`, which checks the HTTP method and path against the official Webex OpenAPI specification.
+
+```php
+use Offlineagency\LaravelWebex\Entities\Error;
+use Offlineagency\LaravelWebex\LaravelWebexFacade as LaravelWebex;
+
+// Meetings
+$meetings = LaravelWebex::meeting()->list(['state' => 'inProgress', 'max' => 10]);
+$meeting = LaravelWebex::meeting()->create('My Meeting', '2026-11-15T10:00:00Z', '2026-11-15T11:00:00Z', ['agenda' => 'Agenda']);
+$invitees = LaravelWebex::meeting_invitees()->list($meetingId);
+
+// Messages
+$message = LaravelWebex::messages()->create($roomId, 'Hello!');
+$message = LaravelWebex::messages()->edit($messageId, 'Updated text');
+$deleted = LaravelWebex::messages()->destroy($messageId); // true or Error
+
+// Rooms, teams, memberships
+$room = LaravelWebex::rooms()->create('My Room');
+$membership = LaravelWebex::memberships()->create($roomId, 'user@example.com');
+$team = LaravelWebex::teams()->update($teamId, 'New Name');
+
+// People and webhooks
+$person = LaravelWebex::people()->detailPerson($personId);
+$webhook = LaravelWebex::webhooks()->createWebhook('My Webhook', 'https://example.com/webhook', 'meetings', 'created');
+```
+
+### Results and errors
+
+A method returns its entity (or a list of entities, `true` for deletions) when Webex answers with a 2xx status, and an `Error` otherwise:
+
+```php
+$message = LaravelWebex::messages()->detail($messageId);
+
+if ($message instanceof Error) {
+    report("Webex error {$message->trackingId}: {$message->message}");
+}
+```
+
+| Situation | Result |
+| --- | --- |
+| 2xx with a JSON document | entity / list |
+| 204 (or empty 2xx) on a deletion | `true` |
+| 2xx without a document where an entity is expected | `Error` "Webex returned no document (HTTP 200)." |
+| 2xx with malformed JSON or a JSON scalar | `Error` |
+| 4xx / 5xx with a Webex error document | `Error` with `message`, `errors`, `trackingId` |
+| 4xx / 5xx with another body | `Error` "Webex request failed (HTTP n)." (the body is not echoed) |
+| network failure | `Error` "Connection to Webex failed: ..." |
+| a bug in your code (`TypeError`, ...) | the exception is thrown, not converted |
+
+Entity properties are filled from the fields Webex returns; a field whose value does not fit a typed property is ignored.
+
+### Pagination
+
+`messages()->listWithPagination()` and `rooms()->listWithPagination()` return `['items' => [...], 'nextLink' => string|null]` from Webex's `Link: rel="next"` header. The package does not follow `nextLink` for you. If you request it yourself, check that its host is `webexapis.com` before sending your bearer token to it, and stop when it repeats or a page limit is reached.
 
 ## API coverage
 
-✅ = implemented and exposed on the facade  
-❌ = not implemented
+The implemented operations and the known gaps are listed in [WEBEX_ENDPOINT_COVERAGE.md](WEBEX_ENDPOINT_COVERAGE.md). The package does not cover every Webex API.
 
-### Meetings
-
-- ✅ **Meetings** – list, detail, create, update, delete, join, templates, controls, session types, registration, registrants, interpreters, breakout, survey, invitation sources, tracking codes, reassign host
-- ✅ **Meeting Invitees** – list, detail, create, bulk create, update, delete
-- ✅ **Meeting Participants** – list, query, detail, update, admit
-- ✅ **Meeting Preferences** – get/update preferences, personal meeting room, audio/video, scheduling, sites
-- ✅ **Meeting Qualities**
-- ✅ **Meeting Transcripts** – list, download, snippets
-- ✅ **Meeting Chats** – list, delete
-- ✅ **Meeting Polls / Q&A / Closed Captions / Messages**
-- ✅ **Meetings Summary Report**
-- ✅ **People** (Meetings context) – list, create, detail, update, delete
-- ✅ **Recording Report**
-- ✅ **Recordings** – list, detail, delete, admin, soft delete, restore, purge
-- ✅ **Session Types** / **Tracking Codes**
-- ✅ **VideoMesh**
-- ✅ **Webhooks** – list, create, detail, update, delete
-
-### Messaging
-
-- ✅ **Messages** – list, listWithPagination, create, detail, edit, destroy
-- ✅ **Rooms** – list, listWithPagination, create, detail, update, destroy, meetingDetails
-- ✅ **Teams** – list, create, detail, update, destroy
-- ✅ **Memberships** – list, create, detail, update, destroy
-- ✅ **Attachment Actions** – create, detail
-- ✅ **Events** – list
-- ✅ **Room Tabs** – list, create, detail, update, destroy
-- ✅ **Team Memberships** – list, create, detail, update, destroy
-
-### Admin / Calling / Devices
-
-- ✅ **Admin** – Audit Events, Historical Analytics, Hybrid Clusters/Connectors, Licenses, Locations, Organizations, Report Templates, Reports, Resource Groups, Resource Group Memberships, Roles, Space Classifications, Workspace Locations/Metrics, Workspaces
-- ✅ **Calling** – Call Controls, BroadWorks Enterprises/Subscribers, Voice Messaging
-- ✅ **Devices** – Device Configurations, Devices, Workspaces, Workspace Locations, Workspace Metrics, xAPI
-
-Endpoints that support pagination expose `listWithPagination()` and return `['items' => [...], 'nextLink' => string|null]`.
-
-## Usage examples
-
-### Meetings
-
-```php
-use LaravelWebex;
-
-// List meetings
-$meetings = LaravelWebex::meeting()->list();
-$meetings = LaravelWebex::meeting()->list(['state' => 'inProgress', 'max' => 10]);
-
-// Get one meeting
-$meeting = LaravelWebex::meeting()->detail($meetingId);
-
-// Create a meeting
-$meeting = LaravelWebex::meeting()->create('My Meeting', '2025-02-15T10:00:00Z', '2025-02-15T11:00:00Z', [
-    'agenda' => 'Agenda here',
-    'enabledAutoRecordMeeting' => true,
-]);
-
-// Update / delete
-LaravelWebex::meeting()->update($meetingId, $title, $password, $start, $end);
-LaravelWebex::meeting()->destroy($meetingId);
-
-// Invitees and participants
-$invitees = LaravelWebex::meeting_invitees()->list($meetingId);
-$participants = LaravelWebex::meeting_participants()->list($meetingId);
-```
-
-### Messaging (Messages, Rooms, Teams, Memberships, People, Webhooks)
-
-```php
-use LaravelWebex;
-
-// List messages in a room (with optional pagination info)
-$messages = LaravelWebex::messages()->list($roomId);
-$result = LaravelWebex::messages()->listWithPagination($roomId, ['max' => 20]);
-// $result['items'], $result['nextLink']
-
-// Create / get / edit / delete a message
-$msg = LaravelWebex::messages()->create($roomId, 'Hello!');
-$msg = LaravelWebex::messages()->detail($messageId);
-$msg = LaravelWebex::messages()->edit($messageId, 'Updated text');
-LaravelWebex::messages()->destroy($messageId);
-
-// Rooms
-$rooms = LaravelWebex::rooms()->list();
-$result = LaravelWebex::rooms()->listWithPagination(['max' => 20]);
-$room = LaravelWebex::rooms()->create('My Room');
-$room = LaravelWebex::rooms()->detail($roomId);
-LaravelWebex::rooms()->update($roomId, ['title' => 'New Title']);
-$room = LaravelWebex::rooms()->meetingDetails($roomId);
-LaravelWebex::rooms()->destroy($roomId);
-
-// Teams
-$teams = LaravelWebex::teams()->list();
-$team = LaravelWebex::teams()->create('My Team');
-$team = LaravelWebex::teams()->detail($teamId);
-LaravelWebex::teams()->update($teamId, 'New Name');
-LaravelWebex::teams()->destroy($teamId);
-
-// Memberships
-$memberships = LaravelWebex::memberships()->list();
-$membership = LaravelWebex::memberships()->create($roomId, 'user@example.com');
-$membership = LaravelWebex::memberships()->detail($membershipId);
-LaravelWebex::memberships()->update($membershipId, ['isModerator' => true]);
-LaravelWebex::memberships()->destroy($membershipId);
-
-// People (Meetings API)
-$people = LaravelWebex::people()->listPeople();
-$person = LaravelWebex::people()->detailPerson($personId);
-
-// Webhooks
-$webhooks = LaravelWebex::webhooks()->listWebhooks();
-$webhook = LaravelWebex::webhooks()->createWebhook('My Webhook', 'https://example.com/webhook', ['meetings'], ['created']);
-LaravelWebex::webhooks()->destroyWebhook($webhookId);
-```
-
-All methods that can fail return either the expected entity/array or an `Offlineagency\LaravelWebex\Entities\Error` instance. Check with `$result instanceof \Offlineagency\LaravelWebex\Entities\Error` and use `$result->message`, `$result->errors`, `$result->trackingId` as needed.
-
-## Testing and static analysis
+## Development
 
 ```bash
-composer test
-composer stan
+composer test        # Pest (no request may reach the network: Http::preventStrayRequests())
+composer stan        # Larastan / PHPStan at level max, no baseline, no ignored errors
+composer pint:check  # Laravel Pint
 ```
 
-- `composer test` – runs Pest (unit and feature tests).
-- `./vendor/bin/pest` – run tests directly; use `./vendor/bin/pest --coverage-html coverage` for local HTML coverage. CI requires 100% line coverage (`--coverage --min=100`).
-- `composer stan` – runs PHPStan (Larastan) at `level: max` over `src`, `Http` and `tests`, with no ignored errors.
-- `composer pint` – formats code with Laravel Pint (`composer pint:check` to verify only).
+CI runs PHP 8.4/8.5 x Laravel 12/13, the lowest supported versions, 100 % line coverage of `src` and `Http`, Composer validation and audit, and actionlint.
+
+## Releases
+
+Every pull request merged into `main` is released automatically once the CI run of its merge commit has passed: one stable tag (`MAJOR.MINOR.PATCH`, no `v` prefix) and one GitHub Release with the pull request's description. The version bump comes from a `release:major|minor|patch` label or the Conventional Commit title (`feat` → minor, `!`/`BREAKING CHANGE` → major, anything else → patch). See [CONTRIBUTING.md](CONTRIBUTING.md#releases).
+
+Upgrading from 1.x: [UPGRADE.md](UPGRADE.md). Changes: [CHANGELOG.md](CHANGELOG.md) and the [GitHub Releases](https://github.com/offline-agency/laravel-webex/releases).
 
 ## Documentation
 
-Full documentation is available at [docs.offlineagency.com/laravel-webex](https://docs.offlineagency.com/laravel-webex/).
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+[docs.offlineagency.com/laravel-webex](https://docs.offlineagency.com/laravel-webex/)
 
 ## Security
 
-If you discover any security-related issues, please email <support@offlineagency.com> instead of using the issue tracker.
+Please report vulnerabilities privately to <info@offlineagency.it> (the contact published on the [Offline Agency GitHub organization](https://github.com/offline-agency)), not in public issues. See [SECURITY.md](SECURITY.md).
 
 ## Credits
 
 - [Offline Agency](https://github.com/offline-agency)
-- [Giacomo Fabbian](https://github.com/Giacomo92)
-- [Nicolas Sanavia](https://github.com/SanaviaNicolas)
-- [All Contributors](https://github.com/offline-agency/laravel-webex/graphs/contributors)
+- [All contributors](https://github.com/offline-agency/laravel-webex/graphs/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT. See [LICENSE.md](LICENSE.md).
