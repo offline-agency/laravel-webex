@@ -9,7 +9,6 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 use Offlineagency\LaravelWebex\Api\Admin\AdminAuditEvents;
-use Offlineagency\LaravelWebex\Api\Admin\HistoricalAnalytics as AdminHistoricalAnalytics;
 use Offlineagency\LaravelWebex\Api\Admin\HybridClusters;
 use Offlineagency\LaravelWebex\Api\Admin\HybridConnectors;
 use Offlineagency\LaravelWebex\Api\Admin\Licenses;
@@ -224,11 +223,6 @@ class LaravelWebex
     public function admin_audit_events(): AdminAuditEvents
     {
         return new AdminAuditEvents($this);
-    }
-
-    public function admin_historical_analytics(): AdminHistoricalAnalytics
-    {
-        return new AdminHistoricalAnalytics($this);
     }
 
     public function admin_licenses(): Licenses

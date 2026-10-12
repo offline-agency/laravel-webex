@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Room as RoomEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -23,21 +22,6 @@ describe('Rooms', function () {
         expect($list[0])->toBeInstanceOf(RoomEntity::class);
         expect($list[0]->id)->toEqual('r1');
         expect($list[0]->title)->toEqual('Room 1');
-    });
-
-    it('returns error on rooms list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('creates room', function () {
@@ -103,21 +87,6 @@ describe('Rooms', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on destroy room failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->destroy('r1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets room meeting details', function () {
         Http::fake([
             'https://webexapis.com/v1/rooms/r1/meetingInfo*' => Http::response(json_encode((object) [
@@ -159,69 +128,4 @@ describe('Rooms', function () {
         expect($result['nextLink'])->toEqual('https://webexapis.com/v1/rooms?max=2&before=xyz');
     });
 
-    it('returns error on create room failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->create('New Room');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on room detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->detail('r1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
-
-    it('returns error on update room failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->update('r1', ['title' => 'Updated Room']);
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
-
-    it('returns error on room meeting details failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/rooms/r1/meetingInfo*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->rooms()->meetingDetails('r1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
 });

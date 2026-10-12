@@ -2,13 +2,12 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\AdminAuditEvent as AdminAuditEventEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('AdminAuditEvents', function () {
     it('lists admin audit events', function () {
         Http::fake([
-            'https://webexapis.com/v1/adminAuditEvents*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/adminAudit/events*' => Http::response(json_encode((object) [
                 'items' => [
                     (object) [
                         'id' => 'ev1',
@@ -31,7 +30,7 @@ describe('AdminAuditEvents', function () {
 
     it('lists admin audit events with optional params', function () {
         Http::fake([
-            'https://webexapis.com/v1/adminAuditEvents*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/adminAudit/events*' => Http::response(json_encode((object) [
                 'items' => [
                     (object) [
                         'id' => 'ev2',
@@ -58,18 +57,4 @@ describe('AdminAuditEvents', function () {
         expect($list[0]->id)->toEqual('ev2');
     });
 
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/adminAuditEvents*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_audit_events()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

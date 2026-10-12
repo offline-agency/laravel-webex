@@ -34,7 +34,7 @@ abstract class AbstractApi
     protected function get(string $url, array $query_parameters): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
             $response = $this->laravel_webex->http('GET')->get($url, $query_parameters);
 
             return $this->parseResponse($response);
@@ -52,7 +52,7 @@ abstract class AbstractApi
      */
     protected function getWithLink(string $url, array $query_parameters): object
     {
-        return $this->getAbsoluteWithLink($this->laravel_webex->base_url.$url, $query_parameters);
+        return $this->getAbsoluteWithLink($this->laravel_webex->base_url.rtrim($url, '/'), $query_parameters);
     }
 
     /**
@@ -70,7 +70,7 @@ abstract class AbstractApi
     protected function cursorOf(string $url, array $query_parameters, string $class, int $maxPages): LazyCollection
     {
         return LazyCollection::make(function () use ($url, $query_parameters, $class, $maxPages) {
-            $next = $this->laravel_webex->base_url.$url;
+            $next = $this->laravel_webex->base_url.rtrim($url, '/');
             $query = $query_parameters;
             $seen = [];
             for ($pages = 0; $next !== null; $pages++) {
@@ -165,7 +165,7 @@ abstract class AbstractApi
     protected function post(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
             $response = $this->laravel_webex->http('POST')->post($url, $body);
 
             return $this->parseResponse($response);
@@ -181,7 +181,7 @@ abstract class AbstractApi
     protected function put(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
             $response = $this->laravel_webex->http('PUT')->put($url, $body);
 
             return $this->parseResponse($response);
@@ -197,7 +197,7 @@ abstract class AbstractApi
     protected function patch(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
             $response = $this->laravel_webex->http('PATCH')->patch($url, $body);
 
             return $this->parseResponse($response);
@@ -214,7 +214,7 @@ abstract class AbstractApi
     {
         try {
             $query_string = http_build_query($query_parameters);
-            $fullUrl = $this->laravel_webex->base_url.$url.($query_string !== '' ? '?'.$query_string : '');
+            $fullUrl = $this->laravel_webex->base_url.rtrim($url, '/').($query_string !== '' ? '?'.$query_string : '');
             $response = $this->laravel_webex->http('DELETE')->delete($fullUrl);
 
             return $this->parseResponse($response);

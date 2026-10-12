@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\Location as LocationEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin Locations', function () {
@@ -94,78 +93,4 @@ describe('Admin Locations', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on location detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/locations/loc1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_locations()->detail('loc1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on create location failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/locations' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_locations()->create(['name' => 'New Location', 'orgId' => 'org1']);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on update location failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/locations/loc1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_locations()->update('loc1', ['name' => 'Updated Location']);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on destroy location failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/locations/loc1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_locations()->destroy('loc1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/locations*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_locations()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

@@ -82,6 +82,7 @@ class TrackingCodes extends AbstractApi
      * @return TrackingCodesEntity|Error
      */
     public function updateTrackingCode(
+        string $trackingCodeId,
         string $name,
         string $siteUrl,
         array $options,
@@ -89,7 +90,7 @@ class TrackingCodes extends AbstractApi
         string $hostProfileCode,
         array $scheduleStartCodes
     ) {
-        $response = $this->put('admin/meeting/config/trackingCodes/', [
+        $response = $this->put('admin/meeting/config/trackingCodes/'.$trackingCodeId, [
             'name' => $name,
             'siteUrl' => $siteUrl,
             'options' => $options,

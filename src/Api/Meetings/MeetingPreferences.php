@@ -247,7 +247,7 @@ class MeetingPreferences extends AbstractApi
             'personalMeetingRoomIds',
         ]);
 
-        $response = $this->post('meetingPreferences/personalMeetingRoom/refreshId/', array_merge([
+        $response = $this->post('admin/meetingPreferences/personalMeetingRoom/refreshId', array_merge([
             'siteUrl' => $siteUrl,
         ], $additional_data));
 

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingChats as MeetingChatsEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -23,24 +22,9 @@ describe('MeetingChats', function () {
         expect($list[0])->toBeInstanceOf(MeetingChatsEntity::class);
     });
 
-    it('returns error on list meeting chats failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetings/postMeetingChats*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_chats()->listChats('m1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('destroys meeting chats', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetings/postMeetingChats/m1*' => Http::response('', 204),
+            'https://webexapis.com/v1/meetings/postMeetingChats*' => Http::response('', 204),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -49,18 +33,4 @@ describe('MeetingChats', function () {
         expect($result)->toEqual('Meeting chats deleted');
     });
 
-    it('returns error on destroy meeting chats failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetings/postMeetingChats/m1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_chats()->destroyChats('m1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

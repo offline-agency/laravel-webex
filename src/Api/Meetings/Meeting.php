@@ -443,6 +443,10 @@ class Meeting extends AbstractApi
             'current', 'hostEmail', 'sendEmail', 'registrants',
         ]);
 
+        if (! in_array($statusOpType, ['approve', 'reject', 'cancel', 'bulkDelete'], true)) {
+            return new Error(['message' => "Unsupported registrant status operation '{$statusOpType}': use approve, reject, cancel or bulkDelete."]);
+        }
+
         $response = $this->post('meetings/'.$meetingId.'/registrants/'.$statusOpType, $additional_data);
 
         return $this->entity($response, MeetingsEntity::class);
@@ -705,7 +709,7 @@ class Meeting extends AbstractApi
             'hostEmail', 'meetingStartTimeFrom', 'meetingStartTimeTo', 'emails',
         ]);
 
-        $response = $this->get('meetings/'.$meetingId.'/surveyLinks', $additional_data);
+        $response = $this->post('meetings/'.$meetingId.'/surveyLinks', $additional_data);
 
         return $this->entity($response, MeetingsEntity::class);
     }
@@ -758,7 +762,7 @@ class Meeting extends AbstractApi
             'siteUrl', 'hostEmail',
         ]);
 
-        $response = $this->put('meetings/trackingCodes', array_merge([
+        $response = $this->get('meetings/trackingCodes', array_merge([
             'service' => $service,
         ], $additional_data));
 

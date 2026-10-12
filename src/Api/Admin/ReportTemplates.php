@@ -16,7 +16,7 @@ class ReportTemplates extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max']);
 
-        $response = $this->get('reportTemplates', $additional_data);
+        $response = $this->get('report/templates', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -25,15 +25,5 @@ class ReportTemplates extends AbstractApi
         $items = $this->getItemsFromResponse($response);
 
         return array_map(fn ($item) => new ReportTemplateEntity($item), $items);
-    }
-
-    /**
-     * @return ReportTemplateEntity|Error
-     */
-    public function detail(string $templateId)
-    {
-        $response = $this->get('reportTemplates/'.$templateId, []);
-
-        return $this->entity($response, ReportTemplateEntity::class);
     }
 }

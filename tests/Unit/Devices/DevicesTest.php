@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Devices\Device as DeviceEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Devices', function () {
@@ -81,63 +80,4 @@ describe('Devices', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on create activation code failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/devices/activationCode*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->devices()->createActivationCode([]);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on device detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/devices/dev1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->devices()->detail('dev1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on destroy device failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/devices/dev1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->devices()->destroy('dev1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/devices*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->devices()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

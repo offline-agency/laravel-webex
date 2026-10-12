@@ -113,7 +113,7 @@ class MeetingInvitee extends AbstractApi
             'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist',
         ]);
 
-        $response = $this->post('meetingInvitees/'.$meetingInviteeId, array_merge([
+        $response = $this->put('meetingInvitees/'.$meetingInviteeId, array_merge([
             'email' => $email,
         ], $additional_data));
 

@@ -15,9 +15,8 @@ class Xapi extends AbstractApi
      */
     public function command(string $deviceId, string $command, array $arguments = [])
     {
-        $body = array_merge(['command' => $command], $arguments);
-
-        $response = $this->post('xapi/commands/'.$deviceId, $body);
+        // POST /xapi/command/{commandName} with the device and the command arguments in the body
+        $response = $this->post('xapi/command/'.$command, ['deviceId' => $deviceId, 'arguments' => $arguments]);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -33,7 +32,7 @@ class Xapi extends AbstractApi
      */
     public function status(string $deviceId, string $path)
     {
-        $response = $this->get('xapi/status/'.$deviceId, ['path' => $path]);
+        $response = $this->get('xapi/status', ['deviceId' => $deviceId, 'name' => $path]);
 
         if (! $response->success) {
             return new Error($response->data);

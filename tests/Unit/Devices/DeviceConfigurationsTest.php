@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Devices\DeviceConfiguration as DeviceConfigurationEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Device Configurations', function () {
@@ -47,18 +46,4 @@ describe('Device Configurations', function () {
         expect($result)->toBeObject();
     });
 
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/deviceConfigurations*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_configurations()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

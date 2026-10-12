@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Event;
 use Offlineagency\LaravelWebex\Api\Admin\AdminAuditEvents;
-use Offlineagency\LaravelWebex\Api\Admin\HistoricalAnalytics as AdminHistoricalAnalytics;
 use Offlineagency\LaravelWebex\Api\Admin\HybridClusters;
 use Offlineagency\LaravelWebex\Api\Admin\HybridConnectors;
 use Offlineagency\LaravelWebex\Api\Admin\Licenses;
@@ -88,7 +87,6 @@ describe('LaravelWebex API accessors', function () {
         'room_tabs' => RoomTabs::class,
         'team_memberships' => TeamMemberships::class,
         'admin_audit_events' => AdminAuditEvents::class,
-        'admin_historical_analytics' => AdminHistoricalAnalytics::class,
         'admin_licenses' => Licenses::class,
         'admin_locations' => Locations::class,
         'admin_organizations' => Organizations::class,

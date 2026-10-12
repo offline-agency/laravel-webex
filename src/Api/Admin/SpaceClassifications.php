@@ -16,7 +16,7 @@ class SpaceClassifications extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max', 'orgId']);
 
-        $response = $this->get('spaceClassifications', $additional_data);
+        $response = $this->get('classifications', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -25,51 +25,5 @@ class SpaceClassifications extends AbstractApi
         $items = $this->getItemsFromResponse($response);
 
         return array_map(fn ($item) => new SpaceClassificationEntity($item), $items);
-    }
-
-    /**
-     * @return SpaceClassificationEntity|Error
-     */
-    public function detail(string $classificationId)
-    {
-        $response = $this->get('spaceClassifications/'.$classificationId, []);
-
-        return $this->entity($response, SpaceClassificationEntity::class);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return SpaceClassificationEntity|Error
-     */
-    public function create(array $body)
-    {
-        $response = $this->post('spaceClassifications', $body);
-
-        return $this->entity($response, SpaceClassificationEntity::class);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return SpaceClassificationEntity|Error
-     */
-    public function update(string $classificationId, array $body)
-    {
-        $response = $this->put('spaceClassifications/'.$classificationId, $body);
-
-        return $this->entity($response, SpaceClassificationEntity::class);
-    }
-
-    /**
-     * @return true|Error
-     */
-    public function destroy(string $classificationId)
-    {
-        $response = $this->delete('spaceClassifications/'.$classificationId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return true;
     }
 }

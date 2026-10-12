@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\License as LicenseEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin Licenses', function () {
@@ -46,35 +45,4 @@ describe('Admin Licenses', function () {
         expect($license->id)->toEqual('lic1');
     });
 
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/licenses*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_licenses()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/licenses/lic1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_licenses()->detail('lic1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
 });

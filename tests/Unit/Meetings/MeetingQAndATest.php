@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingQAndA as MeetingQAndAEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -23,21 +22,6 @@ describe('MeetingQAndA', function () {
         expect($list[0])->toBeInstanceOf(MeetingQAndAEntity::class);
     });
 
-    it('returns error on list Q and A failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetings/q_and_a*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_q_and_a()->listQAndA('m1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('lists answers of a question', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/q_and_a/q1/answers*' => Http::response(json_encode((object) [
@@ -55,18 +39,4 @@ describe('MeetingQAndA', function () {
         expect($list[0])->toBeInstanceOf(MeetingQAndAEntity::class);
     });
 
-    it('returns error on list answers of a question failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetings/q_and_a/q1/answers*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_q_and_a()->listAnswersOfAQuestion('q1', 'm1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

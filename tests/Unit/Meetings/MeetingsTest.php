@@ -772,13 +772,13 @@ describe('Meetings', function () {
 
     it('meetings_batch_update_registrants_status', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_status_op_type*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/approve*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
             ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
-        $updated_registrants_status = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'fake_status_op_type');
+        $updated_registrants_status = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'approve');
         assert($updated_registrants_status instanceof Meeting);
 
         expect($updated_registrants_status)->toBeInstanceOf(Meeting::class);
@@ -787,7 +787,7 @@ describe('Meetings', function () {
 
     it('error_on_meeting_batch_update_registrants_status', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_status_op_type*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/approve*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -795,7 +795,7 @@ describe('Meetings', function () {
         ]);
 
         $laravel_webex = new LaravelWebex;
-        $error_meeting = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'fake_status_op_type');
+        $error_meeting = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'approve');
         assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
@@ -1465,5 +1465,16 @@ describe('Meetings', function () {
         expect($result->message)->toEqual('fake_message');
         expect($result->errors)->toBeArray();
         expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('rejects an unsupported registrant status operation without sending a request', function () {
+        Http::fake();
+
+        $result = (new LaravelWebex)->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'delete');
+
+        expect($result)->toBeInstanceOf(Error::class);
+        assert($result instanceof Error);
+        expect($result->message)->toBe("Unsupported registrant status operation 'delete': use approve, reject, cancel or bulkDelete.");
+        Http::assertNothingSent();
     });
 });
