@@ -13,7 +13,7 @@ final class GitRepository
 
     public function __construct()
     {
-        $this->path = sys_get_temp_dir().'/webex-release-'.bin2hex(random_bytes(6));
+        $this->path = sys_get_temp_dir().'/'.str_replace('.', '', uniqid('webex-release-', true));
         mkdir($this->path);
         $this->git('init', '-q', '-b', 'main');
         $this->git('config', 'user.email', 'test@example.com');
