@@ -1,0 +1,8 @@
+# actionlint 1.7.12 (latest release) does not know the documented `queue` key of `concurrency`
+# (https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency).
+# Upstream: https://github.com/rhysd/actionlint/issues/657, https://github.com/rhysd/actionlint/pull/654 (open).
+# Only that message is ignored, only in release.yml; remove this file once a release supports the key.
+paths:
+    .github/workflows/release.yml:
+        ignore:
+            - 'unexpected key "queue" for "concurrency" section'

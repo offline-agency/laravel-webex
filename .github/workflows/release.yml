@@ -1,0 +1,75 @@
+name: Release
+
+# One stable tag and one GitHub Release per pull request merged into main, after the CI run of its exact merge
+# commit succeeded (see tools/release and CONTRIBUTING.md).
+#
+# - workflow_run: every completed CI run of a push to main (merge commits of same-repository and fork pull
+#   requests alike) triggers a pass that releases every merged pull request whose CI passed, in merge order.
+# - workflow_dispatch: recovery for missed or failed runs; it re-validates everything through the API and
+#   defaults to a dry run.
+on:
+    workflow_run:
+        workflows: [CI]
+        types: [completed]
+        branches: [main]
+    workflow_dispatch:
+        inputs:
+            pr:
+                description: Merged pull request number to release up to (empty = every pending merge)
+                required: false
+                default: ''
+            dry_run:
+                description: Show the plan without creating tags or releases
+                type: boolean
+                default: true
+
+permissions:
+    contents: read
+
+# one release pass at a time, queued (up to 100 pending, FIFO by waiting time), never cancelled: versions are
+# allocated in merge order by the tooling, not by the queue
+concurrency:
+    group: release-main
+    queue: max
+    cancel-in-progress: false
+
+jobs:
+    publish:
+        name: Tag and release merged pull requests
+        if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main')
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            pull-requests: read
+            actions: read
+        steps:
+            # trusted code only: the main branch, never a pull request head
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  ref: main
+                  fetch-depth: 0
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: '8.4'
+                  coverage: none
+                  tools: none
+            # no Composer install and no package code: the tooling is plain PHP under tools/release
+            - name: Publish
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+                  PR_INPUT: ${{ inputs.pr }}
+                  DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+              run: |
+                  args=(publish)
+                  if [[ -n "${PR_INPUT}" ]]; then
+                      if [[ ! "${PR_INPUT}" =~ ^[0-9]+$ ]]; then
+                          echo "::error::pr must be a pull request number"
+                          exit 1
+                      fi
+                      args+=("--pr=${PR_INPUT}")
+                  fi
+                  if [[ "${DRY_RUN}" == "true" ]]; then
+                      args+=(--dry-run)
+                  fi
+                  php tools/release/bin/release "${args[@]}"
