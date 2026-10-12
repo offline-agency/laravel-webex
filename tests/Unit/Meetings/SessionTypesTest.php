@@ -69,4 +69,42 @@ describe('SessionTypes', function () {
 
         expect($result)->toBeInstanceOf(MeetingEntity::class);
     });
+
+    it('returns error on list user session types failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meeting/userconfig/sessionTypes*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->session_types()->listUserSessionType();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on update user session types failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/admin/meeting/userconfig/sessionTypes*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->session_types()->update('https://example.webex.com', ['st1']);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

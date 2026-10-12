@@ -122,4 +122,77 @@ describe('RoomTabs', function () {
 
         expect($result)->toBeTrue();
     });
+
+    it('returns error on create room tab failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/room/tabs*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->room_tabs()->create('room1', [
+            'contentUrl' => 'https://example.com/tab',
+            'displayName' => 'New Tab',
+        ]);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Bad Request');
+    });
+
+    it('returns error on room tab detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/room/tabs/tab1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->room_tabs()->detail('tab1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Not Found');
+    });
+
+    it('returns error on update room tab failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/room/tabs/tab1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->room_tabs()->update('tab1', [
+            'displayName' => 'Updated Tab',
+        ]);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Not Found');
+    });
+
+    it('returns error on destroy room tab failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/room/tabs/tab1*' => Http::response(json_encode((object) [
+                'message' => 'Forbidden',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 403),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->room_tabs()->destroy('tab1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Forbidden');
+    });
 });

@@ -68,4 +68,42 @@ describe('MeetingPolls', function () {
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingPollsEntity::class);
     });
+
+    it('returns error on poll results detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings/pollResults*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_polls()->detailPollResults('m1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on list respondents for a question failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings/polls/poll1/questions/q1/respondents*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_polls()->listRespondentsQuestion('poll1', 'q1', 'm1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

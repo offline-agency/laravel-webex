@@ -1409,4 +1409,61 @@ describe('Meetings', function () {
         expect($error_meeting->errors)->toBeArray();
         expect($error_meeting->trackingId)->toEqual('fake_trackingId');
     });
+
+    it('returns error on meeting create failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting()->create('fake_title', 'fake_start', 'fake_end');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on meeting detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting()->detail('fake_id');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on meeting update failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting()->update('fake_id', 'fake_title', 'fake_password', 'fake_start', 'fake_end');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

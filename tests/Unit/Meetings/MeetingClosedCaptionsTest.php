@@ -68,4 +68,42 @@ describe('MeetingClosedCaptions', function () {
 
         expect($result)->toBeInstanceOf(MeetingClosedCaptionsEntity::class);
     });
+
+    it('returns error on list closed caption snippets failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingClosedCaptions/cc1/snippets*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_closed_captions()->listClosedCaptionSnippets('cc1', 'm1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on download closed caption snippets failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingClosedCaptions/cc1/download*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_closed_captions()->downloadClosedCaptionSnippets('cc1', 'm1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

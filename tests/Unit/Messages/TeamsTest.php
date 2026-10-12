@@ -136,4 +136,55 @@ describe('Teams', function () {
         expect($team->name)->toEqual('Team A');
         Http::assertSent(fn (Request $request) => $request['name'] === 'Team A');
     });
+
+    it('returns error on create team failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/teams*' => Http::response(json_encode((object) [
+                'message' => 'Bad Request',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->teams()->create('New Team');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Bad Request');
+    });
+
+    it('returns error on team detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/teams/team1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->teams()->detail('team1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Not Found');
+    });
+
+    it('returns error on update team failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/teams/team1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->teams()->update('team1', 'Updated Team');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Not Found');
+    });
 });

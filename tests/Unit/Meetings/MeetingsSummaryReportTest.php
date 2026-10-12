@@ -54,4 +54,23 @@ describe('MeetingsSummaryReport', function () {
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingsSummaryReportEntity::class);
     });
+
+    it('returns error on list attendee reports failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingReports/attendees*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meetings_summary_report()->listAttendeeReports('https://example.webex.com');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

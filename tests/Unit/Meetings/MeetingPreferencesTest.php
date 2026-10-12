@@ -229,4 +229,213 @@ describe('MeetingPreferences', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on personal room options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->detailPersonalRoomOptions();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on audio options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/audio*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->detailAudioOptions();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on video options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/video*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->detailVideoOptions();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on update video options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/video/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->updateVideoOptions([]);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on scheduling options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->detailSchedulingOptions();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on update scheduling options failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->updateSchedulingOptions([], true, 0, false);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on insert delegate emails failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->insertDelegateEmails(['emails' => ['d@example.com']]);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on delete delegate emails failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->deleteDelegateEmails(['emails' => ['d@example.com']]);
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on site list failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/sites*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 401),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->detailSiteList();
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on update default site failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/sites/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->updateDefaultSite(true, 'https://example.webex.com');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
+
+    it('returns error on batch refresh personal meeting room id failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/refreshId/*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 400),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->meeting_preferences()->batchRefreshPersonalMeetingRoomID('https://example.webex.com');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });

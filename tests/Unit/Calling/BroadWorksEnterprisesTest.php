@@ -59,4 +59,21 @@ describe('Calling BroadWorksEnterprises', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/broadworksEnterprises/ent1*' => Http::response(json_encode((object) [
+                'message' => 'Not Found',
+                'errors' => [],
+                'trackingId' => 't1',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->broadworks_enterprises()->detail('ent1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('Not Found');
+    });
 });

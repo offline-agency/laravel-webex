@@ -180,4 +180,23 @@ describe('People', function () {
 
         expect($result)->toBeInstanceOf(Error::class);
     });
+
+    it('returns error on person detail failure', function () {
+        Http::fake([
+            'https://webexapis.com/v1/people/p1*' => Http::response(json_encode((object) [
+                'message' => 'fake_message',
+                'errors' => [],
+                'trackingId' => 'fake_trackingId',
+            ], JSON_THROW_ON_ERROR), 404),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $result = $laravel_webex->people()->detailPerson('p1');
+        assert($result instanceof Error);
+
+        expect($result)->toBeInstanceOf(Error::class);
+        expect($result->message)->toEqual('fake_message');
+        expect($result->errors)->toBeArray();
+        expect($result->trackingId)->toEqual('fake_trackingId');
+    });
 });
