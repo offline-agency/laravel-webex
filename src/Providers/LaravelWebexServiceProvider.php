@@ -9,6 +9,11 @@ class LaravelWebexServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $route = config('webex.auth_route');
+        if (! is_array($route) || ($route['enabled'] ?? true) !== false) {
+            $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
+        }
+
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../../config/webex.php' => config_path('webex.php'),
@@ -27,10 +32,6 @@ class LaravelWebexServiceProvider extends ServiceProvider
         $this->app->singleton('laravel-webex', function () {
             return new LaravelWebex;
         });
-
-        $this->loadRoutesFrom(
-            __DIR__.'/../../routes/web.php'
-        );
 
         $this->app->register(LaravelWebexEventServiceProvider::class);
     }

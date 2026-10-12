@@ -347,15 +347,19 @@ class LaravelWebex
         $this->base_url = is_string($base_url) ? $base_url : '';
     }
 
+    /**
+     * Build the HTTP client with the bearer token configured now (listeners of AuthenticationRequested may set it),
+     * then dispatch SuccessfulAuthentication: the client is configured, which does not mean Webex accepted the token.
+     */
     private function setHeader(): void
     {
-        event(new SuccessfulAuthentication);
-
         $bearer = config('webex.bearer');
         $timeout = config('webex.timeout', 30);
 
         $this->httpBuilder = Http::withHeaders([
             'Authorization' => 'Bearer '.(is_string($bearer) ? $bearer : ''),
         ])->timeout(is_numeric($timeout) ? (float) $timeout : 30);
+
+        event(new SuccessfulAuthentication);
     }
 }

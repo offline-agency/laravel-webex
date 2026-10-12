@@ -93,4 +93,20 @@ return [
     |
     */
     'auth_route_middleware' => ['throttle:60,1'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Auth route
+    |--------------------------------------------------------------------------
+    |
+    | The package registers GET /auth (route name "auth"). Change the path and
+    | name, or set 'enabled' => false when the application has its own route
+    | with that path or name.
+    |
+    */
+    'auth_route' => [
+        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', true),
+        'path' => '/auth',
+        'name' => 'auth',
+    ],
 ];
