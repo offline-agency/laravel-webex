@@ -54,12 +54,17 @@ if ($command === 'publish') {
         fwrite(STDERR, "GITHUB_TOKEN is not set.\n");
         exit(1);
     }
-    $releaser = new Releaser(new HttpGitHubApi($config['repository'], $token), new GitHistory(getcwd() ?: '.'), $config);
+    $apiUrl = getenv('GITHUB_API_URL');
+    $api = new HttpGitHubApi($config['repository'], $token, is_string($apiUrl) && $apiUrl !== '' ? $apiUrl : 'https://api.github.com');
+    $releaser = new Releaser($api, new GitHistory(getcwd() ?: '.'), $config);
     try {
         $published = $releaser->run('origin/'.$config['base_branch'], $pr, $dryRun);
-    } finally {
+    } catch (RuntimeException $e) {
         echo implode("\n", $releaser->log)."\n";
+        fwrite(STDERR, "::error::{$e->getMessage()}\n");
+        exit(1);
     }
+    echo implode("\n", $releaser->log)."\n";
     echo json_encode(['published' => $published], JSON_PRETTY_PRINT)."\n";
     exit(0);
 }

@@ -51,7 +51,9 @@ jobs:
             - name: Installed versions
               run: |
                   php -v | head -n 1
-                  composer show laravel/framework orchestra/testbench pestphp/pest phpunit/phpunit larastan/larastan phpstan/phpstan | grep -E '^(name|versions)'
+                  for package in laravel/framework orchestra/testbench pestphp/pest phpunit/phpunit larastan/larastan phpstan/phpstan; do
+                      composer show "$package" | grep -E '^(name|versions) +:'
+                  done
             - name: Tests
               run: vendor/bin/pest --colors=never --log-junit junit.xml
             - name: Larastan (level max)
@@ -85,7 +87,9 @@ jobs:
               run: |
                   composer require "laravel/framework:${FRAMEWORK}" --no-update --no-interaction
                   composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction --no-progress
-                  composer show laravel/framework orchestra/testbench pestphp/pest guzzlehttp/guzzle | grep -E '^(name|versions)'
+                  for package in laravel/framework orchestra/testbench pestphp/pest guzzlehttp/guzzle; do
+                      composer show "$package" | grep -E '^(name|versions) +:'
+                  done
                   composer audit
             - name: Tests
               run: vendor/bin/pest --colors=never
@@ -104,6 +108,8 @@ jobs:
                   php-version: '8.4'
                   extensions: curl, mbstring
                   coverage: pcov
+                  # pcov instruments only an auto-detected directory (src) by default; Http/ is covered too
+                  ini-values: pcov.directory=.
                   tools: composer:v2
             - run: composer install --prefer-dist --no-interaction --no-progress
             - name: Tests with coverage (100 % of src and Http required)
