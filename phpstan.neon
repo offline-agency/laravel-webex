@@ -2,8 +2,15 @@ includes:
     - vendor/larastan/larastan/extension.neon
 
 parameters:
+    # the lowest supported PHP version (composer.json: ~8.4.0 || ~8.5.0)
+    phpVersion: 80400
     paths:
         - src
         - Http
+        - config
+        - routes
         - tests
     level: max
+    # the package's own config directory: env() is allowed there and config() types are read from it
+    configDirectories:
+        - config
