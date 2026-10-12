@@ -57,7 +57,11 @@ jobs:
             - name: Tests
               run: vendor/bin/pest --colors=never --log-junit junit.xml
             - name: Larastan (level max)
-              run: vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+              # boot Larastan once first: on a fresh checkout every parallel worker would otherwise race to create
+              # the testbench vendor symlink and rebuild bootstrap/cache/packages.php, deleting it under the others
+              run: |
+                  php -r 'require "vendor/autoload.php"; require "vendor/larastan/larastan/bootstrap.php";'
+                  vendor/bin/phpstan analyse --memory-limit=512M --no-progress
 
     lowest:
         name: Lowest dependencies / Laravel ${{ matrix.laravel }}
@@ -94,7 +98,11 @@ jobs:
             - name: Tests
               run: vendor/bin/pest --colors=never
             - name: Larastan (level max)
-              run: vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+              # boot Larastan once first: on a fresh checkout every parallel worker would otherwise race to create
+              # the testbench vendor symlink and rebuild bootstrap/cache/packages.php, deleting it under the others
+              run: |
+                  php -r 'require "vendor/autoload.php"; require "vendor/larastan/larastan/bootstrap.php";'
+                  vendor/bin/phpstan analyse --memory-limit=512M --no-progress
 
     coverage:
         name: Coverage (PHP 8.4 / locked dependencies)
