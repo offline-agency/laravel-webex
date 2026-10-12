@@ -10,15 +10,23 @@ use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
-it('builds the client with the token set in AuthenticationRequested, then dispatches SuccessfulAuthentication', function () {
-    Event::listen(AuthenticationRequested::class, fn () => config()->set('webex.bearer', 'injected-token'));
-    // the client is already built when SuccessfulAuthentication is dispatched: changing the token there has no effect
-    Event::listen(SuccessfulAuthentication::class, fn () => config()->set('webex.bearer', 'too-late'));
+it('dispatches AuthenticationRequested then SuccessfulAuthentication, and reads the token at request time', function () {
+    $order = [];
+    Event::listen(AuthenticationRequested::class, function () use (&$order) {
+        $order[] = 'requested';
+        config()->set('webex.bearer', 'injected-token');
+    });
+    Event::listen(SuccessfulAuthentication::class, function () use (&$order) {
+        $order[] = 'configured';
+    });
     Http::fake(['https://webexapis.com/v1/messages/m1' => Http::response(['id' => 'm1'])]);
 
-    (new LaravelWebex)->messages()->detail('m1');
+    $client = new LaravelWebex;
+    config()->set('webex.bearer', 'current-token');
+    $client->messages()->detail('m1');
 
-    Http::assertSent(fn (ClientRequest $request) => $request->hasHeader('Authorization', 'Bearer injected-token'));
+    expect($order)->toBe(['requested', 'configured']);
+    Http::assertSent(fn (ClientRequest $request) => $request->hasHeader('Authorization', 'Bearer current-token'));
 });
 
 it('registers the /auth route by default', function () {

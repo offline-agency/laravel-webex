@@ -32,7 +32,7 @@ abstract class AbstractApi
     {
         try {
             $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
+            $response = $this->laravel_webex->http('GET')->get($url, $query_parameters);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -51,7 +51,7 @@ abstract class AbstractApi
     {
         try {
             $fullUrl = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->get($fullUrl, $query_parameters);
+            $response = $this->laravel_webex->http('GET')->get($fullUrl, $query_parameters);
             $parsed = $this->parseResponse($response);
 
             return (object) [
@@ -91,7 +91,7 @@ abstract class AbstractApi
     {
         try {
             $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->post($url, $body);
+            $response = $this->laravel_webex->http('POST')->post($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -107,7 +107,7 @@ abstract class AbstractApi
     {
         try {
             $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->put($url, $body);
+            $response = $this->laravel_webex->http('PUT')->put($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -123,7 +123,7 @@ abstract class AbstractApi
     {
         try {
             $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->patch($url, $body);
+            $response = $this->laravel_webex->http('PATCH')->patch($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -140,7 +140,7 @@ abstract class AbstractApi
         try {
             $query_string = http_build_query($query_parameters);
             $fullUrl = $this->laravel_webex->base_url.$url.($query_string !== '' ? '?'.$query_string : '');
-            $response = $this->laravel_webex->httpBuilder->delete($fullUrl);
+            $response = $this->laravel_webex->http('DELETE')->delete($fullUrl);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -235,9 +235,13 @@ abstract class AbstractApi
         }
 
         if (! $response->successful()) {
-            return is_object($decoded) && property_exists($decoded, 'message')
-                ? (object) ['success' => false, 'status' => $status, 'data' => $decoded]
-                : $this->failure("Webex request failed (HTTP {$status}).", $status);
+            $document = is_object($decoded) && property_exists($decoded, 'message')
+                ? get_object_vars($decoded)
+                : ['message' => "Webex request failed (HTTP {$status}).", 'errors' => [], 'trackingId' => null];
+            $document['status'] = $status;
+            $document['retryAfter'] = LaravelWebex::retryAfterSeconds($response);
+
+            return (object) ['success' => false, 'status' => $status, 'data' => (object) $document];
         }
         if ($malformed) {
             return $this->failure("Webex returned a malformed JSON response (HTTP {$status}).", $status);

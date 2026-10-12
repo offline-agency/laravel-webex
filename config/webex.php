@@ -34,6 +34,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Token resolver
+    |--------------------------------------------------------------------------
+    |
+    | Optional class implementing Offlineagency\LaravelWebex\Contracts\TokenResolver:
+    | asked for the bearer token before every request (refreshed OAuth tokens in
+    | queue workers / Octane). Null uses 'bearer'.
+    |
+    */
+    'token_resolver' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Retries
+    |--------------------------------------------------------------------------
+    |
+    | Attempts (including the first) for GET, PUT and DELETE after a network
+    | failure, a 429 or a 503. The wait follows Retry-After, capped. POST and
+    | PATCH are never retried. Set 'times' to 1 to disable.
+    |
+    */
+    'retry' => [
+        'times' => 3,
+        'max_delay_seconds' => 30,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Access Token Request
     |--------------------------------------------------------------------------
     |

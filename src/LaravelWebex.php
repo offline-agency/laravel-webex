@@ -2,8 +2,12 @@
 
 namespace Offlineagency\LaravelWebex;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 use Offlineagency\LaravelWebex\Api\Admin\AdminAuditEvents;
 use Offlineagency\LaravelWebex\Api\Admin\HistoricalAnalytics as AdminHistoricalAnalytics;
 use Offlineagency\LaravelWebex\Api\Admin\HybridClusters;
@@ -57,6 +61,7 @@ use Offlineagency\LaravelWebex\Api\Messages\Rooms;
 use Offlineagency\LaravelWebex\Api\Messages\RoomTabs;
 use Offlineagency\LaravelWebex\Api\Messages\TeamMemberships;
 use Offlineagency\LaravelWebex\Api\Messages\Teams;
+use Offlineagency\LaravelWebex\Contracts\TokenResolver;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
 
@@ -64,7 +69,13 @@ class LaravelWebex
 {
     public string $base_url;
 
+    /**
+     * @deprecated 2.0 built once with the token configured at construction; requests use http(), which resolves
+     *             the token for every request
+     */
     public PendingRequest $httpBuilder;
+
+    private ?string $boundToken = null;
 
     public function __construct()
     {
@@ -338,6 +349,89 @@ class LaravelWebex
     public function xapi(): Xapi
     {
         return new Xapi($this);
+    }
+
+    /**
+     * A copy of this client that sends $token instead of the configured one (one client per Webex account).
+     */
+    public function forToken(string $token): self
+    {
+        $client = clone $this;
+        $client->boundToken = $token;
+
+        return $client;
+    }
+
+    /**
+     * The HTTP client for one request: the token is resolved now (bound token, token resolver, or
+     * config('webex.bearer')), and idempotent methods (GET, PUT, DELETE) are retried after a network failure,
+     * a 429 (honouring Retry-After, capped) or a 503. POST and PATCH are never retried.
+     */
+    public function http(string $method): PendingRequest
+    {
+        $timeout = config('webex.timeout', 30);
+        $request = Http::withToken($this->token())->timeout(is_numeric($timeout) ? (float) $timeout : 30);
+
+        $retry = config('webex.retry');
+        $times = is_array($retry) && is_int($retry['times'] ?? null) ? $retry['times'] : 3;
+        $maxDelay = is_array($retry) && is_int($retry['max_delay_seconds'] ?? null) ? $retry['max_delay_seconds'] : 30;
+        if ($times > 1 && in_array(strtoupper($method), ['GET', 'PUT', 'DELETE'], true)) {
+            $request = $request->retry(
+                $times,
+                fn (int $attempt, mixed $exception): int => self::retryDelayMilliseconds($attempt, $exception, $maxDelay),
+                fn (mixed $exception): bool => $exception instanceof ConnectionException
+                    || ($exception instanceof RequestException && in_array($exception->response->status(), [429, 503], true)),
+                throw: false,
+            );
+        }
+
+        return $request;
+    }
+
+    /**
+     * Seconds announced by a response's Retry-After header (delta-seconds or HTTP date), or null.
+     */
+    public static function retryAfterSeconds(Response $response): ?int
+    {
+        $header = trim($response->header('Retry-After'));
+        if ($header === '') {
+            return null;
+        }
+        if (ctype_digit($header)) {
+            return (int) $header;
+        }
+        $date = strtotime($header);
+
+        return $date === false ? null : max(0, $date - time());
+    }
+
+    private static function retryDelayMilliseconds(int $attempt, mixed $exception, int $maxDelay): int
+    {
+        $announced = $exception instanceof RequestException ? self::retryAfterSeconds($exception->response) : null;
+        $seconds = $announced ?? 2 ** ($attempt - 1);
+
+        return min($seconds, $maxDelay) * 1000;
+    }
+
+    private function token(): string
+    {
+        if ($this->boundToken !== null) {
+            return $this->boundToken;
+        }
+
+        $resolver = config('webex.token_resolver');
+        if ($resolver !== null && $resolver !== '') {
+            $instance = is_string($resolver) && class_exists($resolver) ? app()->make($resolver) : null;
+            if (! $instance instanceof TokenResolver) {
+                throw new InvalidArgumentException('webex.token_resolver must name a class implementing '.TokenResolver::class.'.');
+            }
+
+            return $instance->token();
+        }
+
+        $bearer = config('webex.bearer');
+
+        return is_string($bearer) ? $bearer : '';
     }
 
     private function setBaseUrl(): void
