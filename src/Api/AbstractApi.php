@@ -2,13 +2,17 @@
 
 namespace Offlineagency\LaravelWebex\Api;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
+use JsonException;
+use Offlineagency\LaravelWebex\Entities\AbstractEntity;
+use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 /**
- * @phpstan-type ApiResponse object{success: bool, data: array<mixed>|object|null}
- * @phpstan-type PaginatedApiResponse object{success: bool, data: array<mixed>|object|null, nextLink: string|null}
+ * @phpstan-type ApiResponse object{success: bool, status: int, data: array<mixed>|object|null}
+ * @phpstan-type PaginatedApiResponse object{success: bool, status: int, data: array<mixed>|object|null, nextLink: string|null}
  */
 abstract class AbstractApi
 {
@@ -31,11 +35,8 @@ abstract class AbstractApi
             $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
 
             return $this->parseResponse($response);
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-            ];
+        } catch (ConnectionException $e) {
+            return $this->failure('Connection to Webex failed: '.$e->getMessage());
         }
     }
 
@@ -55,15 +56,14 @@ abstract class AbstractApi
 
             return (object) [
                 'success' => $parsed->success,
+                'status' => $parsed->status,
                 'data' => $parsed->data,
                 'nextLink' => $this->parseNextLinkFromResponse($response),
             ];
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-                'nextLink' => null,
-            ];
+        } catch (ConnectionException $e) {
+            $failure = $this->failure('Connection to Webex failed: '.$e->getMessage());
+
+            return (object) ['success' => false, 'status' => 0, 'data' => $failure->data, 'nextLink' => null];
         }
     }
 
@@ -94,11 +94,8 @@ abstract class AbstractApi
             $response = $this->laravel_webex->httpBuilder->post($url, $body);
 
             return $this->parseResponse($response);
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-            ];
+        } catch (ConnectionException $e) {
+            return $this->failure('Connection to Webex failed: '.$e->getMessage());
         }
     }
 
@@ -113,11 +110,8 @@ abstract class AbstractApi
             $response = $this->laravel_webex->httpBuilder->put($url, $body);
 
             return $this->parseResponse($response);
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-            ];
+        } catch (ConnectionException $e) {
+            return $this->failure('Connection to Webex failed: '.$e->getMessage());
         }
     }
 
@@ -132,11 +126,8 @@ abstract class AbstractApi
             $response = $this->laravel_webex->httpBuilder->patch($url, $body);
 
             return $this->parseResponse($response);
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-            ];
+        } catch (ConnectionException $e) {
+            return $this->failure('Connection to Webex failed: '.$e->getMessage());
         }
     }
 
@@ -152,11 +143,8 @@ abstract class AbstractApi
             $response = $this->laravel_webex->httpBuilder->delete($fullUrl);
 
             return $this->parseResponse($response);
-        } catch (\Throwable $e) {
-            return (object) [
-                'success' => false,
-                'data' => (object) ['message' => $e->getMessage(), 'errors' => [], 'trackingId' => null],
-            ];
+        } catch (ConnectionException $e) {
+            return $this->failure('Connection to Webex failed: '.$e->getMessage());
         }
     }
 
@@ -204,19 +192,72 @@ abstract class AbstractApi
     }
 
     /**
-     * Decode the response body. Bodies that do not decode to a JSON object or array yield null data.
+     * The entity of a successful response, or the Error of a failed one. A successful response without a JSON
+     * document (empty body, JSON null) is an Error too: no entity is built from nothing.
+     *
+     * @template T of AbstractEntity
+     *
+     * @param  ApiResponse  $response
+     * @param  class-string<T>  $class
+     * @return T|Error
+     */
+    protected function entity(object $response, string $class): AbstractEntity
+    {
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+        if ($response->data === null) {
+            return new Error($this->failure("Webex returned no document (HTTP {$response->status}).", $response->status)->data);
+        }
+
+        return new $class($response->data);
+    }
+
+    /**
+     * Decode a response. Any 2xx status is a success; its body must be empty or a JSON object/array (a malformed
+     * body or a JSON scalar is reported, never turned into an empty result). A failed response keeps the Webex
+     * error document when the body is one, and never echoes another body (proxies may include request details).
      *
      * @return ApiResponse
      */
     private function parseResponse(Response $response): object
     {
-        $success = $response->status() === 200 || $response->status() === 204;
+        $status = $response->status();
         $body = $response->body();
-        $data = $body === '' ? null : json_decode($body);
+        $decoded = null;
+        $malformed = false;
+        if (trim($body) !== '') {
+            try {
+                $decoded = json_decode($body, false, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException) {
+                $malformed = true;
+            }
+        }
 
+        if (! $response->successful()) {
+            return is_object($decoded) && property_exists($decoded, 'message')
+                ? (object) ['success' => false, 'status' => $status, 'data' => $decoded]
+                : $this->failure("Webex request failed (HTTP {$status}).", $status);
+        }
+        if ($malformed) {
+            return $this->failure("Webex returned a malformed JSON response (HTTP {$status}).", $status);
+        }
+        if ($decoded !== null && ! is_array($decoded) && ! is_object($decoded)) {
+            return $this->failure("Webex returned an unexpected JSON value (HTTP {$status}).", $status);
+        }
+
+        return (object) ['success' => true, 'status' => $status, 'data' => $decoded];
+    }
+
+    /**
+     * @return ApiResponse
+     */
+    private function failure(string $message, int $status = 0): object
+    {
         return (object) [
-            'success' => $success,
-            'data' => is_array($data) || is_object($data) ? $data : null,
+            'success' => false,
+            'status' => $status,
+            'data' => (object) ['message' => $message, 'errors' => [], 'trackingId' => null],
         ];
     }
 }

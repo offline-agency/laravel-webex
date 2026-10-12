@@ -65,11 +65,7 @@ class Rooms extends AbstractApi
 
         $response = $this->post('rooms', array_merge(['title' => $title], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomEntity($response->data);
+        return $this->entity($response, RoomEntity::class);
     }
 
     /**
@@ -79,11 +75,7 @@ class Rooms extends AbstractApi
     {
         $response = $this->get('rooms/'.$roomId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomEntity($response->data);
+        return $this->entity($response, RoomEntity::class);
     }
 
     /**
@@ -98,11 +90,7 @@ class Rooms extends AbstractApi
 
         $response = $this->put('rooms/'.$roomId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomEntity($response->data);
+        return $this->entity($response, RoomEntity::class);
     }
 
     /**

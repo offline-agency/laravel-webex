@@ -48,11 +48,7 @@ class VideoMesh extends AbstractApi
             'to' => $to,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -93,11 +89,7 @@ class VideoMesh extends AbstractApi
             'to' => $to,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -167,11 +159,7 @@ class VideoMesh extends AbstractApi
             'clusterId' => $clusterId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -190,11 +178,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -211,11 +195,7 @@ class VideoMesh extends AbstractApi
             'orgId' => $orgId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -234,11 +214,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -305,11 +281,7 @@ class VideoMesh extends AbstractApi
             'clusterId' => $clusterId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -351,11 +323,7 @@ class VideoMesh extends AbstractApi
             'clusterId' => $clusterId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -425,11 +393,7 @@ class VideoMesh extends AbstractApi
             'clusterId' => $clusterId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -448,11 +412,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -469,11 +429,7 @@ class VideoMesh extends AbstractApi
             'nodeId' => $nodeId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -492,11 +448,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -530,11 +482,7 @@ class VideoMesh extends AbstractApi
             'clusterId' => $clusterId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -551,11 +499,7 @@ class VideoMesh extends AbstractApi
 
         $response = $this->put('videoMesh/triggerTest/clusters/'.$clusterId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TrackingCodesEntity($response->data);
+        return $this->entity($response, TrackingCodesEntity::class);
     }
 
     /**
@@ -572,11 +516,7 @@ class VideoMesh extends AbstractApi
 
         $response = $this->put('videoMesh/triggerTest/nodes/'.$nodeId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TrackingCodesEntity($response->data);
+        return $this->entity($response, TrackingCodesEntity::class);
     }
 
     /**
@@ -589,11 +529,7 @@ class VideoMesh extends AbstractApi
             'commandId' => $commandId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -606,11 +542,7 @@ class VideoMesh extends AbstractApi
             'commandId' => $commandId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -656,11 +588,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -679,11 +607,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $triggerType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -729,11 +653,7 @@ class VideoMesh extends AbstractApi
             'triggerType' => $deviceType,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     /**
@@ -768,11 +688,7 @@ class VideoMesh extends AbstractApi
     ) {
         $response = $this->get('videoMesh/eventThresholds/'.$eventThresholdId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VideoMeshEntity($response->data);
+        return $this->entity($response, VideoMeshEntity::class);
     }
 
     // TODO check function patch
@@ -787,11 +703,7 @@ class VideoMesh extends AbstractApi
             'eventThresholdIds' => $eventThresholdIds,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -805,10 +717,6 @@ class VideoMesh extends AbstractApi
             'eventThresholdIds' => $eventThresholdIds,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 }

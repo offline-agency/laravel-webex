@@ -34,10 +34,6 @@ class BroadWorksSubscribers extends AbstractApi
     {
         $response = $this->get('broadworksSubscribers/'.$subscriberId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new BroadWorksSubscriberEntity($response->data);
+        return $this->entity($response, BroadWorksSubscriberEntity::class);
     }
 }

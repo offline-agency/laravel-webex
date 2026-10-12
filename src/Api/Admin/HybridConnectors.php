@@ -34,11 +34,7 @@ class HybridConnectors extends AbstractApi
     {
         $response = $this->get('hybridConnectors/'.$connectorId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
+        return $this->entity($response, HybridConnectorEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class HybridConnectors extends AbstractApi
     {
         $response = $this->post('hybridConnectors', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
+        return $this->entity($response, HybridConnectorEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class HybridConnectors extends AbstractApi
     {
         $response = $this->put('hybridConnectors/'.$connectorId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
+        return $this->entity($response, HybridConnectorEntity::class);
     }
 
     /**

@@ -82,11 +82,7 @@ class Messages extends AbstractApi
             'text' => $text,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**
@@ -98,11 +94,7 @@ class Messages extends AbstractApi
     {
         $response = $this->get('messages/'.$messageId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**
@@ -119,11 +111,7 @@ class Messages extends AbstractApi
             'text' => $text,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**

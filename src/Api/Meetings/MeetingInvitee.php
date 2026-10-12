@@ -49,11 +49,7 @@ class MeetingInvitee extends AbstractApi
 
         $response = $this->get('meetingInvitees/'.$meetingInviteeId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**
@@ -74,11 +70,7 @@ class MeetingInvitee extends AbstractApi
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**
@@ -125,11 +117,7 @@ class MeetingInvitee extends AbstractApi
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**

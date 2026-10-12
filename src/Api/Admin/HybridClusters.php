@@ -34,11 +34,7 @@ class HybridClusters extends AbstractApi
     {
         $response = $this->get('hybridClusters/'.$clusterId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
+        return $this->entity($response, HybridClusterEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class HybridClusters extends AbstractApi
     {
         $response = $this->post('hybridClusters', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
+        return $this->entity($response, HybridClusterEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class HybridClusters extends AbstractApi
     {
         $response = $this->put('hybridClusters/'.$clusterId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
+        return $this->entity($response, HybridClusterEntity::class);
     }
 
     /**

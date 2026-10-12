@@ -34,11 +34,7 @@ class ResourceGroups extends AbstractApi
     {
         $response = $this->get('resourceGroups/'.$resourceGroupId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupEntity($response->data);
+        return $this->entity($response, ResourceGroupEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class ResourceGroups extends AbstractApi
     {
         $response = $this->post('resourceGroups', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupEntity($response->data);
+        return $this->entity($response, ResourceGroupEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class ResourceGroups extends AbstractApi
     {
         $response = $this->put('resourceGroups/'.$resourceGroupId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupEntity($response->data);
+        return $this->entity($response, ResourceGroupEntity::class);
     }
 
     /**

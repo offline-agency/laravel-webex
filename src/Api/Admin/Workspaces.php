@@ -34,11 +34,7 @@ class Workspaces extends AbstractApi
     {
         $response = $this->get('workspaces/'.$workspaceId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WorkspaceEntity($response->data);
+        return $this->entity($response, WorkspaceEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class Workspaces extends AbstractApi
     {
         $response = $this->post('workspaces', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WorkspaceEntity($response->data);
+        return $this->entity($response, WorkspaceEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class Workspaces extends AbstractApi
     {
         $response = $this->put('workspaces/'.$workspaceId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WorkspaceEntity($response->data);
+        return $this->entity($response, WorkspaceEntity::class);
     }
 
     /**

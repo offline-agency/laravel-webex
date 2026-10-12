@@ -34,10 +34,6 @@ class BroadWorksEnterprises extends AbstractApi
     {
         $response = $this->get('broadworksEnterprises/'.$enterpriseId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new BroadWorksEnterpriseEntity($response->data);
+        return $this->entity($response, BroadWorksEnterpriseEntity::class);
     }
 }

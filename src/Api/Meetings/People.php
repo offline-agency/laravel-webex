@@ -48,11 +48,7 @@ class People extends AbstractApi
             'emails' => $emails,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new PeopleEntity($response->data);
+        return $this->entity($response, PeopleEntity::class);
     }
 
     /**
@@ -71,11 +67,7 @@ class People extends AbstractApi
             'personId' => $personId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new PeopleEntity($response->data);
+        return $this->entity($response, PeopleEntity::class);
     }
 
     /**
@@ -96,11 +88,7 @@ class People extends AbstractApi
             'displayName' => $displayName,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new PeopleEntity($response->data);
+        return $this->entity($response, PeopleEntity::class);
     }
 
     /**
@@ -131,10 +119,6 @@ class People extends AbstractApi
 
         $response = $this->get('people/', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new PeopleEntity($response->data);
+        return $this->entity($response, PeopleEntity::class);
     }
 }

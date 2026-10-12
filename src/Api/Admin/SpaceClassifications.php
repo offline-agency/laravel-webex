@@ -34,11 +34,7 @@ class SpaceClassifications extends AbstractApi
     {
         $response = $this->get('spaceClassifications/'.$classificationId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new SpaceClassificationEntity($response->data);
+        return $this->entity($response, SpaceClassificationEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class SpaceClassifications extends AbstractApi
     {
         $response = $this->post('spaceClassifications', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new SpaceClassificationEntity($response->data);
+        return $this->entity($response, SpaceClassificationEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class SpaceClassifications extends AbstractApi
     {
         $response = $this->put('spaceClassifications/'.$classificationId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new SpaceClassificationEntity($response->data);
+        return $this->entity($response, SpaceClassificationEntity::class);
     }
 
     /**

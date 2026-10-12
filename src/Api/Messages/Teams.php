@@ -35,11 +35,7 @@ class Teams extends AbstractApi
     {
         $response = $this->post('teams', array_merge(['name' => $name], $additional_data ?? []));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamEntity($response->data);
+        return $this->entity($response, TeamEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class Teams extends AbstractApi
     {
         $response = $this->get('teams/'.$teamId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamEntity($response->data);
+        return $this->entity($response, TeamEntity::class);
     }
 
     /**
@@ -63,11 +55,7 @@ class Teams extends AbstractApi
     {
         $response = $this->put('teams/'.$teamId, ['name' => $name]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamEntity($response->data);
+        return $this->entity($response, TeamEntity::class);
     }
 
     /**

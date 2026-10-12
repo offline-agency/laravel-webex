@@ -22,11 +22,7 @@ class CallControls extends AbstractApi
     {
         $response = $this->post('telephony/calls/dial', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new CallEntity($response->data);
+        return $this->entity($response, CallEntity::class);
     }
 
     /**
@@ -230,11 +226,7 @@ class CallControls extends AbstractApi
     {
         $response = $this->get('telephony/calls/'.$callId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new CallEntity($response->data);
+        return $this->entity($response, CallEntity::class);
     }
 
     /**

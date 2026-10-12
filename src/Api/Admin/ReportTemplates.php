@@ -34,10 +34,6 @@ class ReportTemplates extends AbstractApi
     {
         $response = $this->get('reportTemplates/'.$templateId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ReportTemplateEntity($response->data);
+        return $this->entity($response, ReportTemplateEntity::class);
     }
 }

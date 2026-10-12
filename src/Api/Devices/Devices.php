@@ -34,11 +34,7 @@ class Devices extends AbstractApi
     {
         $response = $this->get('devices/'.$deviceId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new DeviceEntity($response->data);
+        return $this->entity($response, DeviceEntity::class);
     }
 
     /**

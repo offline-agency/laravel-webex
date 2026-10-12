@@ -34,11 +34,7 @@ class ResourceGroupMemberships extends AbstractApi
     {
         $response = $this->get('resourceGroupMemberships/'.$membershipId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupMembershipEntity($response->data);
+        return $this->entity($response, ResourceGroupMembershipEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class ResourceGroupMemberships extends AbstractApi
     {
         $response = $this->post('resourceGroupMemberships', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupMembershipEntity($response->data);
+        return $this->entity($response, ResourceGroupMembershipEntity::class);
     }
 
     /**

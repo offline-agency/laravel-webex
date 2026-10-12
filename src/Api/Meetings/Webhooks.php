@@ -56,11 +56,7 @@ class Webhooks extends AbstractApi
             'event' => $event,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**
@@ -71,11 +67,7 @@ class Webhooks extends AbstractApi
     ) {
         $response = $this->get('webhooks/'.$webhookId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**
@@ -99,11 +91,7 @@ class Webhooks extends AbstractApi
             'targetUrl' => $targetUrl,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**

@@ -68,7 +68,7 @@ describe('Messages', function () {
         expect($result->message)->toEqual($message);
     })->with('messages_error_responses');
 
-    it('returns error with safe defaults when response body is null or empty', function () {
+    it('returns a generic error when a failed response has an empty body', function () {
         Http::fake([
             'https://webexapis.com/v1/messages*' => Http::response('', 404),
         ]);
@@ -78,7 +78,7 @@ describe('Messages', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Unknown error');
+        expect($result->message)->toEqual('Webex request failed (HTTP 404).');
         expect($result->errors)->toEqual([]);
     });
 

@@ -38,10 +38,6 @@ class VoiceMessaging extends AbstractApi
     {
         $response = $this->get('voiceMessaging/messages/'.$messageId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VoicemailMessageEntity($response->data);
+        return $this->entity($response, VoicemailMessageEntity::class);
     }
 }
