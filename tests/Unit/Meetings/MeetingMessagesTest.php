@@ -22,7 +22,7 @@ describe('MeetingMessages', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

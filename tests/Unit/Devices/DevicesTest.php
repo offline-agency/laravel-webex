@@ -20,11 +20,12 @@ describe('Devices', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->devices()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(DeviceEntity::class);
@@ -41,11 +42,12 @@ describe('Devices', function () {
                 'serial' => 'SN123',
                 'organizationId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $device = $laravel_webex->devices()->detail('dev1');
+        assert($device instanceof DeviceEntity);
 
         expect($device)->toBeInstanceOf(DeviceEntity::class);
         expect($device->id)->toEqual('dev1');
@@ -56,7 +58,7 @@ describe('Devices', function () {
             'https://webexapis.com/v1/devices/activationCode*' => Http::response(json_encode((object) [
                 'activationCode' => 'CODE123',
                 'expiration' => '2024-12-31T23:59:59Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -85,7 +87,7 @@ describe('Devices', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -100,7 +102,7 @@ describe('Devices', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -115,7 +117,7 @@ describe('Devices', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -130,7 +132,7 @@ describe('Devices', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -17,11 +17,12 @@ describe('Admin ResourceGroupMemberships', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_resource_group_memberships()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(ResourceGroupMembershipEntity::class);
@@ -35,11 +36,12 @@ describe('Admin ResourceGroupMemberships', function () {
                 'resourceGroupId' => 'rg1',
                 'personId' => 'p1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->admin_resource_group_memberships()->detail('rgm1');
+        assert($membership instanceof ResourceGroupMembershipEntity);
 
         expect($membership)->toBeInstanceOf(ResourceGroupMembershipEntity::class);
         expect($membership->id)->toEqual('rgm1');
@@ -52,11 +54,12 @@ describe('Admin ResourceGroupMemberships', function () {
                 'resourceGroupId' => 'rg1',
                 'personId' => 'p2',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->admin_resource_group_memberships()->create(['resourceGroupId' => 'rg1', 'personId' => 'p2']);
+        assert($membership instanceof ResourceGroupMembershipEntity);
 
         expect($membership)->toBeInstanceOf(ResourceGroupMembershipEntity::class);
         expect($membership->id)->toEqual('rgm2');
@@ -79,7 +82,7 @@ describe('Admin ResourceGroupMemberships', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -94,7 +97,7 @@ describe('Admin ResourceGroupMemberships', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -109,7 +112,7 @@ describe('Admin ResourceGroupMemberships', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -124,7 +127,7 @@ describe('Admin ResourceGroupMemberships', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

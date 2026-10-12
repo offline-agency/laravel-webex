@@ -20,11 +20,12 @@ describe('TeamMemberships', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->team_memberships()->list(['teamId' => 'team1']);
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(TeamMembershipEntity::class);
@@ -38,7 +39,7 @@ describe('TeamMemberships', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -57,11 +58,12 @@ describe('TeamMemberships', function () {
                 'personDisplayName' => 'User',
                 'isModerator' => false,
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->create('team1', 'user@example.com');
+        assert($membership instanceof TeamMembershipEntity);
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
         expect($membership->id)->toEqual('tm1');
@@ -74,7 +76,7 @@ describe('TeamMemberships', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -92,11 +94,12 @@ describe('TeamMemberships', function () {
                 'personEmail' => 'user@example.com',
                 'isModerator' => false,
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->detail('tm1');
+        assert($membership instanceof TeamMembershipEntity);
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
         expect($membership->id)->toEqual('tm1');
@@ -108,7 +111,7 @@ describe('TeamMemberships', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,11 +129,12 @@ describe('TeamMemberships', function () {
                 'personEmail' => 'user@example.com',
                 'isModerator' => true,
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->team_memberships()->update('tm1', ['isModerator' => true]);
+        assert($membership instanceof TeamMembershipEntity);
 
         expect($membership)->toBeInstanceOf(TeamMembershipEntity::class);
         expect($membership->isModerator)->toBeTrue();
@@ -142,7 +146,7 @@ describe('TeamMemberships', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -168,7 +172,7 @@ describe('TeamMemberships', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

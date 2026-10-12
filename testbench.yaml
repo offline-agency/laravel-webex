@@ -1,0 +1,2 @@
+providers:
+  - Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider

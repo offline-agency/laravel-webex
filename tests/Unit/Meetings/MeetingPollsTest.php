@@ -12,11 +12,12 @@ describe('MeetingPolls', function () {
                 'items' => [
                     (object) ['id' => 'poll1', 'meetingId' => 'm1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_polls()->listPolls('m1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingPollsEntity::class);
@@ -28,7 +29,7 @@ describe('MeetingPolls', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -42,7 +43,7 @@ describe('MeetingPolls', function () {
             'https://webexapis.com/v1/meetings/pollResults*' => Http::response(json_encode((object) [
                 'id' => 'poll1',
                 'results' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -57,11 +58,12 @@ describe('MeetingPolls', function () {
                 'items' => [
                     (object) ['id' => 'r1', 'personId' => 'p1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_polls()->listRespondentsQuestion('poll1', 'q1', 'm1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingPollsEntity::class);

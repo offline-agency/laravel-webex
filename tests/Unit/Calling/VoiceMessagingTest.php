@@ -16,11 +16,12 @@ describe('Calling VoiceMessaging', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->voice_messaging()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VoicemailMessageEntity::class);
@@ -33,11 +34,12 @@ describe('Calling VoiceMessaging', function () {
                 'id' => 'vm1',
                 'userId' => 'u1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $message = $laravel_webex->voice_messaging()->detail('vm1');
+        assert($message instanceof VoicemailMessageEntity);
 
         expect($message)->toBeInstanceOf(VoicemailMessageEntity::class);
         expect($message->id)->toEqual('vm1');
@@ -49,7 +51,7 @@ describe('Calling VoiceMessaging', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -64,7 +66,7 @@ describe('Calling VoiceMessaging', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

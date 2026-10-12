@@ -16,11 +16,12 @@ describe('Admin HybridClusters', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_hybrid_clusters()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(HybridClusterEntity::class);
@@ -33,11 +34,12 @@ describe('Admin HybridClusters', function () {
                 'id' => 'hc1',
                 'name' => 'Cluster One',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $cluster = $laravel_webex->admin_hybrid_clusters()->detail('hc1');
+        assert($cluster instanceof HybridClusterEntity);
 
         expect($cluster)->toBeInstanceOf(HybridClusterEntity::class);
         expect($cluster->id)->toEqual('hc1');
@@ -49,11 +51,12 @@ describe('Admin HybridClusters', function () {
                 'id' => 'hc2',
                 'name' => 'New Cluster',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $cluster = $laravel_webex->admin_hybrid_clusters()->create(['name' => 'New Cluster']);
+        assert($cluster instanceof HybridClusterEntity);
 
         expect($cluster)->toBeInstanceOf(HybridClusterEntity::class);
         expect($cluster->id)->toEqual('hc2');
@@ -76,7 +79,7 @@ describe('Admin HybridClusters', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

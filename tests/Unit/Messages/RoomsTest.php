@@ -12,11 +12,12 @@ describe('Rooms', function () {
                 'items' => [
                     (object) ['id' => 'r1', 'title' => 'Room 1', 'type' => 'group'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->rooms()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RoomEntity::class);
@@ -30,7 +31,7 @@ describe('Rooms', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -45,11 +46,12 @@ describe('Rooms', function () {
                 'id' => 'r2',
                 'title' => 'New Room',
                 'type' => 'group',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->create('New Room');
+        assert($room instanceof RoomEntity);
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
         expect($room->id)->toEqual('r2');
@@ -62,11 +64,12 @@ describe('Rooms', function () {
                 'id' => 'r1',
                 'title' => 'Room 1',
                 'type' => 'group',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->detail('r1');
+        assert($room instanceof RoomEntity);
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
         expect($room->id)->toEqual('r1');
@@ -78,11 +81,12 @@ describe('Rooms', function () {
                 'id' => 'r1',
                 'title' => 'Updated Room',
                 'type' => 'group',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->update('r1', ['title' => 'Updated Room']);
+        assert($room instanceof RoomEntity);
 
         expect($room)->toBeInstanceOf(RoomEntity::class);
         expect($room->title)->toEqual('Updated Room');
@@ -105,7 +109,7 @@ describe('Rooms', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -119,7 +123,7 @@ describe('Rooms', function () {
             'https://webexapis.com/v1/rooms/r1/meetingInfo*' => Http::response(json_encode((object) [
                 'meetingLink' => 'https://example.webex.com/meet/r1',
                 'sipAddress' => 'r1@example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -138,7 +142,7 @@ describe('Rooms', function () {
                     'items' => [
                         (object) ['id' => 'r1', 'title' => 'Room 1', 'type' => 'group'],
                     ],
-                ]),
+                ], JSON_THROW_ON_ERROR),
                 200,
                 ['Link' => '<https://webexapis.com/v1/rooms?max=2&before=xyz>; rel="next"']
             ),
@@ -146,6 +150,7 @@ describe('Rooms', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination(['max' => 2]);
+        assert(is_array($result));
 
         expect($result)->toBeArray();
         expect($result)->toHaveKey('items');
@@ -160,7 +165,7 @@ describe('Rooms', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

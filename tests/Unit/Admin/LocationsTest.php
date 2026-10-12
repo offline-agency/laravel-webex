@@ -17,11 +17,12 @@ describe('Admin Locations', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_locations()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(LocationEntity::class);
@@ -35,11 +36,12 @@ describe('Admin Locations', function () {
                 'name' => 'Location One',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->detail('loc1');
+        assert($location instanceof LocationEntity);
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
         expect($location->id)->toEqual('loc1');
@@ -52,11 +54,12 @@ describe('Admin Locations', function () {
                 'name' => 'New Location',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->create(['name' => 'New Location', 'orgId' => 'org1']);
+        assert($location instanceof LocationEntity);
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
         expect($location->id)->toEqual('loc2');
@@ -69,11 +72,12 @@ describe('Admin Locations', function () {
                 'name' => 'Updated Location',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->admin_locations()->update('loc1', ['name' => 'Updated Location']);
+        assert($location instanceof LocationEntity);
 
         expect($location)->toBeInstanceOf(LocationEntity::class);
         expect($location->name)->toEqual('Updated Location');
@@ -96,7 +100,7 @@ describe('Admin Locations', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -111,7 +115,7 @@ describe('Admin Locations', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,7 +130,7 @@ describe('Admin Locations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -141,7 +145,7 @@ describe('Admin Locations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -156,7 +160,7 @@ describe('Admin Locations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

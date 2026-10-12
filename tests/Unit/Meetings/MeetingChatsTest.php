@@ -12,11 +12,12 @@ describe('MeetingChats', function () {
                 'items' => [
                     (object) ['id' => 'c1', 'meetingId' => 'm1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_chats()->listChats('m1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingChatsEntity::class);
@@ -28,7 +29,7 @@ describe('MeetingChats', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -54,7 +55,7 @@ describe('MeetingChats', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -16,11 +16,12 @@ describe('Admin Reports', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_reports()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(ReportEntity::class);
@@ -33,11 +34,12 @@ describe('Admin Reports', function () {
                 'id' => 'rep1',
                 'templateId' => 'tpl1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $report = $laravel_webex->admin_reports()->detail('rep1');
+        assert($report instanceof ReportEntity);
 
         expect($report)->toBeInstanceOf(ReportEntity::class);
         expect($report->id)->toEqual('rep1');
@@ -49,11 +51,12 @@ describe('Admin Reports', function () {
                 'id' => 'rep2',
                 'templateId' => 'tpl1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $report = $laravel_webex->admin_reports()->create(['templateId' => 'tpl1']);
+        assert($report instanceof ReportEntity);
 
         expect($report)->toBeInstanceOf(ReportEntity::class);
         expect($report->id)->toEqual('rep2');
@@ -65,7 +68,7 @@ describe('Admin Reports', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -80,7 +83,7 @@ describe('Admin Reports', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -95,7 +98,7 @@ describe('Admin Reports', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

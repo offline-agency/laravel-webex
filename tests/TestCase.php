@@ -11,6 +11,10 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    /**
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<int, class-string<\Illuminate\Support\ServiceProvider>>
+     */
     public function getPackageProviders(
         $app
     ): array {
@@ -19,6 +23,10 @@ abstract class TestCase extends BaseTestCase
         ];
     }
 
+    /**
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return array<string, class-string<\Illuminate\Support\Facades\Facade>>
+     */
     public function getPackageAliases(
         $app
     ): array {

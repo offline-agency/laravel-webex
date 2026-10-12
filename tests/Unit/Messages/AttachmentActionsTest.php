@@ -16,11 +16,12 @@ describe('AttachmentActions', function () {
                 'personEmail' => 'user@example.com',
                 'created' => '2024-01-01T00:00:00Z',
                 'inputs' => (object) ['key' => 'value'],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $action = $laravel_webex->attachment_actions()->create('submit', 'msg1', ['key' => 'value']);
+        assert($action instanceof AttachmentActionEntity);
 
         expect($action)->toBeInstanceOf(AttachmentActionEntity::class);
         expect($action->id)->toEqual('action1');
@@ -34,7 +35,7 @@ describe('AttachmentActions', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -52,11 +53,12 @@ describe('AttachmentActions', function () {
                 'personId' => 'p1',
                 'created' => '2024-01-01T00:00:00Z',
                 'inputs' => (object) [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $action = $laravel_webex->attachment_actions()->detail('action1');
+        assert($action instanceof AttachmentActionEntity);
 
         expect($action)->toBeInstanceOf(AttachmentActionEntity::class);
         expect($action->id)->toEqual('action1');
@@ -68,7 +70,7 @@ describe('AttachmentActions', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;

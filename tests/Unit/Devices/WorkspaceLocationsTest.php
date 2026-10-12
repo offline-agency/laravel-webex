@@ -17,11 +17,12 @@ describe('Devices WorkspaceLocations', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_workspace_locations()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(WorkspaceLocationEntity::class);
@@ -35,11 +36,12 @@ describe('Devices WorkspaceLocations', function () {
                 'name' => 'Device Workspace Location One',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->device_workspace_locations()->detail('dwl1');
+        assert($location instanceof WorkspaceLocationEntity);
 
         expect($location)->toBeInstanceOf(WorkspaceLocationEntity::class);
         expect($location->id)->toEqual('dwl1');
@@ -52,11 +54,12 @@ describe('Devices WorkspaceLocations', function () {
                 'name' => 'New Device Workspace Location',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $location = $laravel_webex->device_workspace_locations()->create(['name' => 'New Device Workspace Location', 'orgId' => 'org1']);
+        assert($location instanceof WorkspaceLocationEntity);
 
         expect($location)->toBeInstanceOf(WorkspaceLocationEntity::class);
         expect($location->id)->toEqual('dwl2');
@@ -79,7 +82,7 @@ describe('Devices WorkspaceLocations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

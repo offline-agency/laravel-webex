@@ -13,11 +13,12 @@ describe('Teams', function () {
                 'items' => [
                     (object) ['id' => 'team1', 'name' => 'Team One', 'creatorId' => 'u1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->teams()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(TeamEntity::class);
@@ -31,7 +32,7 @@ describe('Teams', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -46,11 +47,12 @@ describe('Teams', function () {
                 'id' => 'team1',
                 'name' => 'New Team',
                 'creatorId' => 'u1',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->create('New Team');
+        assert($team instanceof TeamEntity);
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
         expect($team->id)->toEqual('team1');
@@ -63,11 +65,12 @@ describe('Teams', function () {
                 'id' => 'team1',
                 'name' => 'Team One',
                 'creatorId' => 'u1',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->detail('team1');
+        assert($team instanceof TeamEntity);
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
         expect($team->id)->toEqual('team1');
@@ -79,11 +82,12 @@ describe('Teams', function () {
                 'id' => 'team1',
                 'name' => 'Updated Team',
                 'creatorId' => 'u1',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $team = $laravel_webex->teams()->update('team1', 'Updated Team');
+        assert($team instanceof TeamEntity);
 
         expect($team)->toBeInstanceOf(TeamEntity::class);
         expect($team->name)->toEqual('Updated Team');
@@ -106,7 +110,7 @@ describe('Teams', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

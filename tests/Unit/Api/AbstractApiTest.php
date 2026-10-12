@@ -79,11 +79,12 @@ describe('AbstractApi helpers', function () {
         Http::fake([
             'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'r1', 'title' => 'Room 1', 'type' => 'group']],
-            ]), 200, []),
+            ], JSON_THROW_ON_ERROR), 200, []),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination();
+        assert(is_array($result));
 
         expect($result)->toBeArray();
         expect($result)->toHaveKey('nextLink');
@@ -93,7 +94,7 @@ describe('AbstractApi helpers', function () {
 
     it('getItemsFromResponse returns empty array when response data has no items', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/clusters/availability*' => Http::response(json_encode((object) [])),
+            'https://webexapis.com/v1/videoMesh/clusters/availability*' => Http::response(json_encode((object) [], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -122,6 +123,7 @@ describe('AbstractApi helpers', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspaces()->list();
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');
@@ -134,6 +136,7 @@ describe('AbstractApi helpers', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination();
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');
@@ -150,6 +153,7 @@ describe('AbstractApi helpers', function () {
             'orgId' => 'org1',
             'locationId' => 'loc1',
         ]);
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');
@@ -162,6 +166,7 @@ describe('AbstractApi helpers', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspaces()->update('ws1', ['name' => 'Updated']);
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');
@@ -187,6 +192,7 @@ describe('AbstractApi helpers', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->admin_workspaces()->destroy('ws1');
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');
@@ -207,11 +213,12 @@ describe('AbstractApi helpers', function () {
         Http::fake([
             'https://webexapis.com/v1/rooms*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'r1', 'title' => 'Room 1', 'type' => 'group']],
-            ]), 200, ['Link' => '<https://webexapis.com/v1/rooms?before=abc>; rel="prev"']),
+            ], JSON_THROW_ON_ERROR), 200, ['Link' => '<https://webexapis.com/v1/rooms?before=abc>; rel="prev"']),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->listWithPagination();
+        assert(is_array($result));
 
         expect($result)->toHaveKey('nextLink');
         expect($result['nextLink'])->toBeNull();

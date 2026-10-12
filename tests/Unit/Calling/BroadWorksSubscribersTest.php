@@ -17,11 +17,12 @@ describe('Calling BroadWorksSubscribers', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->broadworks_subscribers()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(BroadWorksSubscriberEntity::class);
@@ -35,11 +36,12 @@ describe('Calling BroadWorksSubscribers', function () {
                 'enterpriseId' => 'ent1',
                 'name' => 'Subscriber One',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $subscriber = $laravel_webex->broadworks_subscribers()->detail('sub1');
+        assert($subscriber instanceof BroadWorksSubscriberEntity);
 
         expect($subscriber)->toBeInstanceOf(BroadWorksSubscriberEntity::class);
         expect($subscriber->id)->toEqual('sub1');
@@ -51,7 +53,7 @@ describe('Calling BroadWorksSubscribers', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

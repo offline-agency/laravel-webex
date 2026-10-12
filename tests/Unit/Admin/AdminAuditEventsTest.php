@@ -17,11 +17,12 @@ describe('AdminAuditEvents', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_audit_events()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(AdminAuditEventEntity::class);
@@ -39,7 +40,7 @@ describe('AdminAuditEvents', function () {
                         'created' => '2024-01-02T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -50,6 +51,7 @@ describe('AdminAuditEvents', function () {
             'actorId' => 'u1',
             'event' => 'user.login',
         ]);
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(AdminAuditEventEntity::class);
@@ -62,7 +64,7 @@ describe('AdminAuditEvents', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

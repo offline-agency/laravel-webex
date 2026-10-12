@@ -18,11 +18,12 @@ describe('Admin Workspaces', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_workspaces()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(WorkspaceEntity::class);
@@ -37,11 +38,12 @@ describe('Admin Workspaces', function () {
                 'orgId' => 'org1',
                 'locationId' => 'loc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->admin_workspaces()->detail('ws1');
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->id)->toEqual('ws1');
@@ -55,11 +57,12 @@ describe('Admin Workspaces', function () {
                 'orgId' => 'org1',
                 'locationId' => 'loc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->admin_workspaces()->create(['name' => 'New Workspace', 'orgId' => 'org1', 'locationId' => 'loc1']);
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->id)->toEqual('ws2');
@@ -73,11 +76,12 @@ describe('Admin Workspaces', function () {
                 'orgId' => 'org1',
                 'locationId' => 'loc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->admin_workspaces()->update('ws1', ['name' => 'Updated Workspace']);
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->name)->toEqual('Updated Workspace');
@@ -100,7 +104,7 @@ describe('Admin Workspaces', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -115,7 +119,7 @@ describe('Admin Workspaces', function () {
                 'message' => 'Not found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -130,7 +134,7 @@ describe('Admin Workspaces', function () {
                 'message' => 'Bad request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -145,7 +149,7 @@ describe('Admin Workspaces', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -160,7 +164,7 @@ describe('Admin Workspaces', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

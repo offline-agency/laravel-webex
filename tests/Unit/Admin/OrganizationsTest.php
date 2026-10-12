@@ -17,11 +17,12 @@ describe('Admin Organizations', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_organizations()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(OrganizationEntity::class);
@@ -35,11 +36,12 @@ describe('Admin Organizations', function () {
                 'displayName' => 'Org One',
                 'name' => 'org-one',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $org = $laravel_webex->admin_organizations()->detail('org1');
+        assert($org instanceof OrganizationEntity);
 
         expect($org)->toBeInstanceOf(OrganizationEntity::class);
         expect($org->id)->toEqual('org1');
@@ -62,7 +64,7 @@ describe('Admin Organizations', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -77,7 +79,7 @@ describe('Admin Organizations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -92,7 +94,7 @@ describe('Admin Organizations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -12,11 +12,12 @@ describe('TrackingCodes', function () {
                 'items' => [
                     (object) ['id' => 'tc1', 'name' => 'Code 1', 'siteUrl' => 'https://example.webex.com'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->tracking_codes()->listTrackingCodes();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(TrackingCodesEntity::class);
@@ -28,7 +29,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -43,7 +44,7 @@ describe('TrackingCodes', function () {
                 'id' => 'tc1',
                 'name' => 'Code 1',
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -58,7 +59,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -73,7 +74,7 @@ describe('TrackingCodes', function () {
                 'id' => 'tc2',
                 'name' => 'New Code',
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -95,7 +96,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -117,7 +118,7 @@ describe('TrackingCodes', function () {
                 'id' => 'tc1',
                 'name' => 'Updated Code',
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -139,7 +140,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -172,7 +173,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -186,7 +187,7 @@ describe('TrackingCodes', function () {
             'https://webexapis.com/v1/admin/meeting/userconfig/trackingCodes*' => Http::response(json_encode((object) [
                 'trackingCodes' => [],
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -201,7 +202,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -215,7 +216,7 @@ describe('TrackingCodes', function () {
             'https://webexapis.com/v1/admin/meeting/userconfig/trackingCodes*' => Http::response(json_encode((object) [
                 'trackingCodes' => [],
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -230,7 +231,7 @@ describe('TrackingCodes', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

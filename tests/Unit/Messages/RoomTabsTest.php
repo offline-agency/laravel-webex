@@ -18,11 +18,12 @@ describe('RoomTabs', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->room_tabs()->list('room1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RoomTabEntity::class);
@@ -36,7 +37,7 @@ describe('RoomTabs', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -53,7 +54,7 @@ describe('RoomTabs', function () {
                 'contentUrl' => 'https://example.com/tab',
                 'displayName' => 'New Tab',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -61,6 +62,7 @@ describe('RoomTabs', function () {
             'contentUrl' => 'https://example.com/tab',
             'displayName' => 'New Tab',
         ]);
+        assert($tab instanceof RoomTabEntity);
 
         expect($tab)->toBeInstanceOf(RoomTabEntity::class);
         expect($tab->id)->toEqual('tab-new');
@@ -76,11 +78,12 @@ describe('RoomTabs', function () {
                 'contentUrl' => 'https://example.com',
                 'displayName' => 'Tab One',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $tab = $laravel_webex->room_tabs()->detail('tab1');
+        assert($tab instanceof RoomTabEntity);
 
         expect($tab)->toBeInstanceOf(RoomTabEntity::class);
         expect($tab->id)->toEqual('tab1');
@@ -95,7 +98,7 @@ describe('RoomTabs', function () {
                 'displayName' => 'Updated Tab',
                 'created' => '2024-01-01T00:00:00Z',
                 'updated' => '2024-01-02T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -103,6 +106,7 @@ describe('RoomTabs', function () {
             'contentUrl' => 'https://example.com/new',
             'displayName' => 'Updated Tab',
         ]);
+        assert($tab instanceof RoomTabEntity);
 
         expect($tab)->toBeInstanceOf(RoomTabEntity::class);
         expect($tab->displayName)->toEqual('Updated Tab');

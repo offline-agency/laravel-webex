@@ -12,11 +12,12 @@ describe('People', function () {
                 'items' => [
                     (object) ['id' => 'p1', 'emails' => ['u@example.com'], 'displayName' => 'User'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->people()->listPeople();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(PeopleEntity::class);
@@ -29,11 +30,12 @@ describe('People', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->people()->listPeople();
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Forbidden');
@@ -45,11 +47,12 @@ describe('People', function () {
                 'id' => 'p2',
                 'emails' => ['new@example.com'],
                 'displayName' => 'New User',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->createPerson('new@example.com');
+        assert($person instanceof PeopleEntity);
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
         expect($person->id)->toEqual('p2');
@@ -61,11 +64,12 @@ describe('People', function () {
                 'id' => 'p1',
                 'emails' => ['u@example.com'],
                 'displayName' => 'User',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->detailPerson('p1');
+        assert($person instanceof PeopleEntity);
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
         expect($person->id)->toEqual('p1');
@@ -77,11 +81,12 @@ describe('People', function () {
                 'id' => 'p1',
                 'emails' => ['u@example.com'],
                 'displayName' => 'Updated Name',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->updatePerson('p1', 'Updated Name');
+        assert($person instanceof PeopleEntity);
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
         expect($person->displayName)->toEqual('Updated Name');
@@ -104,7 +109,7 @@ describe('People', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -119,7 +124,7 @@ describe('People', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -134,7 +139,7 @@ describe('People', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -149,11 +154,12 @@ describe('People', function () {
                 'id' => 'me1',
                 'emails' => ['me@example.com'],
                 'displayName' => 'Current User',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $person = $laravel_webex->people()->detailOwn();
+        assert($person instanceof PeopleEntity);
 
         expect($person)->toBeInstanceOf(PeopleEntity::class);
         expect($person->id)->toEqual('me1');
@@ -166,7 +172,7 @@ describe('People', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

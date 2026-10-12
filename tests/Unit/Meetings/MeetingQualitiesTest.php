@@ -11,7 +11,7 @@ describe('MeetingQualities', function () {
             'https://webexapis.com/v1/meeting/qualities*' => Http::response(json_encode((object) [
                 'meetingId' => 'm1',
                 'qualities' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -26,7 +26,7 @@ describe('MeetingQualities', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

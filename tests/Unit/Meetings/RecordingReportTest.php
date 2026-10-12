@@ -12,11 +12,12 @@ describe('RecordingReport', function () {
                 'items' => [
                     (object) ['id' => 'r1', 'recordingId' => 'rec1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recording_report()->listRecordingAuditReportSummaries();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RecordingReportEntity::class);
@@ -28,7 +29,7 @@ describe('RecordingReport', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -42,7 +43,7 @@ describe('RecordingReport', function () {
             'https://webexapis.com/v1/recordingReport/accessDetail*' => Http::response(json_encode((object) [
                 'recordingId' => 'rec1',
                 'accessLogs' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -57,7 +58,7 @@ describe('RecordingReport', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -72,11 +73,12 @@ describe('RecordingReport', function () {
                 'items' => [
                     (object) ['id' => 'a1', 'archiveId' => 'arch1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recording_report()->listArchiveSummaries();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RecordingReportEntity::class);
@@ -88,7 +90,7 @@ describe('RecordingReport', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -102,7 +104,7 @@ describe('RecordingReport', function () {
             'https://webexapis.com/v1/recordingReport/meetingArchives/arch1*' => Http::response(json_encode((object) [
                 'id' => 'arch1',
                 'meetingId' => 'm1',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -117,7 +119,7 @@ describe('RecordingReport', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;

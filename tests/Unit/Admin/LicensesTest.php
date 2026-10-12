@@ -17,11 +17,12 @@ describe('Admin Licenses', function () {
                         'consumedUnits' => 50,
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_licenses()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(LicenseEntity::class);
@@ -34,11 +35,12 @@ describe('Admin Licenses', function () {
                 'id' => 'lic1',
                 'name' => 'Meeting',
                 'totalUnits' => 100,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $license = $laravel_webex->admin_licenses()->detail('lic1');
+        assert($license instanceof LicenseEntity);
 
         expect($license)->toBeInstanceOf(LicenseEntity::class);
         expect($license->id)->toEqual('lic1');
@@ -50,7 +52,7 @@ describe('Admin Licenses', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

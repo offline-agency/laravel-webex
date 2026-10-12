@@ -11,7 +11,7 @@ describe('Devices Xapi', function () {
             'status' => 'success',
         ];
         Http::fake([
-            'https://webexapis.com/v1/xapi/commands/dev1*' => Http::response(json_encode($responseData)),
+            'https://webexapis.com/v1/xapi/commands/dev1*' => Http::response(json_encode($responseData, JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -24,7 +24,7 @@ describe('Devices Xapi', function () {
         Http::fake([
             'https://webexapis.com/v1/xapi/status/dev1*' => Http::response(json_encode((object) [
                 'result' => (object) ['status' => 'active'],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -41,7 +41,7 @@ describe('Devices Xapi', function () {
                 'message' => 'Device not found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -56,7 +56,7 @@ describe('Devices Xapi', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

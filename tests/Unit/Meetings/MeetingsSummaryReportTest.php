@@ -12,11 +12,12 @@ describe('MeetingsSummaryReport', function () {
                 'items' => [
                     (object) ['id' => 'r1', 'siteUrl' => 'https://example.webex.com'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meetings_summary_report()->listUsageReports('https://example.webex.com');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingsSummaryReportEntity::class);
@@ -28,7 +29,7 @@ describe('MeetingsSummaryReport', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -43,11 +44,12 @@ describe('MeetingsSummaryReport', function () {
                 'items' => [
                     (object) ['id' => 'a1', 'meetingId' => 'm1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meetings_summary_report()->listAttendeeReports('https://example.webex.com');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingsSummaryReportEntity::class);

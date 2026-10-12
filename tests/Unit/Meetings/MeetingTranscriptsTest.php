@@ -12,11 +12,12 @@ describe('MeetingTranscripts', function () {
                 'items' => [
                     (object) ['id' => 't1', 'meetingId' => 'm1', 'topic' => 'Meeting 1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_transcripts()->listTranscripts();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -29,7 +30,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -44,11 +45,12 @@ describe('MeetingTranscripts', function () {
                 'items' => [
                     (object) ['id' => 't2', 'meetingId' => 'm2', 'topic' => 'Compliance Meeting'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_transcripts()->listTranscriptsForComplianceOfficer('https://example.webex.com');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -61,7 +63,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -75,11 +77,12 @@ describe('MeetingTranscripts', function () {
             'https://webexapis.com/v1/meetingTranscripts/t1/download*' => Http::response(json_encode((object) [
                 'id' => 't1',
                 'downloadUrl' => 'https://example.com/transcript.pdf',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $transcript = $laravel_webex->meeting_transcripts()->downloadTranscript('t1');
+        assert($transcript instanceof MeetingTranscriptsEntity);
 
         expect($transcript)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($transcript->id)->toEqual('t1');
@@ -91,7 +94,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -106,11 +109,12 @@ describe('MeetingTranscripts', function () {
                 'items' => [
                     (object) ['id' => 's1', 'text' => 'Hello world'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_transcripts()->listSnippetsOfTranscript('t1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
@@ -122,7 +126,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -136,11 +140,12 @@ describe('MeetingTranscripts', function () {
             'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
                 'id' => 's1',
                 'text' => 'Hello world',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $snippet = $laravel_webex->meeting_transcripts()->detailTranscriptSnippet('t1', 's1');
+        assert($snippet instanceof MeetingTranscriptsEntity);
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($snippet->id)->toEqual('s1');
@@ -152,7 +157,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -166,11 +171,12 @@ describe('MeetingTranscripts', function () {
             'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
                 'id' => 's1',
                 'text' => 'Updated text',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $snippet = $laravel_webex->meeting_transcripts()->updateTranscriptSnippet('t1', 's1', 'Updated text');
+        assert($snippet instanceof MeetingTranscriptsEntity);
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($snippet->id)->toEqual('s1');
@@ -193,7 +199,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -208,7 +214,7 @@ describe('MeetingTranscripts', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

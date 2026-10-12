@@ -18,11 +18,12 @@ describe('Devices Workspaces', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_workspaces()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(WorkspaceEntity::class);
@@ -37,11 +38,12 @@ describe('Devices Workspaces', function () {
                 'orgId' => 'org1',
                 'locationId' => 'loc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->detail('dws1');
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->id)->toEqual('dws1');
@@ -55,11 +57,12 @@ describe('Devices Workspaces', function () {
                 'orgId' => 'org1',
                 'locationId' => 'loc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->create(['name' => 'New Device Workspace', 'orgId' => 'org1', 'locationId' => 'loc1']);
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->id)->toEqual('dws2');
@@ -73,11 +76,12 @@ describe('Devices Workspaces', function () {
                 'locationId' => 'loc1',
                 'organizationId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $workspace = $laravel_webex->device_workspaces()->update('dws1', ['displayName' => 'Updated Device Workspace']);
+        assert($workspace instanceof WorkspaceEntity);
 
         expect($workspace)->toBeInstanceOf(WorkspaceEntity::class);
         expect($workspace->displayName)->toEqual('Updated Device Workspace');
@@ -100,7 +104,7 @@ describe('Devices Workspaces', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

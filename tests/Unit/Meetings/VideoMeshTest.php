@@ -14,11 +14,12 @@ describe('VideoMesh', function () {
                 'items' => [
                     (object) ['id' => 'c1', 'orgId' => 'o1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -30,7 +31,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -45,7 +46,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -59,7 +60,7 @@ describe('VideoMesh', function () {
             'https://webexapis.com/v1/videoMesh/clusters/availability/c1*' => Http::response(json_encode((object) [
                 'id' => 'c1',
                 'availability' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -74,11 +75,12 @@ describe('VideoMesh', function () {
                 'items' => [
                     (object) ['id' => 'n1', 'clusterId' => 'c1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listNodeAvailability('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'c1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -90,7 +92,7 @@ describe('VideoMesh', function () {
                 'id' => 'n1',
                 'clusterId' => 'c1',
                 'availability' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -105,7 +107,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -120,7 +122,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -133,11 +135,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'm1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listMediaHealthMonitoringToolResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -147,11 +150,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'm1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listMediaHealthMonitoringToolResultsV2('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -159,7 +163,7 @@ describe('VideoMesh', function () {
 
     it('gets detail media health monitoring tool cluster results', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -170,7 +174,7 @@ describe('VideoMesh', function () {
 
     it('gets detail media health monitoring tool cluster results v2', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -181,7 +185,7 @@ describe('VideoMesh', function () {
 
     it('gets detail media health monitoring tool node results', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
+            'https://webexapis.com/v1/videoMesh/mediaHealthMonitor/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -192,7 +196,7 @@ describe('VideoMesh', function () {
 
     it('gets detail media health monitoring tool node results v2', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/mediaHealthMonitorTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -205,11 +209,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/cloudOverflow/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'o1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listOverflowToCloudDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -219,11 +224,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/callRedirects/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'r1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterRedirectDetails('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -231,7 +237,7 @@ describe('VideoMesh', function () {
 
     it('gets detail cluster redirect details', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/clusters/callRedirects/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/clusters/callRedirects/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -244,11 +250,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/utilization/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'u1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClustersUtilization('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -256,7 +263,7 @@ describe('VideoMesh', function () {
 
     it('gets detail cluster utilization details', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/clusters/utilization/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/clusters/utilization/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -269,11 +276,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/reachabilityTest/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'r1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listReachabilityTestResults('2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -283,11 +291,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'r1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listReachabilityTestResultsV2('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -295,7 +304,7 @@ describe('VideoMesh', function () {
 
     it('gets detail reachability test results for cluster', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -306,7 +315,7 @@ describe('VideoMesh', function () {
 
     it('gets detail reachability test results for cluster v2', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/clusters/*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -317,7 +326,7 @@ describe('VideoMesh', function () {
 
     it('gets detail reachability test results for node', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
+            'https://webexapis.com/v1/videoMesh/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -328,7 +337,7 @@ describe('VideoMesh', function () {
 
     it('gets detail reachability test results for node v2', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/reachabilityTest/nodes/*' => Http::response(json_encode((object) ['id' => 'n1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -341,11 +350,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/clusters/*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'c1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterDetails('o1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -353,7 +363,7 @@ describe('VideoMesh', function () {
 
     it('gets detail cluster', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/clusters/c1*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/clusters/c1*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -364,7 +374,7 @@ describe('VideoMesh', function () {
 
     it('triggers on demand test for cluster', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/triggerTest/clusters/c1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'])),
+            'https://webexapis.com/v1/videoMesh/triggerTest/clusters/c1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -375,7 +385,7 @@ describe('VideoMesh', function () {
 
     it('triggers on demand test for node', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/triggerTest/nodes/n1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'])),
+            'https://webexapis.com/v1/videoMesh/triggerTest/nodes/n1*' => Http::response(json_encode((object) ['commandId' => 'cmd1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -386,7 +396,7 @@ describe('VideoMesh', function () {
 
     it('gets detail triggered test status', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testStatus*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'status' => 'completed'])),
+            'https://webexapis.com/v1/videoMesh/testStatus*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'status' => 'completed'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -397,7 +407,7 @@ describe('VideoMesh', function () {
 
     it('gets detail triggered test results', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'results' => []])),
+            'https://webexapis.com/v1/videoMesh/testResults*' => Http::response(json_encode((object) ['commandId' => 'cmd1', 'results' => []], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -410,11 +420,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/testResults/networkTest*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'nt1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listNetworkTestResults('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'scheduled');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -422,7 +433,7 @@ describe('VideoMesh', function () {
 
     it('gets detail network test results for cluster', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/networkTest/clusters*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/networkTest/clusters*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -433,7 +444,7 @@ describe('VideoMesh', function () {
 
     it('gets detail network test results for node', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/testResults/networkTest/nodes*' => Http::response(json_encode((object) ['id' => 'n1'])),
+            'https://webexapis.com/v1/videoMesh/testResults/networkTest/nodes*' => Http::response(json_encode((object) ['id' => 'n1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -446,11 +457,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/clientTypeDistribution*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'ct1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listClusterClientTypeDistributionDetails('o1', '2025-01-01T00:00:00Z', '2025-01-02T00:00:00Z', 'web');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -458,7 +470,7 @@ describe('VideoMesh', function () {
 
     it('gets detail cluster client type distribution details', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/clientTypeDistribution/clusters*' => Http::response(json_encode((object) ['id' => 'c1'])),
+            'https://webexapis.com/v1/videoMesh/clientTypeDistribution/clusters*' => Http::response(json_encode((object) ['id' => 'c1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -471,11 +483,12 @@ describe('VideoMesh', function () {
         Http::fake([
             'https://webexapis.com/v1/videoMesh/clientTypeDistribution*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'et1']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->video_mesh()->listEventThresholdConfiguration();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(VideoMeshEntity::class);
@@ -483,7 +496,7 @@ describe('VideoMesh', function () {
 
     it('gets detail event threshold configuration', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/eventThresholds/et1*' => Http::response(json_encode((object) ['id' => 'et1'])),
+            'https://webexapis.com/v1/videoMesh/eventThresholds/et1*' => Http::response(json_encode((object) ['id' => 'et1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -494,7 +507,7 @@ describe('VideoMesh', function () {
 
     it('updates event threshold configuration', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/eventThresholds*' => Http::response(json_encode((object) ['id' => 'et1'])),
+            'https://webexapis.com/v1/videoMesh/eventThresholds*' => Http::response(json_encode((object) ['id' => 'et1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -505,7 +518,7 @@ describe('VideoMesh', function () {
 
     it('resets event threshold configuration', function () {
         Http::fake([
-            'https://webexapis.com/v1/videoMesh/eventThresholds/reset*' => Http::response(json_encode((object) ['id' => null])),
+            'https://webexapis.com/v1/videoMesh/eventThresholds/reset*' => Http::response(json_encode((object) ['id' => null], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -520,7 +533,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -535,7 +548,7 @@ describe('VideoMesh', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -550,7 +563,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -565,7 +578,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -580,7 +593,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -595,7 +608,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -610,7 +623,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -625,7 +638,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -640,7 +653,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -655,7 +668,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -670,7 +683,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -685,7 +698,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -700,7 +713,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -715,7 +728,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -730,7 +743,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -745,7 +758,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -760,7 +773,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -775,7 +788,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -790,7 +803,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -805,7 +818,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -820,7 +833,7 @@ describe('VideoMesh', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -835,7 +848,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -850,7 +863,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -865,7 +878,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -880,7 +893,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -895,7 +908,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -910,7 +923,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -925,7 +938,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -940,7 +953,7 @@ describe('VideoMesh', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -955,7 +968,7 @@ describe('VideoMesh', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -970,7 +983,7 @@ describe('VideoMesh', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -985,7 +998,7 @@ describe('VideoMesh', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -12,11 +12,12 @@ describe('Memberships', function () {
                 'items' => [
                     (object) ['id' => 'mem1', 'roomId' => 'r1', 'personEmail' => 'u@example.com', 'isModerator' => false],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->memberships()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MembershipEntity::class);
@@ -29,7 +30,7 @@ describe('Memberships', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -45,11 +46,12 @@ describe('Memberships', function () {
                 'roomId' => 'r1',
                 'personEmail' => 'user@example.com',
                 'isModerator' => false,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->create('r1', 'user@example.com');
+        assert($membership instanceof MembershipEntity);
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
         expect($membership->id)->toEqual('mem1');
@@ -61,7 +63,7 @@ describe('Memberships', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -76,11 +78,12 @@ describe('Memberships', function () {
                 'id' => 'mem1',
                 'roomId' => 'r1',
                 'personEmail' => 'user@example.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->detail('mem1');
+        assert($membership instanceof MembershipEntity);
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
         expect($membership->id)->toEqual('mem1');
@@ -92,7 +95,7 @@ describe('Memberships', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -107,11 +110,12 @@ describe('Memberships', function () {
                 'id' => 'mem1',
                 'roomId' => 'r1',
                 'isModerator' => true,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $membership = $laravel_webex->memberships()->update('mem1', ['isModerator' => true]);
+        assert($membership instanceof MembershipEntity);
 
         expect($membership)->toBeInstanceOf(MembershipEntity::class);
         expect($membership->isModerator)->toBeTrue();
@@ -123,7 +127,7 @@ describe('Memberships', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -149,7 +153,7 @@ describe('Memberships', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

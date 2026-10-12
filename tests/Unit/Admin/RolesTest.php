@@ -16,11 +16,12 @@ describe('Admin Roles', function () {
                         'description' => 'Full administrator',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_roles()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RoleEntity::class);
@@ -33,11 +34,12 @@ describe('Admin Roles', function () {
                 'id' => 'role1',
                 'name' => 'Admin',
                 'description' => 'Full administrator',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $role = $laravel_webex->admin_roles()->detail('role1');
+        assert($role instanceof RoleEntity);
 
         expect($role)->toBeInstanceOf(RoleEntity::class);
         expect($role->id)->toEqual('role1');
@@ -49,7 +51,7 @@ describe('Admin Roles', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -64,7 +66,7 @@ describe('Admin Roles', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

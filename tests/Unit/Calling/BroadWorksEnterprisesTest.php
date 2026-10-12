@@ -16,11 +16,12 @@ describe('Calling BroadWorksEnterprises', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->broadworks_enterprises()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(BroadWorksEnterpriseEntity::class);
@@ -33,11 +34,12 @@ describe('Calling BroadWorksEnterprises', function () {
                 'id' => 'ent1',
                 'name' => 'Enterprise One',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $enterprise = $laravel_webex->broadworks_enterprises()->detail('ent1');
+        assert($enterprise instanceof BroadWorksEnterpriseEntity);
 
         expect($enterprise)->toBeInstanceOf(BroadWorksEnterpriseEntity::class);
         expect($enterprise->id)->toEqual('ent1');
@@ -49,7 +51,7 @@ describe('Calling BroadWorksEnterprises', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

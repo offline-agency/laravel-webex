@@ -13,11 +13,12 @@ describe('SessionTypes', function () {
                 'items' => [
                     (object) ['id' => 'st1', 'name' => 'Webex Meetings'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->session_types()->listSiteSessionTypes();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(SessionTypesEntity::class);
@@ -29,7 +30,7 @@ describe('SessionTypes', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -44,11 +45,12 @@ describe('SessionTypes', function () {
                 'items' => [
                     (object) ['id' => 'st1', 'name' => 'Webex Meetings'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->session_types()->listUserSessionType();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(SessionTypesEntity::class);
@@ -59,7 +61,7 @@ describe('SessionTypes', function () {
             'https://webexapis.com/v1/admin/meeting/userconfig/sessionTypes*' => Http::response(json_encode((object) [
                 'id' => 'st1',
                 'sessionTypeIds' => ['st1'],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;

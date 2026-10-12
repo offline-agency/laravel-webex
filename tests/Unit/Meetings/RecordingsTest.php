@@ -12,11 +12,12 @@ describe('Recordings', function () {
                 'items' => [
                     (object) ['id' => 'rec1', 'topic' => 'Meeting 1', 'hostEmail' => 'host@example.com'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recordings()->listRecordings();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RecordingsEntity::class);
@@ -28,7 +29,7 @@ describe('Recordings', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -43,7 +44,7 @@ describe('Recordings', function () {
                 'id' => 'rec1',
                 'topic' => 'Meeting 1',
                 'hostEmail' => 'host@example.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -58,7 +59,7 @@ describe('Recordings', function () {
                 'message' => 'Not found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -84,7 +85,7 @@ describe('Recordings', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -98,7 +99,7 @@ describe('Recordings', function () {
             'https://webexapis.com/v1/recordings/softDelete*' => Http::response(json_encode((object) [
                 'id' => 'rec1',
                 'status' => 'deleted',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -112,7 +113,7 @@ describe('Recordings', function () {
             'https://webexapis.com/v1/recordings/restore*' => Http::response(json_encode((object) [
                 'id' => 'rec1',
                 'status' => 'active',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,7 +127,7 @@ describe('Recordings', function () {
             'https://webexapis.com/v1/recordings/purge*' => Http::response(json_encode((object) [
                 'id' => null,
                 'status' => 'purged',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -141,7 +142,7 @@ describe('Recordings', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -156,11 +157,12 @@ describe('Recordings', function () {
                 'items' => [
                     (object) ['id' => 'rec1', 'topic' => 'Meeting 1', 'hostEmail' => 'admin@example.com'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->recordings()->listRecordingsForAnAdminOrComplianceOfficer();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(RecordingsEntity::class);
@@ -172,7 +174,7 @@ describe('Recordings', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -187,7 +189,7 @@ describe('Recordings', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -202,7 +204,7 @@ describe('Recordings', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

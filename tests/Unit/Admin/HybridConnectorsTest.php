@@ -17,11 +17,12 @@ describe('Admin HybridConnectors', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_hybrid_connectors()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(HybridConnectorEntity::class);
@@ -35,11 +36,12 @@ describe('Admin HybridConnectors', function () {
                 'name' => 'Connector One',
                 'clusterId' => 'hc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $connector = $laravel_webex->admin_hybrid_connectors()->detail('hconn1');
+        assert($connector instanceof HybridConnectorEntity);
 
         expect($connector)->toBeInstanceOf(HybridConnectorEntity::class);
         expect($connector->id)->toEqual('hconn1');
@@ -52,11 +54,12 @@ describe('Admin HybridConnectors', function () {
                 'name' => 'New Connector',
                 'clusterId' => 'hc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $connector = $laravel_webex->admin_hybrid_connectors()->create(['name' => 'New Connector', 'clusterId' => 'hc1']);
+        assert($connector instanceof HybridConnectorEntity);
 
         expect($connector)->toBeInstanceOf(HybridConnectorEntity::class);
         expect($connector->id)->toEqual('hconn2');
@@ -69,11 +72,12 @@ describe('Admin HybridConnectors', function () {
                 'name' => 'Updated Connector',
                 'clusterId' => 'hc1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $connector = $laravel_webex->admin_hybrid_connectors()->update('hconn1', ['name' => 'Updated']);
+        assert($connector instanceof HybridConnectorEntity);
 
         expect($connector)->toBeInstanceOf(HybridConnectorEntity::class);
         expect($connector->name)->toEqual('Updated Connector');
@@ -96,7 +100,7 @@ describe('Admin HybridConnectors', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -111,7 +115,7 @@ describe('Admin HybridConnectors', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,7 +130,7 @@ describe('Admin HybridConnectors', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -141,7 +145,7 @@ describe('Admin HybridConnectors', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -156,7 +160,7 @@ describe('Admin HybridConnectors', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -16,11 +16,12 @@ describe('Admin ReportTemplates', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_report_templates()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(ReportTemplateEntity::class);
@@ -33,11 +34,12 @@ describe('Admin ReportTemplates', function () {
                 'id' => 'tpl1',
                 'name' => 'Template One',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $template = $laravel_webex->admin_report_templates()->detail('tpl1');
+        assert($template instanceof ReportTemplateEntity);
 
         expect($template)->toBeInstanceOf(ReportTemplateEntity::class);
         expect($template->id)->toEqual('tpl1');
@@ -49,7 +51,7 @@ describe('Admin ReportTemplates', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -64,7 +66,7 @@ describe('Admin ReportTemplates', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

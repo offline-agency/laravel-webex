@@ -17,11 +17,12 @@ describe('Admin ResourceGroups', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_resource_groups()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(ResourceGroupEntity::class);
@@ -35,11 +36,12 @@ describe('Admin ResourceGroups', function () {
                 'name' => 'Resource Group One',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->detail('rg1');
+        assert($group instanceof ResourceGroupEntity);
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
         expect($group->id)->toEqual('rg1');
@@ -52,11 +54,12 @@ describe('Admin ResourceGroups', function () {
                 'name' => 'New Resource Group',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->create(['name' => 'New Resource Group', 'orgId' => 'org1']);
+        assert($group instanceof ResourceGroupEntity);
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
         expect($group->id)->toEqual('rg2');
@@ -69,11 +72,12 @@ describe('Admin ResourceGroups', function () {
                 'name' => 'Updated Resource Group',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $group = $laravel_webex->admin_resource_groups()->update('rg1', ['name' => 'Updated Resource Group']);
+        assert($group instanceof ResourceGroupEntity);
 
         expect($group)->toBeInstanceOf(ResourceGroupEntity::class);
         expect($group->name)->toEqual('Updated Resource Group');
@@ -96,7 +100,7 @@ describe('Admin ResourceGroups', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -111,7 +115,7 @@ describe('Admin ResourceGroups', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,7 +130,7 @@ describe('Admin ResourceGroups', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -141,7 +145,7 @@ describe('Admin ResourceGroups', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -156,7 +160,7 @@ describe('Admin ResourceGroups', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

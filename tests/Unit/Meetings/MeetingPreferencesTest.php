@@ -11,7 +11,7 @@ describe('MeetingPreferences', function () {
             'https://webexapis.com/v1/meetingPreferences*' => Http::response(json_encode((object) [
                 'defaultSite' => 'site1',
                 'schedulingOptions' => (object) [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -26,7 +26,7 @@ describe('MeetingPreferences', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -41,7 +41,7 @@ describe('MeetingPreferences', function () {
                 'topic' => 'My Room',
                 'hostPin' => '1234',
                 'enabledAutoLock' => false,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -54,7 +54,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/audio*' => Http::response(json_encode((object) [
                 'audioConnectionOptions' => (object) [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -67,7 +67,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/video*' => Http::response(json_encode((object) [
                 'videoOptions' => (object) [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -82,7 +82,7 @@ describe('MeetingPreferences', function () {
                 'topic' => 'My Room',
                 'hostPin' => '1234',
                 'enabledAutoLock' => false,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -103,7 +103,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/video/*' => Http::response(json_encode((object) [
                 'videoDevices' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -117,7 +117,7 @@ describe('MeetingPreferences', function () {
             'https://webexapis.com/v1/meetingPreferences/schedulingOptions*' => Http::response(json_encode((object) [
                 'enabledJoinBeforeHost' => true,
                 'delegateEmails' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -131,7 +131,7 @@ describe('MeetingPreferences', function () {
             'https://webexapis.com/v1/meetingPreferences/schedulingOptions/*' => Http::response(json_encode((object) [
                 'enabledJoinBeforeHost' => true,
                 'joinBeforeHostMinutes' => 0,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -144,7 +144,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert/*' => Http::response(json_encode((object) [
                 'delegateEmails' => ['d@example.com'],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -157,7 +157,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete/*' => Http::response(json_encode((object) [
                 'delegateEmails' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -171,7 +171,7 @@ describe('MeetingPreferences', function () {
             'https://webexapis.com/v1/meetingPreferences/sites*' => Http::response(json_encode((object) [
                 'sites' => [],
                 'defaultSite' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -185,7 +185,7 @@ describe('MeetingPreferences', function () {
             'https://webexapis.com/v1/meetingPreferences/sites/*' => Http::response(json_encode((object) [
                 'defaultSite' => true,
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -198,7 +198,7 @@ describe('MeetingPreferences', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/refreshId/*' => Http::response(json_encode((object) [
                 'siteUrl' => 'https://example.webex.com',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -213,7 +213,7 @@ describe('MeetingPreferences', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

@@ -15,7 +15,7 @@ describe('CallControls', function () {
                 'state' => 'initiated',
                 'direction' => 'outbound',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -23,6 +23,7 @@ describe('CallControls', function () {
             'callbackNumber' => '+15551234567',
             'destination' => '+15559876543',
         ]);
+        assert($result instanceof CallEntity);
 
         expect($result)->toBeInstanceOf(CallEntity::class);
         expect($result->callId)->toEqual('call1');
@@ -40,11 +41,12 @@ describe('CallControls', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->call_controls()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(CallEntity::class);
@@ -59,11 +61,12 @@ describe('CallControls', function () {
                 'state' => 'connected',
                 'direction' => 'inbound',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $call = $laravel_webex->call_controls()->detail('call1');
+        assert($call instanceof CallEntity);
 
         expect($call)->toBeInstanceOf(CallEntity::class);
         expect($call->callId)->toEqual('call1');
@@ -75,7 +78,7 @@ describe('CallControls', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -90,7 +93,7 @@ describe('CallControls', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -105,7 +108,7 @@ describe('CallControls', function () {
                 'message' => 'Not Found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -119,7 +122,7 @@ describe('CallControls', function () {
             'https://webexapis.com/v1/telephony/calls/answer*' => Http::response(json_encode((object) [
                 'callId' => 'call1',
                 'state' => 'connected',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -131,7 +134,7 @@ describe('CallControls', function () {
 
     it('rejects call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/reject*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/reject*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -153,7 +156,7 @@ describe('CallControls', function () {
 
     it('holds call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/hold*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'held'])),
+            'https://webexapis.com/v1/telephony/calls/hold*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'held'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -164,7 +167,7 @@ describe('CallControls', function () {
 
     it('resumes call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/resume*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'connected'])),
+            'https://webexapis.com/v1/telephony/calls/resume*' => Http::response(json_encode((object) ['callId' => 'call1', 'state' => 'connected'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -175,7 +178,7 @@ describe('CallControls', function () {
 
     it('mutes call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/mute*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/mute*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -186,7 +189,7 @@ describe('CallControls', function () {
 
     it('unmutes call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/unmute*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/unmute*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -197,7 +200,7 @@ describe('CallControls', function () {
 
     it('diverts call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/divert*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/divert*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -208,7 +211,7 @@ describe('CallControls', function () {
 
     it('transfers call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/transfer*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/transfer*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -219,7 +222,7 @@ describe('CallControls', function () {
 
     it('parks call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/park*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/park*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -230,7 +233,7 @@ describe('CallControls', function () {
 
     it('retrieves call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/retrieve*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/retrieve*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -241,7 +244,7 @@ describe('CallControls', function () {
 
     it('starts recording', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/startRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/startRecording*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -252,7 +255,7 @@ describe('CallControls', function () {
 
     it('stops recording', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/stopRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/stopRecording*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -263,7 +266,7 @@ describe('CallControls', function () {
 
     it('pauses recording', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/pauseRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/pauseRecording*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -274,7 +277,7 @@ describe('CallControls', function () {
 
     it('resumes recording', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/resumeRecording*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/resumeRecording*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -285,7 +288,7 @@ describe('CallControls', function () {
 
     it('transmits dtmf', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/transmitDtmf*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/transmitDtmf*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -296,7 +299,7 @@ describe('CallControls', function () {
 
     it('pushes call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/push*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/push*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -307,7 +310,7 @@ describe('CallControls', function () {
 
     it('picks up call', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/pickup*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/pickup*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -318,7 +321,7 @@ describe('CallControls', function () {
 
     it('barges in', function () {
         Http::fake([
-            'https://webexapis.com/v1/telephony/calls/bargeIn*' => Http::response(json_encode((object) ['callId' => 'call1'])),
+            'https://webexapis.com/v1/telephony/calls/bargeIn*' => Http::response(json_encode((object) ['callId' => 'call1'], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -338,11 +341,12 @@ describe('CallControls', function () {
                         'startTime' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->call_controls()->history();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(CallHistoryItemEntity::class);
@@ -354,7 +358,7 @@ describe('CallControls', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -369,7 +373,7 @@ describe('CallControls', function () {
                 'message' => 'Bad Request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;

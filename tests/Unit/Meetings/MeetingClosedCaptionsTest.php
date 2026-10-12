@@ -12,11 +12,12 @@ describe('MeetingClosedCaptions', function () {
                 'items' => [
                     (object) ['id' => 'cc1', 'meetingId' => 'm1'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_closed_captions()->listClosedCaptions('m1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingClosedCaptionsEntity::class);
@@ -28,7 +29,7 @@ describe('MeetingClosedCaptions', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -43,11 +44,12 @@ describe('MeetingClosedCaptions', function () {
                 'items' => [
                     (object) ['id' => 's1', 'text' => 'Hello'],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->meeting_closed_captions()->listClosedCaptionSnippets('cc1', 'm1');
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(MeetingClosedCaptionsEntity::class);
@@ -58,7 +60,7 @@ describe('MeetingClosedCaptions', function () {
             'https://webexapis.com/v1/meetingClosedCaptions/cc1/download*' => Http::response(json_encode((object) [
                 'id' => 'cc1',
                 'downloadUrl' => 'https://example.com/cc.vtt',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;

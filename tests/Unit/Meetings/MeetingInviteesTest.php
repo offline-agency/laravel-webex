@@ -10,11 +10,12 @@ describe('Meeting Invitees', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingInvitees*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id', 'email' => 'fake_email'], (object) ['id' => 'fake_id', 'email' => 'fake_email']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meeting_invitees_list = $laravel_webex->meeting_invitees()->list('fake_id');
+        assert(is_array($meeting_invitees_list));
 
         expect($meeting_invitees_list)->toHaveCount(2);
 
@@ -24,6 +25,7 @@ describe('Meeting Invitees', function () {
             $single_meeting_invitee = $meeting_invitee;
         }
 
+        assert($single_meeting_invitee !== null);
         expect($single_meeting_invitee->id)->toEqual('fake_id');
     });
 
@@ -32,11 +34,12 @@ describe('Meeting Invitees', function () {
             'https://webexapis.com/v1/meetingInvitees/fake_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
                 'email' => 'fake_email',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meeting_invitee_detail = $laravel_webex->meeting_invitees()->detail('fake_id');
+        assert($meeting_invitee_detail instanceof MeetingInvitee);
 
         expect($meeting_invitee_detail)->toBeInstanceOf(MeetingInvitee::class);
         expect($meeting_invitee_detail->id)->toEqual('fake_id');
@@ -47,11 +50,12 @@ describe('Meeting Invitees', function () {
             'https://webexapis.com/v1/meetingInvitees' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
                 'email' => 'fake_email',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $new_meeting_invitee = $laravel_webex->meeting_invitees()->create('fake_id', 'fake_email');
+        assert($new_meeting_invitee instanceof MeetingInvitee);
 
         expect($new_meeting_invitee)->toBeInstanceOf(MeetingInvitee::class);
         expect($new_meeting_invitee->id)->toEqual('fake_id');
@@ -62,7 +66,7 @@ describe('Meeting Invitees', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingInvitees/bulkInsert*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id', 'email' => 'fake_email'], (object) ['id' => 'fake_id', 'email' => 'fake_email']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -75,6 +79,7 @@ describe('Meeting Invitees', function () {
 
         Http::assertSent(fn (Request $request) => $request['meetingId'] === 'fake_id'
             && $request['items'] === [['email' => 'fake_email_one'], ['email' => 'fake_email_two']]);
+        assert(is_array($new_meeting_invitees));
 
         expect($new_meeting_invitees)->toHaveCount(2);
 
@@ -84,6 +89,7 @@ describe('Meeting Invitees', function () {
             $single_meeting_invitee = $new_meeting_invitee;
         }
 
+        assert($single_meeting_invitee !== null);
         expect($single_meeting_invitee->id)->toEqual('fake_id');
     });
 
@@ -92,11 +98,12 @@ describe('Meeting Invitees', function () {
             'https://webexapis.com/v1/meetingInvitees/fake_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
                 'email' => 'fake_email',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_meeting = $laravel_webex->meeting_invitees()->update('fake_id', 'fake_email');
+        assert($updated_meeting instanceof MeetingInvitee);
 
         expect($updated_meeting)->toBeInstanceOf(MeetingInvitee::class);
         expect($updated_meeting->id)->toEqual('fake_id');

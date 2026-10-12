@@ -10,11 +10,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meetings_list = $laravel_webex->meeting()->list();
+        assert(is_array($meetings_list));
 
         expect($meetings_list)->toHaveCount(2);
 
@@ -24,6 +25,7 @@ describe('Meetings', function () {
             $single_meeting = $meeting;
         }
 
+        assert($single_meeting !== null);
         expect($single_meeting->id)->toEqual('fake_id');
     });
 
@@ -31,13 +33,14 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meetings_list = $laravel_webex->meeting()->list([
             'state' => 'inProgress',
         ]);
+        assert(is_array($meetings_list));
 
         expect($meetings_list)->toHaveCount(1);
 
@@ -47,6 +50,7 @@ describe('Meetings', function () {
             $single_meeting = $meeting;
         }
 
+        assert($single_meeting !== null);
         expect($single_meeting->id)->toEqual('fake_id');
     });
 
@@ -56,11 +60,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->list();
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -72,11 +77,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meetings_list = $laravel_webex->meeting()->listSeries('fake_meeting_series_id');
+        assert(is_array($meetings_list));
 
         expect($meetings_list)->toHaveCount(2);
 
@@ -86,6 +92,7 @@ describe('Meetings', function () {
             $single_meeting = $meeting;
         }
 
+        assert($single_meeting !== null);
         expect($single_meeting->id)->toEqual('fake_id');
     });
 
@@ -95,11 +102,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listSeries('fake_meeting_series_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -113,11 +121,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meeting_detail = $laravel_webex->meeting()->detail('fake_id');
+        assert($meeting_detail instanceof Meeting);
 
         expect($meeting_detail)->toBeInstanceOf(Meeting::class);
         expect($meeting_detail->id)->toEqual('fake_id');
@@ -127,13 +136,14 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meeting_detail = $laravel_webex->meeting()->detail('fake_id', [
             'current' => false,
         ]);
+        assert($meeting_detail instanceof Meeting);
 
         expect($meeting_detail)->toBeInstanceOf(Meeting::class);
         expect($meeting_detail->id)->toEqual('fake_id');
@@ -147,7 +157,7 @@ describe('Meetings', function () {
                 'id' => 'fake_id',
                 'agenda' => 'fake_created_agenda',
                 'enabledAutoRecordMeeting' => true,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -155,6 +165,7 @@ describe('Meetings', function () {
             'agenda' => 'fake_created_agenda',
             'enabledAutoRecordMeeting' => true,
         ]);
+        assert($new_meeting instanceof Meeting);
 
         expect($new_meeting)->toBeInstanceOf(Meeting::class);
         expect($new_meeting->id)->toEqual('fake_id');
@@ -170,7 +181,7 @@ describe('Meetings', function () {
                 'id' => 'fake_id',
                 'agenda' => 'fake_updated_agenda',
                 'enabledAutoRecordMeeting' => false,
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -178,6 +189,7 @@ describe('Meetings', function () {
             'agenda' => 'fake_updated_agenda',
             'enabledAutoRecordMeeting' => false,
         ]);
+        assert($updated_meeting instanceof Meeting);
 
         expect($updated_meeting)->toBeInstanceOf(Meeting::class);
         expect($updated_meeting->id)->toEqual('fake_id');
@@ -217,11 +229,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $delete_response = $laravel_webex->meeting()->destroy('fake_id');
+        assert($delete_response instanceof Error);
 
         expect($delete_response)->toBeInstanceOf(Error::class);
         expect($delete_response->message)->toEqual('fake_message');
@@ -233,7 +246,7 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/join*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -248,11 +261,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->join();
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -264,11 +278,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/templates*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meetings_list = $laravel_webex->meeting()->listTemplates();
+        assert(is_array($meetings_list));
 
         expect($meetings_list)->toHaveCount(2);
 
@@ -278,6 +293,7 @@ describe('Meetings', function () {
             $single_meeting = $meeting;
         }
 
+        assert($single_meeting !== null);
         expect($single_meeting->id)->toEqual('fake_id');
     });
 
@@ -287,11 +303,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listTemplates();
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -303,11 +320,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/templates/fake_template_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $meetings_template_detail = $laravel_webex->meeting()->detailTemplate('fake_template_id');
+        assert($meetings_template_detail instanceof Meeting);
 
         expect($meetings_template_detail)->toBeInstanceOf(Meeting::class);
         expect($meetings_template_detail->id)->toEqual('fake_id');
@@ -319,11 +337,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailTemplate('fake_template_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -335,11 +354,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $control_status_detail = $laravel_webex->meeting()->detailControlStatus('fake_meeting_id');
+        assert($control_status_detail instanceof Meeting);
 
         expect($control_status_detail)->toBeInstanceOf(Meeting::class);
         expect($control_status_detail->id)->toEqual('fake_id');
@@ -351,11 +371,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailControlStatus('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -367,11 +388,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/controls*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_control_status = $laravel_webex->meeting()->updateControlStatus('fake_meeting_id');
+        assert($updated_control_status instanceof Meeting);
 
         expect($updated_control_status)->toBeInstanceOf(Meeting::class);
         expect($updated_control_status->id)->toEqual('fake_id');
@@ -383,11 +405,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->updateControlStatus('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -399,11 +422,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/sessionTypes*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $session_types = $laravel_webex->meeting()->listSessionTypes();
+        assert(is_array($session_types));
 
         expect($session_types)->toHaveCount(2);
 
@@ -413,6 +437,7 @@ describe('Meetings', function () {
             $single_session_type = $session_type;
         }
 
+        assert($single_session_type !== null);
         expect($single_session_type->id)->toEqual('fake_id');
     });
 
@@ -422,11 +447,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listSessionTypes();
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -438,11 +464,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/sessionTypes/fake_session_type_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $session_type_detail = $laravel_webex->meeting()->detailSessionType('fake_session_type_id');
+        assert($session_type_detail instanceof Meeting);
 
         expect($session_type_detail)->toBeInstanceOf(Meeting::class);
         expect($session_type_detail->id)->toEqual('fake_id');
@@ -454,11 +481,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailSessionType('fake_session_type_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -470,11 +498,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $registration_form_detail = $laravel_webex->meeting()->detailRegistrationForm('fake_meeting_id');
+        assert($registration_form_detail instanceof Meeting);
 
         expect($registration_form_detail)->toBeInstanceOf(Meeting::class);
         expect($registration_form_detail->id)->toEqual('fake_id');
@@ -486,11 +515,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailRegistrationForm('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -502,11 +532,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registration*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_registration_form = $laravel_webex->meeting()->updateRegistrationForm('fake_meeting_id');
+        assert($updated_registration_form instanceof Meeting);
 
         expect($updated_registration_form)->toBeInstanceOf(Meeting::class);
         expect($updated_registration_form->id)->toEqual('fake_id');
@@ -518,11 +549,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->updateRegistrationForm('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -547,11 +579,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->destroyRegistrationForm('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -563,11 +596,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $register = $laravel_webex->meeting()->register('fake_meeting_id', 'fake_first_name', 'fake_last_name', 'fake_email');
+        assert($register instanceof Meeting);
 
         expect($register)->toBeInstanceOf(Meeting::class);
         expect($register->id)->toEqual('fake_id');
@@ -579,11 +613,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->register('fake_meeting_id', 'fake_first_name', 'fake_last_name', 'fake_email');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -595,11 +630,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/bulkInsert*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $batch_register = $laravel_webex->meeting()->batchRegister('fake_meeting_id');
+        assert($batch_register instanceof Meeting);
 
         expect($batch_register)->toBeInstanceOf(Meeting::class);
         expect($batch_register->id)->toEqual('fake_id');
@@ -611,11 +647,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->batchRegister('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -627,11 +664,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_registrant_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $information_for_registrant_details = $laravel_webex->meeting()->detailInformationForRegistrant('fake_meeting_id', 'fake_registrant_id');
+        assert($information_for_registrant_details instanceof Meeting);
 
         expect($information_for_registrant_details)->toBeInstanceOf(Meeting::class);
         expect($information_for_registrant_details->id)->toEqual('fake_id');
@@ -643,11 +681,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailInformationForRegistrant('fake_meeting_id', 'fake_registrant_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -659,11 +698,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $registrants = $laravel_webex->meeting()->listRegistrants('fake_meeting_id');
+        assert(is_array($registrants));
 
         expect($registrants)->toHaveCount(2);
 
@@ -673,6 +713,7 @@ describe('Meetings', function () {
             $single_registrant = $registrant;
         }
 
+        assert($single_registrant !== null);
         expect($single_registrant->id)->toEqual('fake_id');
     });
 
@@ -682,11 +723,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listRegistrants('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -698,11 +740,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/query*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $query_registrants = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2']);
+        assert($query_registrants instanceof Meeting);
 
         expect($query_registrants)->toBeInstanceOf(Meeting::class);
         expect($query_registrants->id)->toEqual('fake_id');
@@ -714,11 +757,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->queryRegistrants('fake_meeting_id', ['fake_email_1', 'fake_email_2']);
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -730,11 +774,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/registrants/fake_status_op_type*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_registrants_status = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'fake_status_op_type');
+        assert($updated_registrants_status instanceof Meeting);
 
         expect($updated_registrants_status)->toBeInstanceOf(Meeting::class);
         expect($updated_registrants_status->id)->toEqual('fake_id');
@@ -746,11 +791,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->batchUpdateRegistrantsStatus('fake_meeting_id', 'fake_status_op_type');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -775,11 +821,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->destroyRegistrant('fake_meeting_id', 'fake_registrant_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -791,11 +838,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/simultaneousInterpretation*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_simultaneous_interpretation = $laravel_webex->meeting()->updateSimultaneousInterpretation('fake_meeting_id', true);
+        assert($updated_simultaneous_interpretation instanceof Meeting);
 
         expect($updated_simultaneous_interpretation)->toBeInstanceOf(Meeting::class);
         expect($updated_simultaneous_interpretation->id)->toEqual('fake_id');
@@ -807,11 +855,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->updateSimultaneousInterpretation('fake_meeting_id', true);
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -823,11 +872,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $new_interpreter_details = $laravel_webex->meeting()->createInterpreter('fake_meeting_id', 'fake_language_code_1', 'fake_language_code_2');
+        assert($new_interpreter_details instanceof Meeting);
 
         expect($new_interpreter_details)->toBeInstanceOf(Meeting::class);
         expect($new_interpreter_details->id)->toEqual('fake_id');
@@ -839,11 +889,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->createInterpreter('fake_meeting_id', 'fake_language_code_1', 'fake_language_code_2');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -855,11 +906,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $interpreter_details = $laravel_webex->meeting()->detailInterpreter('fake_meeting_id', 'fake_interpreter_id');
+        assert($interpreter_details instanceof Meeting);
 
         expect($interpreter_details)->toBeInstanceOf(Meeting::class);
         expect($interpreter_details->id)->toEqual('fake_id');
@@ -871,11 +923,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailInterpreter('fake_meeting_id', 'fake_interpreter_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -887,11 +940,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $interpreters = $laravel_webex->meeting()->listInterpreters('fake_meeting_id');
+        assert(is_array($interpreters));
 
         expect($interpreters)->toHaveCount(2);
 
@@ -901,6 +955,7 @@ describe('Meetings', function () {
             $single_interpreter = $interpreter;
         }
 
+        assert($single_interpreter !== null);
         expect($single_interpreter->id)->toEqual('fake_id');
     });
 
@@ -910,11 +965,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listInterpreters('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -926,11 +982,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/interpreters/fake_interpreter_id*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_interpreter = $laravel_webex->meeting()->updateInterpreter('fake_meeting_id', 'fake_interpreter_id', 'fake_language_code_1', 'fake_language_code_2');
+        assert($updated_interpreter instanceof Meeting);
 
         expect($updated_interpreter)->toBeInstanceOf(Meeting::class);
         expect($updated_interpreter->id)->toEqual('fake_id');
@@ -942,11 +999,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->updateInterpreter('fake_meeting_id', 'fake_interpreter_id', 'fake_language_code_1', 'fake_language_code_2');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -971,11 +1029,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->destroyInterpreter('fake_meeting_id', 'fake_interpreter_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -987,11 +1046,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $breakout_sessions = $laravel_webex->meeting()->listBreakoutSessions('fake_meeting_id');
+        assert(is_array($breakout_sessions));
 
         expect($breakout_sessions)->toHaveCount(2);
 
@@ -1001,6 +1061,7 @@ describe('Meetings', function () {
             $single_breakout_session = $breakout_session;
         }
 
+        assert($single_breakout_session !== null);
         expect($single_breakout_session->id)->toEqual('fake_id');
     });
 
@@ -1010,11 +1071,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listBreakoutSessions('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1026,11 +1088,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/breakoutSessions*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $updated_breakout_session = $laravel_webex->meeting()->updateBreakoutSessions('fake_meeting_id');
+        assert($updated_breakout_session instanceof Meeting);
 
         expect($updated_breakout_session)->toBeInstanceOf(Meeting::class);
         expect($updated_breakout_session->id)->toEqual('fake_id');
@@ -1042,11 +1105,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->updateBreakoutSessions('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1071,11 +1135,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->destroyBreakoutSessions('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1087,11 +1152,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/survey*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $survey_details = $laravel_webex->meeting()->detailSurvey('fake_meeting_id');
+        assert($survey_details instanceof Meeting);
 
         expect($survey_details)->toBeInstanceOf(Meeting::class);
         expect($survey_details->id)->toEqual('fake_id');
@@ -1103,11 +1169,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailSurvey('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1119,11 +1186,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/surveyResults*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $survey_results = $laravel_webex->meeting()->listSurveyResults('fake_meeting_id');
+        assert(is_array($survey_results));
 
         expect($survey_results)->toHaveCount(2);
 
@@ -1133,6 +1201,7 @@ describe('Meetings', function () {
             $single_survey_result = $survey_result;
         }
 
+        assert($single_survey_result !== null);
         expect($single_survey_result->id)->toEqual('fake_id');
     });
 
@@ -1142,11 +1211,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listSurveyResults('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1158,11 +1228,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/surveyLinks*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $survey_links_details = $laravel_webex->meeting()->detailSurveyLinks('fake_meeting_id');
+        assert($survey_links_details instanceof Meeting);
 
         expect($survey_links_details)->toBeInstanceOf(Meeting::class);
         expect($survey_links_details->id)->toEqual('fake_id');
@@ -1174,11 +1245,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->detailSurveyLinks('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1190,11 +1262,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $new_invitation_sources_details = $laravel_webex->meeting()->createInvitationSources('fake_meeting_id');
+        assert($new_invitation_sources_details instanceof Meeting);
 
         expect($new_invitation_sources_details)->toBeInstanceOf(Meeting::class);
         expect($new_invitation_sources_details->id)->toEqual('fake_id');
@@ -1206,11 +1279,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->createInvitationSources('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1222,11 +1296,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/fake_meeting_id/invitationSources*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $invitation_sources = $laravel_webex->meeting()->listInvitationSources('fake_meeting_id');
+        assert(is_array($invitation_sources));
 
         expect($invitation_sources)->toHaveCount(2);
 
@@ -1236,6 +1311,7 @@ describe('Meetings', function () {
             $single_invitation_source = $invitation_source;
         }
 
+        assert($single_invitation_source !== null);
         expect($single_invitation_source->id)->toEqual('fake_id');
     });
 
@@ -1245,11 +1321,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listInvitationSources('fake_meeting_id');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1261,11 +1338,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/trackingCodes*' => Http::response(json_encode((object) [
                 'items' => [(object) ['id' => 'fake_id'], (object) ['id' => 'fake_id']],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $tracking_codes = $laravel_webex->meeting()->listTrackingCodes('fake_service');
+        assert(is_array($tracking_codes));
 
         expect($tracking_codes)->toHaveCount(2);
 
@@ -1275,6 +1353,7 @@ describe('Meetings', function () {
             $single_tracking_code = $tracking_code;
         }
 
+        assert($single_tracking_code !== null);
         expect($single_tracking_code->id)->toEqual('fake_id');
     });
 
@@ -1284,11 +1363,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->listTrackingCodes('fake_service');
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');
@@ -1300,11 +1380,12 @@ describe('Meetings', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/reassignHost*' => Http::response(json_encode((object) [
                 'id' => 'fake_id',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $reassign_to_new_host = $laravel_webex->meeting()->reassignToNewHost('fake_host_email', ['fake_meeting_id_1', 'fake_meeting_id_2']);
+        assert($reassign_to_new_host instanceof Meeting);
 
         expect($reassign_to_new_host)->toBeInstanceOf(Meeting::class);
         expect($reassign_to_new_host->id)->toEqual('fake_id');
@@ -1316,11 +1397,12 @@ describe('Meetings', function () {
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $error_meeting = $laravel_webex->meeting()->reassignToNewHost('fake_host_email', ['fake_meeting_id_1', 'fake_meeting_id_2']);
+        assert($error_meeting instanceof Error);
 
         expect($error_meeting)->toBeInstanceOf(Error::class);
         expect($error_meeting->message)->toEqual('fake_message');

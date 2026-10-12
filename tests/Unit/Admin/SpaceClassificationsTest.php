@@ -17,11 +17,12 @@ describe('Admin SpaceClassifications', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->admin_space_classifications()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(SpaceClassificationEntity::class);
@@ -35,11 +36,12 @@ describe('Admin SpaceClassifications', function () {
                 'name' => 'Classification One',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $classification = $laravel_webex->admin_space_classifications()->detail('sc1');
+        assert($classification instanceof SpaceClassificationEntity);
 
         expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
         expect($classification->id)->toEqual('sc1');
@@ -52,11 +54,12 @@ describe('Admin SpaceClassifications', function () {
                 'name' => 'New Classification',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $classification = $laravel_webex->admin_space_classifications()->create(['name' => 'New Classification', 'orgId' => 'org1']);
+        assert($classification instanceof SpaceClassificationEntity);
 
         expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
         expect($classification->id)->toEqual('sc2');
@@ -69,11 +72,12 @@ describe('Admin SpaceClassifications', function () {
                 'name' => 'Updated Classification',
                 'orgId' => 'org1',
                 'created' => '2024-01-01T00:00:00Z',
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $classification = $laravel_webex->admin_space_classifications()->update('sc1', ['name' => 'Updated Classification']);
+        assert($classification instanceof SpaceClassificationEntity);
 
         expect($classification)->toBeInstanceOf(SpaceClassificationEntity::class);
         expect($classification->name)->toEqual('Updated Classification');
@@ -96,7 +100,7 @@ describe('Admin SpaceClassifications', function () {
                 'message' => 'Unauthorized',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 401),
+            ], JSON_THROW_ON_ERROR), 401),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -111,7 +115,7 @@ describe('Admin SpaceClassifications', function () {
                 'message' => 'Not found',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 404),
+            ], JSON_THROW_ON_ERROR), 404),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -126,7 +130,7 @@ describe('Admin SpaceClassifications', function () {
                 'message' => 'Bad request',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 400),
+            ], JSON_THROW_ON_ERROR), 400),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -141,7 +145,7 @@ describe('Admin SpaceClassifications', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -156,7 +160,7 @@ describe('Admin SpaceClassifications', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;

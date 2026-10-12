@@ -18,11 +18,12 @@ describe('Device Configurations', function () {
                         'created' => '2024-01-01T00:00:00Z',
                     ],
                 ],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $list = $laravel_webex->device_configurations()->list();
+        assert(is_array($list));
 
         expect($list)->toHaveCount(1);
         expect($list[0])->toBeInstanceOf(DeviceConfigurationEntity::class);
@@ -34,7 +35,7 @@ describe('Device Configurations', function () {
             'https://webexapis.com/v1/deviceConfigurations*' => Http::response(json_encode((object) [
                 'deviceId' => 'dev1',
                 'configurations' => [],
-            ])),
+            ], JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
@@ -52,7 +53,7 @@ describe('Device Configurations', function () {
                 'message' => 'Forbidden',
                 'errors' => [],
                 'trackingId' => 't1',
-            ]), 403),
+            ], JSON_THROW_ON_ERROR), 403),
         ]);
 
         $laravel_webex = new LaravelWebex;
