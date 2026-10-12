@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class Devices extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return DeviceEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -43,7 +44,8 @@ class Devices extends AbstractApi
     /**
      * Create activation code for onboarding.
      *
-     * @return object|Error
+     * @param  array<string, mixed>  $body
+     * @return array<mixed>|object|null|Error
      */
     public function createActivationCode(array $body)
     {

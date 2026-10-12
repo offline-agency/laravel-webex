@@ -11,6 +11,8 @@ class AttachmentActions extends AbstractApi
     /**
      * Create an attachment action (e.g. when a user submits a card).
      *
+     * @param  array<string, mixed>  $inputs
+     * @param  array<string, mixed>|null  $additional_data
      * @return AttachmentActionEntity|Error
      */
     public function create(string $type, string $messageId, array $inputs, ?array $additional_data = [])

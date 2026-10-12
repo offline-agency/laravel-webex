@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\TrackingCodes as TrackingCodesE
 
 class TrackingCodes extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity[]|Error
+     */
     public function listTrackingCodes(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,10 @@ class TrackingCodes extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity|Error
+     */
     public function detailTrackingCode(
         string $trackingCodeId,
         ?array $additional_data = []
@@ -45,6 +53,12 @@ class TrackingCodes extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @param  array<mixed>  $options
+     * @param  array<mixed>  $inputMode
+     * @param  array<mixed>  $scheduleStartCodes
+     * @return TrackingCodesEntity|Error
+     */
     public function createTrackingCode(
         string $name,
         string $siteUrl,
@@ -69,6 +83,12 @@ class TrackingCodes extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @param  array<mixed>  $options
+     * @param  array<mixed>  $inputMode
+     * @param  array<mixed>  $scheduleStartCodes
+     * @return TrackingCodesEntity|Error
+     */
     public function updateTrackingCode(
         string $name,
         string $siteUrl,
@@ -93,6 +113,9 @@ class TrackingCodes extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @return string|Error
+     */
     public function destroyTrackingCode(
         string $trackingCodeId,
         string $siteUrl
@@ -108,6 +131,10 @@ class TrackingCodes extends AbstractApi
         return 'Tracking code deleted';
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity|Error
+     */
     public function detailUserTrackingCodes(
         ?array $additional_data = []
     ) {
@@ -124,6 +151,10 @@ class TrackingCodes extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity|Error
+     */
     public function updateUserTrackingCodes(
         string $siteUrl,
         ?array $additional_data = []

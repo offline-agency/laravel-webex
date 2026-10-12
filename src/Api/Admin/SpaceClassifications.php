@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class SpaceClassifications extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return SpaceClassificationEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -41,6 +42,7 @@ class SpaceClassifications extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>  $body
      * @return SpaceClassificationEntity|Error
      */
     public function create(array $body)
@@ -55,6 +57,7 @@ class SpaceClassifications extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>  $body
      * @return SpaceClassificationEntity|Error
      */
     public function update(string $classificationId, array $body)

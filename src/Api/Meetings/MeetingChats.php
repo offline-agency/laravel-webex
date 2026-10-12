@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingChats as MeetingChatsEnt
 
 class MeetingChats extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingChatsEntity[]|Error
+     */
     public function listChats(
         string $meetingId,
         ?array $additional_data = []
@@ -31,6 +35,9 @@ class MeetingChats extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return string|Error
+     */
     public function destroyChats(
         string $meeting_id
     ) {

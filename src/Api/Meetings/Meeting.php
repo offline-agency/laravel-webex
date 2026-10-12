@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\Meeting as MeetingsEntity;
 
 class Meeting extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function create(
         string $title,
         string $start,
@@ -31,6 +35,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detail(
         string $meetingId,
         ?array $additional_data = []
@@ -48,6 +56,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function list(
         ?array $additional_data = []
     ) {
@@ -68,6 +80,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listSeries(
         string $meetingSeriesId,
         ?array $additional_data = []
@@ -91,6 +107,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function update(
         string $meeting_id,
         string $title,
@@ -117,6 +137,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroy(
         string $meeting_id,
         ?array $additional_data = []
@@ -134,6 +158,10 @@ class Meeting extends AbstractApi
         return 'Meeting deleted';
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function join(
         ?array $additional_data = []
     ) {
@@ -150,6 +178,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listTemplates(
         ?array $additional_data = []
     ) {
@@ -170,6 +202,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailTemplate(
         string $templateId,
         ?array $additional_data = []
@@ -187,6 +223,9 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @return MeetingsEntity|Error
+     */
     public function detailControlStatus(
         string $meetingId
     ) {
@@ -201,6 +240,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function updateControlStatus(
         string $meetingId,
         ?array $additional_data = []
@@ -220,6 +263,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listSessionTypes(
         ?array $additional_data = []
     ) {
@@ -240,6 +287,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailSessionType(
         string $sessionTypeId,
         ?array $additional_data = []
@@ -257,6 +308,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailRegistrationForm(
         string $meetingId,
         ?array $additional_data = []
@@ -274,6 +329,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function updateRegistrationForm(
         string $meetingId,
         ?array $additional_data = []
@@ -291,6 +350,9 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @return string|Error
+     */
     public function destroyRegistrationForm(
         string $meetingId
     ) {
@@ -303,6 +365,10 @@ class Meeting extends AbstractApi
         return 'Meeting Registration Form deleted';
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function register(
         string $meetingId,
         string $firstName,
@@ -327,6 +393,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function batchRegister(
         string $meetingId,
         ?array $additional_data = []
@@ -344,6 +414,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailInformationForRegistrant(
         string $meetingId,
         string $registrantId,
@@ -362,6 +436,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listRegistrants(
         string $meetingId,
         ?array $additional_data = []
@@ -383,6 +461,11 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  list<string>  $emails
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function queryRegistrants(
         string $meetingId,
         array $emails,
@@ -403,6 +486,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function batchUpdateRegistrantsStatus(
         string $meetingId,
         string $statusOpType,
@@ -421,6 +508,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroyRegistrant(
         string $meetingId,
         string $registrantId,
@@ -439,6 +530,10 @@ class Meeting extends AbstractApi
         return 'Meeting Registrant deleted';
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function updateSimultaneousInterpretation(
         string $meetingId,
         bool $enabled,
@@ -459,6 +554,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function createInterpreter(
         string $meetingId,
         string $languageCode1,
@@ -481,6 +580,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailInterpreter(
         string $meetingId,
         string $interpreterId,
@@ -499,6 +602,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listInterpreters(
         string $meetingId,
         ?array $additional_data = []
@@ -520,6 +627,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function updateInterpreter(
         string $meetingId,
         string $interpreterId,
@@ -543,6 +654,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroyInterpreter(
         string $meetingId,
         string $interpreterId,
@@ -561,6 +676,9 @@ class Meeting extends AbstractApi
         return 'Meeting Interpreter deleted';
     }
 
+    /**
+     * @return MeetingsEntity[]|Error
+     */
     public function listBreakoutSessions(
         string $meetingId
     ) {
@@ -577,6 +695,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function updateBreakoutSessions(
         string $meetingId,
         ?array $additional_data = []
@@ -594,6 +716,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroyBreakoutSessions(
         string $meetingId,
         ?array $additional_data = []
@@ -611,6 +737,9 @@ class Meeting extends AbstractApi
         return 'Meeting Breakout Sessions deleted';
     }
 
+    /**
+     * @return MeetingsEntity|Error
+     */
     public function detailSurvey(
         string $meetingId
     ) {
@@ -623,6 +752,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listSurveyResults(
         string $meetingId,
         ?array $additional_data = []
@@ -644,6 +777,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function detailSurveyLinks(
         string $meetingId,
         ?array $additional_data = []
@@ -661,6 +798,10 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function createInvitationSources(
         string $meetingId,
         ?array $additional_data = []
@@ -678,6 +819,9 @@ class Meeting extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @return MeetingsEntity[]|Error
+     */
     public function listInvitationSources(
         string $meetingId
     ) {
@@ -694,6 +838,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity[]|Error
+     */
     public function listTrackingCodes(
         string $service,
         ?array $additional_data = []
@@ -717,6 +865,10 @@ class Meeting extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  list<string>  $meetingIds
+     * @return MeetingsEntity|Error
+     */
     public function reassignToNewHost(
         string $hostEmail,
         array $meetingIds

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingInvitee;
 use Offlineagency\LaravelWebex\LaravelWebex;
@@ -66,9 +67,14 @@ describe('Meeting Invitees', function () {
 
         $laravel_webex = new LaravelWebex;
         $new_meeting_invitees = $laravel_webex->meeting_invitees()->bulk_create('fake_id', [
-            (object) ['email' => 'fake_email_one'],
-            (object) ['email' => 'fake_email_two'],
+            'items' => [
+                ['email' => 'fake_email_one'],
+                ['email' => 'fake_email_two'],
+            ],
         ]);
+
+        Http::assertSent(fn (Request $request) => $request['meetingId'] === 'fake_id'
+            && $request['items'] === [['email' => 'fake_email_one'], ['email' => 'fake_email_two']]);
 
         expect($new_meeting_invitees)->toHaveCount(2);
 

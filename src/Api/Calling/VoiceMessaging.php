@@ -11,6 +11,7 @@ class VoiceMessaging extends AbstractApi
     /**
      * List voicemail messages for a user.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return VoicemailMessageEntity[]|Error
      */
     public function list(?array $additional_data = [])

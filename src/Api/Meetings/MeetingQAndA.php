@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingQAndA as MeetingQAndAEnt
 
 class MeetingQAndA extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingQAndAEntity[]|Error
+     */
     public function listQAndA(
         string $meetingId,
         ?array $additional_data = []
@@ -31,6 +35,10 @@ class MeetingQAndA extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingQAndAEntity[]|Error
+     */
     public function listAnswersOfAQuestion(
         string $questionId,
         string $meetingId,

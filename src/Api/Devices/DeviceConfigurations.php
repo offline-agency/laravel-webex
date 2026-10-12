@@ -11,6 +11,7 @@ class DeviceConfigurations extends AbstractApi
     /**
      * List device configurations (optionally for a device).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return DeviceConfigurationEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -31,7 +32,8 @@ class DeviceConfigurations extends AbstractApi
     /**
      * Update device configurations (PATCH).
      *
-     * @return object|Error
+     * @param  array<string, mixed>  $body
+     * @return array<mixed>|object|null|Error
      */
     public function update(array $body)
     {

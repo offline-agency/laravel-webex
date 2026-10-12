@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class ResourceGroupMemberships extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return ResourceGroupMembershipEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -41,6 +42,7 @@ class ResourceGroupMemberships extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>  $body
      * @return ResourceGroupMembershipEntity|Error
      */
     public function create(array $body)

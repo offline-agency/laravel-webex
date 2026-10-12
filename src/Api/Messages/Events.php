@@ -11,6 +11,7 @@ class Events extends AbstractApi
     /**
      * List events (Compliance API; requires spark-compliance:events_read scope).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return EventEntity[]|Error
      */
     public function list(?array $additional_data = [])

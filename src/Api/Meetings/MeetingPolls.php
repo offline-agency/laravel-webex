@@ -8,6 +8,9 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingPolls as MeetingPollsEnt
 
 class MeetingPolls extends AbstractApi
 {
+    /**
+     * @return MeetingPollsEntity[]|Error
+     */
     public function listPolls(
         string $meetingId
     ) {
@@ -26,6 +29,10 @@ class MeetingPolls extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPollsEntity|Error
+     */
     public function detailPollResults(
         string $meetingId,
         ?array $additional_data = []
@@ -45,6 +52,10 @@ class MeetingPolls extends AbstractApi
         return new MeetingPollsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPollsEntity[]|Error
+     */
     public function listRespondentsQuestion(
         string $pollId,
         string $questionId,

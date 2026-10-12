@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingsSummaryReport as Meetin
 
 class MeetingsSummaryReport extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsSummaryReportEntity[]|Error
+     */
     public function listUsageReports(
         string $siteUrl,
         ?array $additional_data = []
@@ -31,6 +35,10 @@ class MeetingsSummaryReport extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsSummaryReportEntity[]|Error
+     */
     public function listAttendeeReports(
         string $siteUrl,
         ?array $additional_data = []

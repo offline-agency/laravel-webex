@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingTranscripts as MeetingTr
 
 class MeetingTranscripts extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingTranscriptsEntity[]|Error
+     */
     public function listTranscripts(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,10 @@ class MeetingTranscripts extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingTranscriptsEntity[]|Error
+     */
     public function listTranscriptsForComplianceOfficer(
         string $siteUrl,
         ?array $additional_data = []
@@ -51,6 +59,10 @@ class MeetingTranscripts extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingTranscriptsEntity|Error
+     */
     public function downloadTranscript(
         string $transcriptId,
         ?array $additional_data = []
@@ -68,6 +80,10 @@ class MeetingTranscripts extends AbstractApi
         return new MeetingTranscriptsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingTranscriptsEntity[]|Error
+     */
     public function listSnippetsOfTranscript(
         string $transcriptId,
         ?array $additional_data = []
@@ -89,6 +105,9 @@ class MeetingTranscripts extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return MeetingTranscriptsEntity|Error
+     */
     public function detailTranscriptSnippet(
         string $transcriptId,
         string $snippetId
@@ -103,6 +122,10 @@ class MeetingTranscripts extends AbstractApi
         return new MeetingTranscriptsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingTranscriptsEntity|Error
+     */
     public function updateTranscriptSnippet(
         string $transcriptId,
         string $snippetId,
@@ -124,6 +147,10 @@ class MeetingTranscripts extends AbstractApi
         return new MeetingTranscriptsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroyTranscript(
         string $transcriptId,
         ?array $additional_data = []

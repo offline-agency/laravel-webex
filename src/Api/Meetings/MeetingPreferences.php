@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingPreferences as MeetingPr
 
 class MeetingPreferences extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailPreference(
         ?array $additional_data = []
     ) {
@@ -24,6 +28,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailPersonalRoomOptions(
         ?array $additional_data = []
     ) {
@@ -40,6 +48,11 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<mixed>  $coHost
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function updatePersonalRoomOptions(
         string $topic,
         string $hostPin,
@@ -71,6 +84,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailAudioOptions(
         ?array $additional_data = []
     ) {
@@ -87,6 +104,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailVideoOptions(
         ?array $additional_data = []
     ) {
@@ -103,6 +124,11 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<mixed>  $videoDevices
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function updateVideoOptions(
         array $videoDevices,
         ?array $additional_data = []
@@ -122,6 +148,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailSchedulingOptions(
         ?array $additional_data = []
     ) {
@@ -138,6 +168,11 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<mixed>  $videoDevices
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function updateSchedulingOptions(
         array $videoDevices,
         bool $enabledJoinBeforeHost,
@@ -163,6 +198,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function insertDelegateEmails(
         ?array $additional_data = []
     ) {
@@ -179,6 +218,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function deleteDelegateEmails(
         ?array $additional_data = []
     ) {
@@ -195,6 +238,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function detailSiteList(
         ?array $additional_data = []
     ) {
@@ -211,6 +258,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function updateDefaultSite(
         bool $defaultSite,
         string $siteUrl,
@@ -232,6 +283,10 @@ class MeetingPreferences extends AbstractApi
         return new MeetingPreferencesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingPreferencesEntity|Error
+     */
     public function batchRefreshPersonalMeetingRoomID(
         string $siteUrl,
         ?array $additional_data = []

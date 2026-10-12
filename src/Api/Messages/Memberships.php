@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Messages\Membership as MembershipEntity;
 class Memberships extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return MembershipEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -29,6 +30,7 @@ class Memberships extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return MembershipEntity|Error
      */
     public function create(string $roomId, string $personEmail, ?array $additional_data = [])
@@ -64,6 +66,7 @@ class Memberships extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return MembershipEntity|Error
      */
     public function update(string $membershipId, ?array $additional_data = [])

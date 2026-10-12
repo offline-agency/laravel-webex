@@ -6,6 +6,10 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
+/**
+ * @phpstan-type ApiResponse object{success: bool, data: array<mixed>|object|null}
+ * @phpstan-type PaginatedApiResponse object{success: bool, data: array<mixed>|object|null, nextLink: string|null}
+ */
 abstract class AbstractApi
 {
     protected LaravelWebex $laravel_webex;
@@ -18,6 +22,7 @@ abstract class AbstractApi
 
     /**
      * @param  array<string, mixed>  $query_parameters
+     * @return ApiResponse
      */
     protected function get(string $url, array $query_parameters): object
     {
@@ -38,7 +43,8 @@ abstract class AbstractApi
      * Perform a GET request and return parsed response plus next page link from Link header (rel="next").
      * Use for list endpoints that support pagination.
      *
-     * @return object{success: bool, data: object|null, nextLink: string|null}
+     * @param  array<string, mixed>  $query_parameters
+     * @return PaginatedApiResponse
      */
     protected function getWithLink(string $url, array $query_parameters): object
     {
@@ -46,9 +52,12 @@ abstract class AbstractApi
             $fullUrl = $this->laravel_webex->base_url.$url;
             $response = $this->laravel_webex->httpBuilder->get($fullUrl, $query_parameters);
             $parsed = $this->parseResponse($response);
-            $parsed->nextLink = $this->parseNextLinkFromResponse($response);
 
-            return $parsed;
+            return (object) [
+                'success' => $parsed->success,
+                'data' => $parsed->data,
+                'nextLink' => $this->parseNextLinkFromResponse($response),
+            ];
         } catch (\Throwable $e) {
             return (object) [
                 'success' => false,
@@ -64,7 +73,7 @@ abstract class AbstractApi
     protected function parseNextLinkFromResponse(Response $response): ?string
     {
         $linkHeader = $response->header('Link');
-        if (! is_string($linkHeader) || trim($linkHeader) === '') {
+        if (trim($linkHeader) === '') {
             return null;
         }
         if (preg_match('/<([^>]+)>;\s*rel="next"/', $linkHeader, $m)) {
@@ -76,6 +85,7 @@ abstract class AbstractApi
 
     /**
      * @param  array<string, mixed>  $body
+     * @return ApiResponse
      */
     protected function post(string $url, array $body): object
     {
@@ -94,6 +104,7 @@ abstract class AbstractApi
 
     /**
      * @param  array<string, mixed>  $body
+     * @return ApiResponse
      */
     protected function put(string $url, array $body): object
     {
@@ -112,6 +123,7 @@ abstract class AbstractApi
 
     /**
      * @param  array<string, mixed>  $body
+     * @return ApiResponse
      */
     protected function patch(string $url, array $body): object
     {
@@ -130,6 +142,7 @@ abstract class AbstractApi
 
     /**
      * @param  array<string, mixed>  $query_parameters
+     * @return ApiResponse
      */
     protected function delete(string $url, array $query_parameters): object
     {
@@ -178,21 +191,22 @@ abstract class AbstractApi
      * Safely get items array from a list response. Returns empty array when data or items is missing.
      * Items that are not objects are skipped.
      *
+     * @param  ApiResponse  $response
      * @return list<object>
      */
     protected function getItemsFromResponse(object $response): array
     {
-        if ($response->data === null || ! is_object($response->data)) {
+        if (! is_object($response->data) || ! isset($response->data->items) || ! is_array($response->data->items)) {
             return [];
         }
 
-        return isset($response->data->items) && is_array($response->data->items)
-            ? array_values(array_filter($response->data->items, is_object(...)))
-            : [];
+        return array_values(array_filter($response->data->items, is_object(...)));
     }
 
     /**
      * Decode the response body. Bodies that do not decode to a JSON object or array yield null data.
+     *
+     * @return ApiResponse
      */
     private function parseResponse(Response $response): object
     {

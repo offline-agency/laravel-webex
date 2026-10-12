@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class Roles extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoleEntity[]|Error
      */
     public function list(?array $additional_data = [])

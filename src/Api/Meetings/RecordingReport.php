@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\RecordingReport as RecordingRep
 
 class RecordingReport extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingReportEntity[]|Error
+     */
     public function listRecordingAuditReportSummaries(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,10 @@ class RecordingReport extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingReportEntity|Error
+     */
     public function detailRecordAuditReport(
         string $recordingId,
         ?array $additional_data = []
@@ -47,6 +55,10 @@ class RecordingReport extends AbstractApi
         return new RecordingReportEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingReportEntity[]|Error
+     */
     public function listArchiveSummaries(
         ?array $additional_data = []
     ) {
@@ -67,6 +79,9 @@ class RecordingReport extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return RecordingReportEntity|Error
+     */
     public function detailArchive(
         string $archiveId
     ) {

@@ -11,6 +11,7 @@ class RoomTabs extends AbstractApi
     /**
      * List room tabs for a room.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomTabEntity[]|Error
      */
     public function list(string $roomId, ?array $additional_data = [])
@@ -33,6 +34,7 @@ class RoomTabs extends AbstractApi
     /**
      * Create a room tab.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomTabEntity|Error
      */
     public function create(string $roomId, ?array $additional_data = [])
@@ -69,6 +71,7 @@ class RoomTabs extends AbstractApi
     /**
      * Update a room tab.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomTabEntity|Error
      */
     public function update(string $tabId, ?array $additional_data = [])

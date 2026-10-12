@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class BroadWorksEnterprises extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return BroadWorksEnterpriseEntity[]|Error
      */
     public function list(?array $additional_data = [])

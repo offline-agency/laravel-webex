@@ -125,8 +125,10 @@ describe('Rooms', function () {
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->rooms()->meetingDetails('r1');
 
-        expect($result)->toBeObject();
-        expect($result->meetingLink)->toEqual('https://example.webex.com/meet/r1');
+        expect($result)->toEqual((object) [
+            'meetingLink' => 'https://example.webex.com/meet/r1',
+            'sipAddress' => 'r1@example.webex.com',
+        ]);
     });
 
     it('lists rooms with pagination and returns next link', function () {

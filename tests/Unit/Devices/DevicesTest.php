@@ -62,8 +62,10 @@ describe('Devices', function () {
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->devices()->createActivationCode(['placeId' => 'place1']);
 
-        expect($result)->toBeObject();
-        expect($result->activationCode)->toEqual('CODE123');
+        expect($result)->toEqual((object) [
+            'activationCode' => 'CODE123',
+            'expiration' => '2024-12-31T23:59:59Z',
+        ]);
     });
 
     it('destroys device', function () {

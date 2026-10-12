@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class Reports extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return ReportEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -43,6 +44,7 @@ class Reports extends AbstractApi
     /**
      * Create (run) a report.
      *
+     * @param  array<string, mixed>  $body
      * @return ReportEntity|Error
      */
     public function create(array $body)

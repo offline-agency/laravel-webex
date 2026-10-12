@@ -10,7 +10,8 @@ class Xapi extends AbstractApi
     /**
      * Send xAPI command to a device.
      *
-     * @return object|Error
+     * @param  array<string, mixed>  $arguments
+     * @return array<mixed>|object|null|Error
      */
     public function command(string $deviceId, string $command, array $arguments = [])
     {
@@ -28,7 +29,7 @@ class Xapi extends AbstractApi
     /**
      * Get xAPI status from a device.
      *
-     * @return object|Error
+     * @return array<mixed>|object|null|Error
      */
     public function status(string $deviceId, string $path)
     {

@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Messages\Room as RoomEntity;
 class Rooms extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -29,6 +30,7 @@ class Rooms extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return array{items: RoomEntity[], nextLink: string|null}|Error
      */
     public function listWithPagination(?array $additional_data = [])
@@ -52,6 +54,7 @@ class Rooms extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomEntity|Error
      */
     public function create(string $title, ?array $additional_data = [])
@@ -84,6 +87,7 @@ class Rooms extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return RoomEntity|Error
      */
     public function update(string $roomId, ?array $additional_data = [])
@@ -118,7 +122,7 @@ class Rooms extends AbstractApi
     /**
      * Get meeting details for a room.
      *
-     * @return object|Error
+     * @return array<mixed>|object|null|Error
      */
     public function meetingDetails(string $roomId)
     {

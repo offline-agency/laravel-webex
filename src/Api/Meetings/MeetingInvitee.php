@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingInvitee as MeetingInvite
 
 class MeetingInvitee extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity[]|Error
+     */
     public function list(
         string $meetingId,
         ?array $additional_data = []
@@ -31,6 +35,10 @@ class MeetingInvitee extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function detail(
         string $meetingInviteeId,
         ?array $additional_data = []
@@ -48,6 +56,10 @@ class MeetingInvitee extends AbstractApi
         return new MeetingInviteeEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function create(
         string $meetingId,
         string $email,
@@ -69,6 +81,10 @@ class MeetingInvitee extends AbstractApi
         return new MeetingInviteeEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity[]|Error
+     */
     public function bulk_create(
         string $meetingId,
         ?array $additional_data = []
@@ -92,6 +108,10 @@ class MeetingInvitee extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function update(
         string $meetingInviteeId,
         string $email,
@@ -112,6 +132,10 @@ class MeetingInvitee extends AbstractApi
         return new MeetingInviteeEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroy(
         string $meetingInviteeId,
         ?array $additional_data = []

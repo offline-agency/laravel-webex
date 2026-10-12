@@ -8,6 +8,9 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingClosedCaptions as Meetin
 
 class MeetingClosedCaptions extends AbstractApi
 {
+    /**
+     * @return MeetingClosedCaptionsEntity[]|Error
+     */
     public function listClosedCaptions(
         string $meetingId
     ) {
@@ -26,6 +29,9 @@ class MeetingClosedCaptions extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return MeetingClosedCaptionsEntity[]|Error
+     */
     public function listClosedCaptionSnippets(
         string $closedCaptionId,
         string $meetingId
@@ -45,6 +51,10 @@ class MeetingClosedCaptions extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingClosedCaptionsEntity|Error
+     */
     public function downloadClosedCaptionSnippets(
         string $closedCaptionId,
         string $meetingId,

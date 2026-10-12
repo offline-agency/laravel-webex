@@ -11,6 +11,7 @@ class AdminAuditEvents extends AbstractApi
     /**
      * List admin audit events (requires audit:events_read scope).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return AdminAuditEventEntity[]|Error
      */
     public function list(?array $additional_data = [])

@@ -174,6 +174,7 @@ describe('AbstractApi helpers', function () {
 
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->device_configurations()->update(['deviceId' => 'dev1']);
+        assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
         expect($result->message)->toEqual('Connection refused');

@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\Webhooks as WebhooksEntity;
 
 class Webhooks extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return WebhooksEntity[]|Error
+     */
     public function listWebhooks(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,12 @@ class Webhooks extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<mixed>  $resource
+     * @param  array<mixed>  $event
+     * @param  array<string, mixed>|null  $additional_data
+     * @return WebhooksEntity|Error
+     */
     public function createWebhook(
         string $name,
         string $targetUrl,
@@ -53,6 +63,9 @@ class Webhooks extends AbstractApi
         return new WebhooksEntity($response->data);
     }
 
+    /**
+     * @return WebhooksEntity|Error
+     */
     public function detailWebhook(
         string $webhookId
     ) {
@@ -68,6 +81,7 @@ class Webhooks extends AbstractApi
     /**
      * Update a webhook (name, targetUrl, secret, status).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return WebhooksEntity|Error
      */
     public function updateWebhook(
@@ -95,6 +109,7 @@ class Webhooks extends AbstractApi
     /**
      * @deprecated Use updateWebhook() instead. This method name was misleading; it updates the webhook, not a tracking code.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return WebhooksEntity|Error
      */
     public function updateTrackingCode(
@@ -106,6 +121,9 @@ class Webhooks extends AbstractApi
         return $this->updateWebhook($webhookId, $name, $targetUrl, $additional_data);
     }
 
+    /**
+     * @return string|Error
+     */
     public function destroyWebhook(
         string $webhookId
     ) {

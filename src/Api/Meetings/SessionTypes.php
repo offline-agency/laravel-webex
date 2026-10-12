@@ -9,6 +9,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\SessionTypes as SessionTypesEnt
 
 class SessionTypes extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return SessionTypesEntity[]|Error
+     */
     public function listSiteSessionTypes(
         ?array $additional_data = []
     ) {
@@ -29,6 +33,10 @@ class SessionTypes extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return SessionTypesEntity[]|Error
+     */
     public function listUserSessionType(
         ?array $additional_data = []
     ) {
@@ -49,6 +57,11 @@ class SessionTypes extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  list<string>  $sessionTypeIds
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingsEntity|Error
+     */
     public function update(
         string $siteUrl,
         array $sessionTypeIds,

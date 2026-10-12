@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingQualities as MeetingQual
 
 class MeetingQualities extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingQualitiesEntity|Error
+     */
     public function detailQualities(
         string $meetingId,
         ?array $additional_data = []

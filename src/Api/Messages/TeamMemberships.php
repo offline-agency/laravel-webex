@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Messages\TeamMembership as TeamMembershi
 class TeamMemberships extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return TeamMembershipEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -27,6 +28,7 @@ class TeamMemberships extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return TeamMembershipEntity|Error
      */
     public function create(string $teamId, string $personEmail, ?array $additional_data = [])
@@ -60,6 +62,7 @@ class TeamMemberships extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return TeamMembershipEntity|Error
      */
     public function update(string $membershipId, ?array $additional_data = [])

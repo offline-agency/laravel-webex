@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\Recordings as RecordingsEntity;
 
 class Recordings extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity[]|Error
+     */
     public function listRecordings(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,10 @@ class Recordings extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity[]|Error
+     */
     public function listRecordingsForAnAdminOrComplianceOfficer(
         ?array $additional_data = []
     ) {
@@ -48,6 +56,10 @@ class Recordings extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity|Error
+     */
     public function detailRecording(
         string $recordingId,
         ?array $additional_data = []
@@ -65,6 +77,10 @@ class Recordings extends AbstractApi
         return new RecordingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroyRecording(
         string $recordingId,
         ?array $additional_data = []
@@ -82,6 +98,11 @@ class Recordings extends AbstractApi
         return 'Recording deleted';
     }
 
+    /**
+     * @param  list<string>  $recordingIds
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity|Error
+     */
     public function moveRecordingsIntoRecycleBin(
         array $recordingIds,
         ?array $additional_data = []
@@ -101,6 +122,10 @@ class Recordings extends AbstractApi
         return new RecordingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity|Error
+     */
     public function restoreRecordingsFromRecycleBin(
         ?array $additional_data = []
     ) {
@@ -117,6 +142,10 @@ class Recordings extends AbstractApi
         return new RecordingsEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RecordingsEntity|Error
+     */
     public function purgeRecordingsFromRecycleBin(
         ?array $additional_data = []
     ) {

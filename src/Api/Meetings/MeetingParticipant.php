@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingParticipant as MeetingPa
 
 class MeetingParticipant extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingParticipantEntity[]|Error
+     */
     public function list(
         string $meetingId,
         ?array $additional_data = []
@@ -29,6 +33,10 @@ class MeetingParticipant extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingParticipantEntity|Error
+     */
     public function queryWIthEmail(
         string $meetingId,
         ?array $additional_data = []
@@ -48,6 +56,10 @@ class MeetingParticipant extends AbstractApi
         return new MeetingParticipantEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingParticipantEntity|Error
+     */
     public function detail(
         string $meetingParticipantId,
         ?array $additional_data = []
@@ -65,6 +77,10 @@ class MeetingParticipant extends AbstractApi
         return new MeetingParticipantEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingParticipantEntity|Error
+     */
     public function update(
         string $participantId,
         ?array $additional_data = []
@@ -82,6 +98,10 @@ class MeetingParticipant extends AbstractApi
         return new MeetingParticipantEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingParticipantEntity|Error
+     */
     public function admit(
         ?array $additional_data = []
     ) {

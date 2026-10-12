@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Error;
 class Workspaces extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return WorkspaceEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -41,6 +42,7 @@ class Workspaces extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>  $body
      * @return WorkspaceEntity|Error
      */
     public function create(array $body)
@@ -55,6 +57,7 @@ class Workspaces extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>  $body
      * @return WorkspaceEntity|Error
      */
     public function update(string $workspaceId, array $body)

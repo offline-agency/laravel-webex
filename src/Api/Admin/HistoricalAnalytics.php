@@ -11,6 +11,7 @@ class HistoricalAnalytics extends AbstractApi
     /**
      * List or get historical analytics (Admin).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return HistoricalAnalyticsEntity[]|HistoricalAnalyticsEntity|Error
      */
     public function list(?array $additional_data = [])

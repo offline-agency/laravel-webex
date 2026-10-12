@@ -30,8 +30,9 @@ describe('Devices Xapi', function () {
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->xapi()->status('dev1', 'Audio.Volume');
 
-        expect($result)->toBeObject();
-        expect($result->result->status)->toEqual('active');
+        expect($result)->toEqual((object) [
+            'result' => (object) ['status' => 'active'],
+        ]);
     });
 
     it('returns error on command failure', function () {

@@ -11,6 +11,7 @@ class WorkspaceMetrics extends AbstractApi
     /**
      * List workspace metrics.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return WorkspaceMetricsEntity[]|Error
      */
     public function list(?array $additional_data = [])

@@ -10,6 +10,9 @@ use Offlineagency\LaravelWebex\Entities\Meetings\VideoMesh as VideoMeshEntity;
 
 class VideoMesh extends AbstractApi
 {
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listClusterAvailability(
         string $from,
         string $to,
@@ -32,6 +35,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailClusterAvailability(
         string $clusterId,
         string $from,
@@ -49,6 +55,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listNodeAvailability(
         string $from,
         string $to,
@@ -71,6 +80,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailNodeAvailability(
         string $nodeId,
         string $from,
@@ -88,6 +100,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listMediaHealthMonitoringToolResults(
         string $from,
         string $to,
@@ -110,6 +125,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listMediaHealthMonitoringToolResultsV2(
         string $orgId,
         string $from,
@@ -135,6 +153,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailMediaHealthMonitoringToolClusterResults(
         string $from,
         string $to,
@@ -153,6 +174,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailMediaHealthMonitoringToolClusterResultsV2(
         string $clusterId,
         string $from,
@@ -173,6 +197,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailMediaHealthMonitoringToolNodeResults(
         string $from,
         string $to,
@@ -191,6 +218,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailMediaHealthMonitoringToolNodeResultsV2(
         string $nodeId,
         string $from,
@@ -211,6 +241,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listOverflowToCloudDetails(
         string $from,
         string $to,
@@ -233,6 +266,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listClusterRedirectDetails(
         string $from,
         string $to,
@@ -255,6 +291,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailClusterRedirectDetails(
         string $from,
         string $to,
@@ -273,6 +312,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listClustersUtilization(
         string $from,
         string $to,
@@ -295,6 +337,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailClusterUtilizationDetails(
         string $from,
         string $to,
@@ -313,6 +358,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listReachabilityTestResults(
         string $from,
         string $to,
@@ -335,6 +383,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listReachabilityTestResultsV2(
         string $orgId,
         string $from,
@@ -360,6 +411,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailReachabilityTestResultsForCluster(
         string $from,
         string $to,
@@ -378,6 +432,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailReachabilityTestResultsForClusterV2(
         string $clusterId,
         string $from,
@@ -398,6 +455,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailReachabilityTestResultsForNode(
         string $from,
         string $to,
@@ -416,6 +476,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailReachabilityTestResultsForNodeV2(
         string $nodeId,
         string $from,
@@ -436,6 +499,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listClusterDetails(
         string $orgId
     ) {
@@ -454,6 +520,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailCluster(
         string $clusterId
     ) {
@@ -468,6 +537,10 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity|Error
+     */
     public function triggerOnDemandTestForCluster(
         string $clusterId,
         ?array $additional_data = []
@@ -485,6 +558,10 @@ class VideoMesh extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return TrackingCodesEntity|Error
+     */
     public function triggerOnDemandTestForNode(
         string $nodeId,
         ?array $additional_data = []
@@ -502,6 +579,9 @@ class VideoMesh extends AbstractApi
         return new TrackingCodesEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailTriggeredTestStatus(
         string $commandId
     ) {
@@ -516,6 +596,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailTriggeredTestResults(
         string $commandId
     ) {
@@ -530,6 +613,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listNetworkTestResults(
         string $orgId,
         string $from,
@@ -554,6 +640,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailNetworkTestResultsForCluster(
         string $clusterId,
         string $from,
@@ -574,6 +663,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailNetworkTestResultsForNode(
         string $nodeId,
         string $from,
@@ -594,6 +686,9 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @return VideoMeshEntity[]|Error
+     */
     public function listClusterClientTypeDistributionDetails(
         string $orgId,
         string $from,
@@ -618,6 +713,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailClusterClientTypeDistributionDetails(
         string $clusterId,
         string $from,
@@ -638,6 +736,10 @@ class VideoMesh extends AbstractApi
         return new VideoMeshEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return VideoMeshEntity[]|Error
+     */
     public function listEventThresholdConfiguration(
         ?array $additional_data = []
     ) {
@@ -658,6 +760,9 @@ class VideoMesh extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @return VideoMeshEntity|Error
+     */
     public function detailEventThresholdConfiguration(
         string $eventThresholdId
     ) {
@@ -671,6 +776,10 @@ class VideoMesh extends AbstractApi
     }
 
     // TODO check function patch
+    /**
+     * @param  list<string>  $eventThresholdIds
+     * @return MeetingsEntity|Error
+     */
     public function updateEventThresholdConfiguration(
         array $eventThresholdIds
     ) {
@@ -685,6 +794,10 @@ class VideoMesh extends AbstractApi
         return new MeetingsEntity($response->data);
     }
 
+    /**
+     * @param  list<string>  $eventThresholdIds
+     * @return MeetingsEntity|Error
+     */
     public function resetEventThresholdConfiguration(
         array $eventThresholdIds
     ) {

@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\People as PeopleEntity;
 
 class People extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return PeopleEntity[]|Error
+     */
     public function listPeople(
         ?array $additional_data = []
     ) {
@@ -28,6 +32,10 @@ class People extends AbstractApi
         }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return PeopleEntity|Error
+     */
     public function createPerson(
         string $emails,
         ?array $additional_data = []
@@ -47,6 +55,10 @@ class People extends AbstractApi
         return new PeopleEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return PeopleEntity|Error
+     */
     public function detailPerson(
         string $personId,
         ?array $additional_data = []
@@ -66,6 +78,10 @@ class People extends AbstractApi
         return new PeopleEntity($response->data);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return PeopleEntity|Error
+     */
     public function updatePerson(
         string $personId,
         string $displayName,
@@ -87,6 +103,9 @@ class People extends AbstractApi
         return new PeopleEntity($response->data);
     }
 
+    /**
+     * @return string|Error
+     */
     public function destroyPerson(
         string $personId
     ) {
@@ -99,6 +118,10 @@ class People extends AbstractApi
         return 'Person deleted';
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return PeopleEntity|Error
+     */
     public function detailOwn(
         ?array $additional_data = []
     ) {

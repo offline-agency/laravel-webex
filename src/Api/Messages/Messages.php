@@ -11,6 +11,7 @@ class Messages extends AbstractApi
     /**
      * List messages in a room. Supports pagination via max/before; use listWithPagination for nextLink.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return MessagesEntity[]|Error
      */
     public function list(string $roomId, ?array $additional_data = [])
@@ -37,6 +38,7 @@ class Messages extends AbstractApi
     /**
      * List messages with pagination info (nextLink from Link header).
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return array{items: MessagesEntity[], nextLink: string|null}|Error
      */
     public function listWithPagination(string $roomId, ?array $additional_data = [])
@@ -66,6 +68,7 @@ class Messages extends AbstractApi
     /**
      * Create a message in a room.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return MessagesEntity|Error
      */
     public function create(string $roomId, string $text, ?array $additional_data = [])
@@ -105,6 +108,7 @@ class Messages extends AbstractApi
     /**
      * Edit a message.
      *
+     * @param  array<string, mixed>|null  $additional_data
      * @return MessagesEntity|Error
      */
     public function edit(string $messageId, string $text, ?array $additional_data = [])

@@ -7,6 +7,9 @@ use Offlineagency\LaravelWebex\Entities\Error;
 
 class MeetingMessages extends AbstractApi
 {
+    /**
+     * @return string|Error
+     */
     public function destroyMessage(
         string $meetingMessageId
     ) {

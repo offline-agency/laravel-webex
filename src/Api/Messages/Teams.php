@@ -9,6 +9,7 @@ use Offlineagency\LaravelWebex\Entities\Messages\Team as TeamEntity;
 class Teams extends AbstractApi
 {
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return TeamEntity[]|Error
      */
     public function list(?array $additional_data = [])
@@ -27,6 +28,7 @@ class Teams extends AbstractApi
     }
 
     /**
+     * @param  array<string, mixed>|null  $additional_data
      * @return TeamEntity|Error
      */
     public function create(string $name, ?array $additional_data = [])
