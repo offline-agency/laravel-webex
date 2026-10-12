@@ -53,7 +53,7 @@ describe('Webhooks', function () {
         ]);
 
         $laravel_webex = new LaravelWebex;
-        $webhook = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', ['meetings'], ['created']);
+        $webhook = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', 'meetings', 'created');
         assert($webhook instanceof WebhookEntity);
 
         expect($webhook)->toBeInstanceOf(WebhookEntity::class);
@@ -71,7 +71,7 @@ describe('Webhooks', function () {
         ]);
 
         $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', ['meetings'], ['created']);
+        $result = $laravel_webex->webhooks()->createWebhook('New Webhook', 'https://example.com/callback', 'meetings', 'created');
 
         expect($result)->toBeInstanceOf(Error::class);
     });
