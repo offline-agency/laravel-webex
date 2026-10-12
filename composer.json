@@ -39,7 +39,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Offlineagency\\LaravelWebex\\Tests\\": "tests"
+      "Offlineagency\\LaravelWebex\\Tests\\": "tests",
+      "Offlineagency\\LaravelWebex\\Release\\": "tools/release/src"
     }
   },
   "scripts": {

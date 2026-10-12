@@ -1,0 +1,68 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * Release tooling entry point. It needs no Composer dependency: the publishing job runs it with a write token
+ * from a trusted checkout of the base branch, without installing or executing the package.
+ *
+ *   release publish  [--pr=N] [--dry-run]   tag and release merged pull requests whose CI passed
+ *   release check-pr <event.json>           pre-merge validation of the release labels / title
+ */
+
+use Offlineagency\LaravelWebex\Release\BumpPolicy;
+use Offlineagency\LaravelWebex\Release\GitHistory;
+use Offlineagency\LaravelWebex\Release\HttpGitHubApi;
+use Offlineagency\LaravelWebex\Release\Releaser;
+
+spl_autoload_register(function (string $class): void {
+    $prefix = 'Offlineagency\\LaravelWebex\\Release\\';
+    if (str_starts_with($class, $prefix)) {
+        require __DIR__.'/../src/'.substr($class, strlen($prefix)).'.php';
+    }
+});
+
+$argv = is_array($_SERVER['argv'] ?? null) ? array_values(array_filter($_SERVER['argv'], 'is_string')) : [];
+$command = $argv[1] ?? '';
+$arguments = array_slice($argv, 2);
+$dryRun = in_array('--dry-run', $arguments, true);
+$pr = null;
+foreach ($arguments as $argument) {
+    if (preg_match('/^--pr=(\d+)$/', $argument, $m) === 1) {
+        $pr = (int) $m[1];
+    } elseif ($argument !== '--dry-run' && $command === 'publish') {
+        fwrite(STDERR, "Unknown option: {$argument}\n");
+        exit(2);
+    }
+}
+
+if ($command === 'check-pr') {
+    $event = json_decode((string) file_get_contents($arguments[0] ?? ''), true);
+    $pr = is_array($event) && is_array($event['pull_request'] ?? null) ? $event['pull_request'] : [];
+    $labels = array_values(array_filter(array_map(fn ($label) => is_array($label) ? ($label['name'] ?? null) : null, is_array($pr['labels'] ?? null) ? $pr['labels'] : []), 'is_string'));
+    $decision = BumpPolicy::decide(is_string($pr['title'] ?? null) ? $pr['title'] : '', is_string($pr['body'] ?? null) ? $pr['body'] : '', $labels);
+    echo "Release bump if merged: {$decision->bump->label()} ({$decision->reason})\n";
+    foreach ($decision->problems as $problem) {
+        fwrite(STDERR, "::error::{$problem}\n");
+    }
+    exit($decision->problems === [] ? 0 : 1);
+}
+
+if ($command === 'publish') {
+    $config = Releaser::loadConfig(__DIR__.'/../config.json');
+    $token = getenv('GITHUB_TOKEN');
+    if (! is_string($token) || $token === '') {
+        fwrite(STDERR, "GITHUB_TOKEN is not set.\n");
+        exit(1);
+    }
+    $releaser = new Releaser(new HttpGitHubApi($config['repository'], $token), new GitHistory(getcwd() ?: '.'), $config);
+    try {
+        $published = $releaser->run('origin/'.$config['base_branch'], $pr, $dryRun);
+    } finally {
+        echo implode("\n", $releaser->log)."\n";
+    }
+    echo json_encode(['published' => $published], JSON_PRETTY_PRINT)."\n";
+    exit(0);
+}
+
+fwrite(STDERR, "Usage: release publish [--pr=N] [--dry-run] | release check-pr <event.json>\n");
+exit(2);

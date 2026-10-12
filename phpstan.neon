@@ -10,6 +10,8 @@ parameters:
         - config
         - routes
         - tests
+        - tools/release/src
+        - tools/release/bin/release
     level: max
     # the package's own config directory: env() is allowed there and config() types are read from it
     configDirectories:
