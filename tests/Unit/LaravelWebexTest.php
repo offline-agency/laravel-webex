@@ -126,3 +126,47 @@ describe('LaravelWebex API accessors', function () {
         });
     }
 });
+
+describe('LaravelWebex configuration', function () {
+    beforeEach(function () {
+        Event::fake([AuthenticationRequested::class, SuccessfulAuthentication::class]);
+    });
+
+    it('uses configured base url, bearer and timeout', function () {
+        config([
+            'webex.base_url' => 'https://example.test/v1/',
+            'webex.bearer' => 'secret-token',
+            'webex.timeout' => 12,
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $options = $laravel_webex->httpBuilder->getOptions();
+
+        expect($laravel_webex->base_url)->toBe('https://example.test/v1/');
+        expect(data_get($options, 'headers.Authorization'))->toBe('Bearer secret-token');
+        expect($options['timeout'] ?? null)->toEqual(12);
+    });
+
+    it('accepts a numeric string timeout as set from the environment', function () {
+        config(['webex.timeout' => '15']);
+
+        $options = (new LaravelWebex)->httpBuilder->getOptions();
+
+        expect($options['timeout'] ?? null)->toEqual(15);
+    });
+
+    it('falls back to safe defaults when config values have unexpected types', function () {
+        config([
+            'webex.base_url' => null,
+            'webex.bearer' => null,
+            'webex.timeout' => 'not-a-number',
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $options = $laravel_webex->httpBuilder->getOptions();
+
+        expect($laravel_webex->base_url)->toBe('');
+        expect(data_get($options, 'headers.Authorization'))->toBe('Bearer ');
+        expect($options['timeout'] ?? null)->toEqual(30);
+    });
+});
