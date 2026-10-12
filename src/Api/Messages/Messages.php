@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex\Api\Messages;
 
+use Illuminate\Support\LazyCollection;
 use Offlineagency\LaravelWebex\Api\AbstractApi;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Messages as MessagesEntity;
@@ -63,6 +64,21 @@ class Messages extends AbstractApi
             }, $items),
             'nextLink' => $response->nextLink ?? null,
         ];
+    }
+
+    /**
+     * Every message of a room, fetched page by page while iterated (see AbstractApi::cursorOf()).
+     *
+     * @param  array<string, mixed>|null  $additional_data
+     * @return LazyCollection<int, MessagesEntity>
+     */
+    public function cursor(string $roomId, ?array $additional_data = [], int $maxPages = 100): LazyCollection
+    {
+        $additional_data = $this->data($additional_data, [
+            'parentId', 'mentionedPeople', 'before', 'beforeMessage', 'max',
+        ]);
+
+        return $this->cursorOf('messages', array_merge(['roomId' => $roomId], $additional_data), MessagesEntity::class, $maxPages);
     }
 
     /**

@@ -5,9 +5,12 @@ namespace Offlineagency\LaravelWebex\Api;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\LazyCollection;
 use JsonException;
 use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 use Offlineagency\LaravelWebex\Entities\Error;
+use Offlineagency\LaravelWebex\Exceptions\WebexPaginationException;
+use Offlineagency\LaravelWebex\Exceptions\WebexRequestException;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 /**
@@ -49,9 +52,81 @@ abstract class AbstractApi
      */
     protected function getWithLink(string $url, array $query_parameters): object
     {
+        return $this->getAbsoluteWithLink($this->laravel_webex->base_url.$url, $query_parameters);
+    }
+
+    /**
+     * Every item of a paginated list, fetched page by page while the collection is consumed: the next page is the
+     * Link rel="next" URL, followed only on the scheme, host and port of the configured base URL (the bearer token
+     * is never sent elsewhere). A failed page throws WebexRequestException; a repeated nextLink or more than
+     * $maxPages pages throw WebexPaginationException, so an incomplete traversal is never silent.
+     *
+     * @template T of AbstractEntity
+     *
+     * @param  array<string, mixed>  $query_parameters
+     * @param  class-string<T>  $class
+     * @return LazyCollection<int, T>
+     */
+    protected function cursorOf(string $url, array $query_parameters, string $class, int $maxPages): LazyCollection
+    {
+        return LazyCollection::make(function () use ($url, $query_parameters, $class, $maxPages) {
+            $next = $this->laravel_webex->base_url.$url;
+            $query = $query_parameters;
+            $seen = [];
+            for ($pages = 0; $next !== null; $pages++) {
+                if ($pages === $maxPages) {
+                    throw new WebexPaginationException("Stopped after {$maxPages} pages (maxPages).");
+                }
+                $response = $this->getAbsoluteWithLink($next, $query);
+                if (! $response->success) {
+                    throw new WebexRequestException(new Error($response->data));
+                }
+                foreach ($this->getItemsFromResponse($response) as $item) {
+                    yield new $class($item);
+                }
+
+                $next = $response->nextLink;
+                $query = [];
+                if ($next !== null && ! $this->sameOriginAsBaseUrl($next)) {
+                    throw new WebexPaginationException('Refusing to follow a nextLink outside '.$this->origin($this->laravel_webex->base_url).'.');
+                }
+                if ($next !== null && isset($seen[$next])) {
+                    throw new WebexPaginationException('Webex returned the same nextLink twice.');
+                }
+                $seen[(string) $next] = true;
+            }
+        });
+    }
+
+    private function sameOriginAsBaseUrl(string $url): bool
+    {
+        $origin = $this->origin($url);
+
+        return $origin !== '' && $origin === $this->origin($this->laravel_webex->base_url);
+    }
+
+    /**
+     * scheme://host[:port] of an https URL, lower-cased; '' for anything else.
+     */
+    private function origin(string $url): string
+    {
+        $parts = parse_url($url);
+        if (! is_array($parts) || strtolower($parts['scheme'] ?? '') !== 'https' || ! isset($parts['host'])) {
+            return '';
+        }
+
+        return 'https://'.strtolower($parts['host']).(isset($parts['port']) ? ':'.$parts['port'] : '');
+    }
+
+    /**
+     * @param  array<string, mixed>  $query_parameters
+     * @return PaginatedApiResponse
+     */
+    private function getAbsoluteWithLink(string $fullUrl, array $query_parameters): object
+    {
         try {
-            $fullUrl = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->http('GET')->get($fullUrl, $query_parameters);
+            // an empty query array would replace the query string of $fullUrl (a nextLink carries its own)
+            $response = $this->laravel_webex->http('GET')->get($fullUrl, $query_parameters === [] ? null : $query_parameters);
             $parsed = $this->parseResponse($response);
 
             return (object) [
