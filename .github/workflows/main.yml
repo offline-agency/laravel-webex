@@ -3,7 +3,7 @@ name: CI
 on:
     push:
         branches:
-            - main
+            - master
             - develop
         tags:
     pull_request:
@@ -51,7 +51,7 @@ jobs:
                 composer require "laravel/framework:^${{ matrix.laravel }}" --no-interaction --no-update
                 composer update --no-interaction
             - name: Run tests
-              run: ./vendor/bin/pest --coverage-clover coverage.xml
+              run: ./vendor/bin/pest --coverage --min=100 --coverage-clover coverage.xml
             - name: Run PHPStan
               run: ./vendor/bin/phpstan analyse --memory-limit=512M --no-progress
             - name: Run Pint
