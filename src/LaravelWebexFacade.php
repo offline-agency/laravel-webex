@@ -5,7 +5,7 @@ namespace Offlineagency\LaravelWebex;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Offlineagency\LaravelWebex\LaravelWebex
+ * @see LaravelWebex
  *
  * Main accessors: meeting(), meeting_invitees(), meeting_participants(), meeting_chats(), meeting_closed_captions(),
  * meeting_messages(), meeting_polls(), meeting_preferences(), meeting_q_and_a(), meeting_qualities(),

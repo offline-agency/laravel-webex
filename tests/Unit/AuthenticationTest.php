@@ -6,7 +6,7 @@ describe('Authentication', function () {
     });
 
     it('asserts thrown exception with expect()->toThrow()', function () {
-        expect(fn () => throw new \RuntimeException('expected message'))
-            ->toThrow(\RuntimeException::class, 'expected message');
+        expect(fn () => throw new RuntimeException('expected message'))
+            ->toThrow(RuntimeException::class, 'expected message');
     });
 });
