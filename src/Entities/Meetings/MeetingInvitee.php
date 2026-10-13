@@ -6,33 +6,15 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class MeetingInvitee extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public $id;
+    public mixed $id = null;
 
-    /**
-     * @var string
-     */
-    public $email;
+    public mixed $email = null;
 
-    /**
-     * @var string
-     */
-    public $displayName;
+    public mixed $displayName = null;
 
-    /**
-     * @var bool
-     */
-    public $coHost;
+    public mixed $coHost = null;
 
-    /**
-     * @var string
-     */
-    public $meetingId;
+    public mixed $meetingId = null;
 
-    /**
-     * @var bool
-     */
-    public $panelist;
+    public mixed $panelist = null;
 }

@@ -16,7 +16,7 @@ class ResourceGroupMemberships extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max', 'resourceGroupId', 'personId']);
 
-        $response = $this->get('resourceGroupMemberships', $additional_data);
+        $response = $this->get('resourceGroup/memberships', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -32,41 +32,8 @@ class ResourceGroupMemberships extends AbstractApi
      */
     public function detail(string $membershipId)
     {
-        $response = $this->get('resourceGroupMemberships/'.$membershipId, []);
+        $response = $this->get('resourceGroup/memberships/'.$membershipId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupMembershipEntity($response->data);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return ResourceGroupMembershipEntity|Error
-     */
-    public function create(array $body)
-    {
-        $response = $this->post('resourceGroupMemberships', $body);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ResourceGroupMembershipEntity($response->data);
-    }
-
-    /**
-     * @return true|Error
-     */
-    public function destroy(string $membershipId)
-    {
-        $response = $this->delete('resourceGroupMemberships/'.$membershipId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return true;
+        return $this->entity($response, ResourceGroupMembershipEntity::class);
     }
 }

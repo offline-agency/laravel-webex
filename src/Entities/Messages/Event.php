@@ -6,17 +6,17 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Event extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $resource = null;
+    public ?string $resource = null;
 
-    public mixed $type = null;
+    public ?string $type = null;
 
-    public mixed $appId = null;
+    public ?string $appId = null;
 
-    public mixed $actorId = null;
+    public ?string $actorId = null;
 
     public mixed $data = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 }

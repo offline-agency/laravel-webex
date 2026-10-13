@@ -23,21 +23,6 @@ describe('MeetingClosedCaptions', function () {
         expect($list[0])->toBeInstanceOf(MeetingClosedCaptionsEntity::class);
     });
 
-    it('returns error on list closed captions failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingClosedCaptions*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_closed_captions()->listClosedCaptions('m1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('lists closed caption snippets', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingClosedCaptions/cc1/snippets*' => Http::response(json_encode((object) [

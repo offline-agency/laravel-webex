@@ -1,19 +1,18 @@
 # Docs update for docs.offlineagency.com
 
-Use this to align the live docs with the package after the PHP 8.4 / Laravel 11+ upgrade and new endpoints.
+Use this to align the live docs with the package for the 2.0 release (PHP 8.4/8.5, Laravel 12/13) and the new endpoints.
 
 ## Installation
 
-- **Requirements:** PHP 8.4+, Laravel 11+ (or 12+).
+- **Requirements:** PHP 8.4 or 8.5, Laravel 12 (from 12.69.2) or 13 (from 13.32). See UPGRADE.md for 1.x users.
 - **Install:** `composer require offline-agency/laravel-webex`
-- **Config:** Publish with either:
-  - `php artisan vendor:publish --provider="Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider"`
-  - `php artisan vendor:publish --tag=webex-config`
+- **Config:** `php artisan vendor:publish --tag=webex-config`
 
 ## Authentication
 
 - Bearer token via `config('webex.bearer')` (e.g. `WEBEX_BEARER` in `.env`).
-- Events: `AuthenticationRequested`, `SuccessfulAuthentication`.
+- Events: `AuthenticationRequested` (set a dynamic token here), then `SuccessfulAuthentication` once the client is configured (not a proof that Webex accepted the token).
+- Results: entity / list / `true`, or an `Error` (see README "Results and errors").
 
 ## API coverage (implemented)
 

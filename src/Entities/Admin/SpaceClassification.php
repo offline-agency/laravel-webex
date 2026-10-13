@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class SpaceClassification extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
     public mixed $name = null;
 
-    public mixed $description = null;
+    public ?string $description = null;
 
     public mixed $created = null;
 

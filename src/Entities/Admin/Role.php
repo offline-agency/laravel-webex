@@ -6,9 +6,9 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Role extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $name = null;
+    public ?string $name = null;
 
     public mixed $description = null;
 }

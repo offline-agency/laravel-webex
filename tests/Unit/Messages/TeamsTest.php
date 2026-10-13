@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Team as TeamEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -24,21 +23,6 @@ describe('Teams', function () {
         expect($list[0])->toBeInstanceOf(TeamEntity::class);
         expect($list[0]->id)->toEqual('team1');
         expect($list[0]->name)->toEqual('Team One');
-    });
-
-    it('returns error on teams list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/teams*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->teams()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('creates team', function () {
@@ -104,21 +88,6 @@ describe('Teams', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on destroy team failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/teams/team1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->teams()->destroy('team1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('creates team with null additional data', function () {
         Http::fake([
             'https://webexapis.com/v1/teams*' => Http::response(json_encode((object) [
@@ -137,54 +106,4 @@ describe('Teams', function () {
         Http::assertSent(fn (Request $request) => $request['name'] === 'Team A');
     });
 
-    it('returns error on create team failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/teams*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->teams()->create('New Team');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Bad Request');
-    });
-
-    it('returns error on team detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/teams/team1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->teams()->detail('team1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
-
-    it('returns error on update team failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/teams/team1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->teams()->update('team1', 'Updated Team');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
 });

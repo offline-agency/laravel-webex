@@ -126,7 +126,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('returns error when getWithLink() throws', function () {
@@ -139,7 +139,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('returns error when post() throws', function () {
@@ -156,7 +156,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('returns error when put() throws', function () {
@@ -169,7 +169,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('returns error when patch() throws', function () {
@@ -182,7 +182,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('returns error when delete() throws', function () {
@@ -195,7 +195,7 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Connection refused');
+        expect($result->message)->toEqual('Connection to Webex failed: Connection refused');
     });
 
     it('delete() with non-empty query params builds URL and succeeds', function () {
@@ -225,20 +225,19 @@ describe('AbstractApi helpers', function () {
         expect($result['items'])->toHaveCount(1);
     });
 
-    it('builds an empty entity when a successful response body is a JSON scalar', function () {
+    it('returns an error instead of an empty entity when a successful response body is a JSON scalar', function () {
         Http::fake([
             'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode('unexpected', JSON_THROW_ON_ERROR)),
         ]);
 
         $laravel_webex = new LaravelWebex;
         $room = $laravel_webex->rooms()->detail('r1');
-        assert($room instanceof RoomEntity);
+        assert($room instanceof Error);
 
-        expect($room)->toBeInstanceOf(RoomEntity::class);
-        expect($room->id)->toBeNull();
+        expect($room->message)->toEqual('Webex returned an unexpected JSON value (HTTP 200).');
     });
 
-    it('returns unknown error when a failed response body is a JSON scalar', function () {
+    it('returns a generic error when a failed response body is a JSON scalar', function () {
         Http::fake([
             'https://webexapis.com/v1/rooms/r1*' => Http::response(json_encode(42, JSON_THROW_ON_ERROR), 500),
         ]);
@@ -248,10 +247,10 @@ describe('AbstractApi helpers', function () {
         assert($result instanceof Error);
 
         expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Unknown error');
+        expect($result->message)->toEqual('Webex request failed (HTTP 500).');
     });
 
-    it('returns null data on raw responses whose body is a JSON scalar', function () {
+    it('reports raw responses whose body is a JSON scalar as unsuccessful', function () {
         Http::fake([
             'https://webexapis.com/v1/telephony/calls/answer*' => Http::response(json_encode(true, JSON_THROW_ON_ERROR)),
         ]);
@@ -259,8 +258,8 @@ describe('AbstractApi helpers', function () {
         $laravel_webex = new LaravelWebex;
         $result = $laravel_webex->call_controls()->answer(['callId' => 'c1']);
 
-        expect($result->success)->toBeTrue();
-        expect($result->data)->toBeNull();
+        expect($result->success)->toBeFalse();
+        expect($result->data->message ?? null)->toEqual('Webex returned an unexpected JSON value (HTTP 200).');
     });
 
     it('getItemsFromResponse skips items that are not objects', function () {

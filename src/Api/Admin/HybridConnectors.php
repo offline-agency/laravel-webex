@@ -16,7 +16,7 @@ class HybridConnectors extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max', 'clusterId']);
 
-        $response = $this->get('hybridConnectors', $additional_data);
+        $response = $this->get('hybrid/connectors', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -32,56 +32,8 @@ class HybridConnectors extends AbstractApi
      */
     public function detail(string $connectorId)
     {
-        $response = $this->get('hybridConnectors/'.$connectorId, []);
+        $response = $this->get('hybrid/connectors/'.$connectorId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return HybridConnectorEntity|Error
-     */
-    public function create(array $body)
-    {
-        $response = $this->post('hybridConnectors', $body);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return HybridConnectorEntity|Error
-     */
-    public function update(string $connectorId, array $body)
-    {
-        $response = $this->put('hybridConnectors/'.$connectorId, $body);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridConnectorEntity($response->data);
-    }
-
-    /**
-     * @return true|Error
-     */
-    public function destroy(string $connectorId)
-    {
-        $response = $this->delete('hybridConnectors/'.$connectorId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return true;
+        return $this->entity($response, HybridConnectorEntity::class);
     }
 }

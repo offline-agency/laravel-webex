@@ -45,11 +45,7 @@ class MeetingPolls extends AbstractApi
             'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPollsEntity($response->data);
+        return $this->entity($response, MeetingPollsEntity::class);
     }
 
     /**

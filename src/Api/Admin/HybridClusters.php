@@ -16,7 +16,7 @@ class HybridClusters extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max']);
 
-        $response = $this->get('hybridClusters', $additional_data);
+        $response = $this->get('hybrid/clusters', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -32,56 +32,8 @@ class HybridClusters extends AbstractApi
      */
     public function detail(string $clusterId)
     {
-        $response = $this->get('hybridClusters/'.$clusterId, []);
+        $response = $this->get('hybrid/clusters/'.$clusterId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return HybridClusterEntity|Error
-     */
-    public function create(array $body)
-    {
-        $response = $this->post('hybridClusters', $body);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return HybridClusterEntity|Error
-     */
-    public function update(string $clusterId, array $body)
-    {
-        $response = $this->put('hybridClusters/'.$clusterId, $body);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new HybridClusterEntity($response->data);
-    }
-
-    /**
-     * @return true|Error
-     */
-    public function destroy(string $clusterId)
-    {
-        $response = $this->delete('hybridClusters/'.$clusterId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return true;
+        return $this->entity($response, HybridClusterEntity::class);
     }
 }

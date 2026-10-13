@@ -6,13 +6,13 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Team extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $name = null;
+    public ?string $name = null;
 
     public mixed $creatorId = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $lastActivity = null;
 }

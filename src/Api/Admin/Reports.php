@@ -34,11 +34,7 @@ class Reports extends AbstractApi
     {
         $response = $this->get('reports/'.$reportId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ReportEntity($response->data);
+        return $this->entity($response, ReportEntity::class);
     }
 
     /**
@@ -51,10 +47,6 @@ class Reports extends AbstractApi
     {
         $response = $this->post('reports', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new ReportEntity($response->data);
+        return $this->entity($response, ReportEntity::class);
     }
 }

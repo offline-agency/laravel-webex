@@ -25,11 +25,7 @@ class AttachmentActions extends AbstractApi
             'inputs' => $inputs,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new AttachmentActionEntity($response->data);
+        return $this->entity($response, AttachmentActionEntity::class);
     }
 
     /**
@@ -41,10 +37,6 @@ class AttachmentActions extends AbstractApi
     {
         $response = $this->get('attachment/actions/'.$actionId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new AttachmentActionEntity($response->data);
+        return $this->entity($response, AttachmentActionEntity::class);
     }
 }

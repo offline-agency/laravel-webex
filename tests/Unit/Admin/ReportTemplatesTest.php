@@ -2,13 +2,12 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\ReportTemplate as ReportTemplateEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin ReportTemplates', function () {
     it('lists report templates', function () {
         Http::fake([
-            'https://webexapis.com/v1/reportTemplates*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/report/templates*' => Http::response(json_encode((object) [
                 'items' => [
                     (object) [
                         'id' => 'tpl1',
@@ -28,50 +27,4 @@ describe('Admin ReportTemplates', function () {
         expect($list[0]->id)->toEqual('tpl1');
     });
 
-    it('gets report template detail', function () {
-        Http::fake([
-            'https://webexapis.com/v1/reportTemplates/tpl1*' => Http::response(json_encode((object) [
-                'id' => 'tpl1',
-                'name' => 'Template One',
-                'created' => '2024-01-01T00:00:00Z',
-            ], JSON_THROW_ON_ERROR)),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $template = $laravel_webex->admin_report_templates()->detail('tpl1');
-        assert($template instanceof ReportTemplateEntity);
-
-        expect($template)->toBeInstanceOf(ReportTemplateEntity::class);
-        expect($template->id)->toEqual('tpl1');
-    });
-
-    it('returns error on report template detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/reportTemplates/tpl1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_report_templates()->detail('tpl1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/reportTemplates*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_report_templates()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

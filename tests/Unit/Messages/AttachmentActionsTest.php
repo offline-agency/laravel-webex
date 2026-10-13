@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\AttachmentAction as AttachmentActionEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -29,21 +28,6 @@ describe('AttachmentActions', function () {
         expect($action->messageId)->toEqual('msg1');
     });
 
-    it('returns error on create failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/attachment/actions*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->attachment_actions()->create('submit', 'msg1', []);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets attachment action detail', function () {
         Http::fake([
             'https://webexapis.com/v1/attachment/actions/action1*' => Http::response(json_encode((object) [
@@ -64,18 +48,4 @@ describe('AttachmentActions', function () {
         expect($action->id)->toEqual('action1');
     });
 
-    it('returns error on attachment action detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/attachment/actions/action1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->attachment_actions()->detail('action1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

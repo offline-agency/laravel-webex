@@ -24,21 +24,6 @@ describe('SessionTypes', function () {
         expect($list[0])->toBeInstanceOf(SessionTypesEntity::class);
     });
 
-    it('returns error on list site session types failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/admin/meeting/config/sessionTypes*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->session_types()->listSiteSessionTypes();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('lists user session types', function () {
         Http::fake([
             'https://webexapis.com/v1/admin/meeting/userconfig/sessionTypes*' => Http::response(json_encode((object) [

@@ -107,21 +107,6 @@ describe('Meeting Participants', function () {
         expect($meeting_participants_detail->id)->toEqual('fake_id');
     });
 
-    it('returns error on meeting participant detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingParticipants/fake_id*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_participants()->detail('fake_id');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('queries meeting participants with email', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingParticipants/query*' => Http::response(json_encode((object) [

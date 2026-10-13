@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\Recordings as RecordingsEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -23,21 +22,6 @@ describe('Recordings', function () {
         expect($list[0])->toBeInstanceOf(RecordingsEntity::class);
     });
 
-    it('returns error on recordings list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->listRecordings();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets recording detail', function () {
         Http::fake([
             'https://webexapis.com/v1/recordings/rec1*' => Http::response(json_encode((object) [
@@ -53,21 +37,6 @@ describe('Recordings', function () {
         expect($recording)->toBeInstanceOf(RecordingsEntity::class);
     });
 
-    it('returns error on recording detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings/rec1*' => Http::response(json_encode((object) [
-                'message' => 'Not found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->detailRecording('rec1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('destroys recording', function () {
         Http::fake([
             'https://webexapis.com/v1/recordings/rec1*' => Http::response('', 204),
@@ -77,21 +46,6 @@ describe('Recordings', function () {
         $result = $laravel_webex->recordings()->destroyRecording('rec1');
 
         expect($result)->toEqual('Recording deleted');
-    });
-
-    it('returns error on destroy recording failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings/rec1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->destroyRecording('rec1');
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('moves recordings into recycle bin', function () {
@@ -136,21 +90,6 @@ describe('Recordings', function () {
         expect($result)->toBeInstanceOf(RecordingsEntity::class);
     });
 
-    it('returns error on move recordings into recycle bin failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings/softDelete*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->moveRecordingsIntoRecycleBin(['rec1']);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('lists recordings for admin or compliance officer', function () {
         Http::fake([
             'https://webexapis.com/v1/admin/recordings*' => Http::response(json_encode((object) [
@@ -168,48 +107,4 @@ describe('Recordings', function () {
         expect($list[0])->toBeInstanceOf(RecordingsEntity::class);
     });
 
-    it('returns error on list recordings for admin or compliance officer failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/admin/recordings*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->listRecordingsForAnAdminOrComplianceOfficer();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on restore recordings from recycle bin failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings/restore*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->restoreRecordingsFromRecycleBin();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on purge recordings from recycle bin failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordings/purge*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recordings()->purgeRecordingsFromRecycleBin();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

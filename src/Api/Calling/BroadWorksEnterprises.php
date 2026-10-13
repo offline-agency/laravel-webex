@@ -16,7 +16,7 @@ class BroadWorksEnterprises extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max']);
 
-        $response = $this->get('broadworksEnterprises', $additional_data);
+        $response = $this->get('broadworks/enterprises', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -25,19 +25,5 @@ class BroadWorksEnterprises extends AbstractApi
         $items = $this->getItemsFromResponse($response);
 
         return array_map(fn ($item) => new BroadWorksEnterpriseEntity($item), $items);
-    }
-
-    /**
-     * @return BroadWorksEnterpriseEntity|Error
-     */
-    public function detail(string $enterpriseId)
-    {
-        $response = $this->get('broadworksEnterprises/'.$enterpriseId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new BroadWorksEnterpriseEntity($response->data);
     }
 }

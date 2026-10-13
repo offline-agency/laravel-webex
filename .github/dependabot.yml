@@ -1,0 +1,24 @@
+version: 2
+updates:
+    # Composer: one grouped pull request per week into develop (released with the next merge into main)
+    - package-ecosystem: composer
+      directory: /
+      target-branch: develop
+      schedule:
+          interval: weekly
+      groups:
+          runtime:
+              dependency-type: production
+          development:
+              dependency-type: development
+      open-pull-requests-limit: 5
+
+    # GitHub Actions are pinned to commit SHAs: Dependabot updates the SHA and the version comment together
+    - package-ecosystem: github-actions
+      directory: /
+      target-branch: develop
+      schedule:
+          interval: weekly
+      groups:
+          actions:
+              patterns: ['*']

@@ -33,16 +33,16 @@ class Webhooks extends AbstractApi
     }
 
     /**
-     * @param  array<mixed>  $resource
-     * @param  array<mixed>  $event
+     * @param  string  $resource  the resource to watch, for example "messages" or "meetings"
+     * @param  string  $event  the event, for example "created" or "all"
      * @param  array<string, mixed>|null  $additional_data
      * @return WebhooksEntity|Error
      */
     public function createWebhook(
         string $name,
         string $targetUrl,
-        array $resource,
-        array $event,
+        string $resource,
+        string $event,
         ?array $additional_data = []
     ) {
         $additional_data = $this->data($additional_data, [
@@ -56,11 +56,7 @@ class Webhooks extends AbstractApi
             'event' => $event,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**
@@ -71,11 +67,7 @@ class Webhooks extends AbstractApi
     ) {
         $response = $this->get('webhooks/'.$webhookId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**
@@ -99,11 +91,7 @@ class Webhooks extends AbstractApi
             'targetUrl' => $targetUrl,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new WebhooksEntity($response->data);
+        return $this->entity($response, WebhooksEntity::class);
     }
 
     /**

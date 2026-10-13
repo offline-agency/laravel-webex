@@ -4,9 +4,27 @@ All notable changes to `laravel-webex` will be documented in this file.
 
 ## Unreleased
 
+The next release is 2.0.0 (breaking). It is created by the release workflow when this work is merged into `main`; see [UPGRADE.md](UPGRADE.md).
+
+### Changed (2.0)
+
+- **Breaking: platforms** – PHP 8.4/8.5 (`~8.4.0 || ~8.5.0`) and Laravel 12 (from 12.69.2) / 13 (from 13.32); Laravel 11 and PHP 8.3 are no longer supported. The package requires `laravel/framework` (it uses `Illuminate\Foundation` classes).
+- **Breaking: HTTP results** – any 2xx is a success; malformed JSON, JSON scalars and missing documents return an `Error`; failed responses without a Webex error document return "Webex request failed (HTTP n)."; only network failures are converted into an `Error`.
+- **Breaking: `Webhooks::createWebhook()`** – resource and event are strings (the Webex API rejects arrays).
+- **Breaking: authentication events** – `SuccessfulAuthentication` is dispatched after the client is built.
+- **`/auth` route** – off by default; configurable path, name and registration (`webex.auth_route`); `WebexClientConfigured` event, `SuccessfulAuthentication` deprecated.
+- **Tokens and retries** – token resolved per request (`forToken()`, `webex.token_resolver`); GET/PUT/DELETE retried on network failures, 429 (Retry-After) and 503; `Error::$status` and `Error::$retryAfter`.
+- **Pagination** – lazy `cursor()` for messages and rooms, following `nextLink` only on the base URL's host.
+- **Breaking: endpoints** – every endpoint checked against the official Webex OpenAPI specification: 51 requests that do not exist in the API fixed or removed (see UPGRADE.md).
+- **Entities** – property types from the official schemas where unambiguous.
+- **Maintenance** – Dependabot (Composer and Actions, grouped, into `develop`), CODEOWNERS.
+- **Tooling** – Pest 4, Testbench 10/11, Larastan 3.13 at level max (also `config`, `routes`, release tooling), Pint 1.32; php-coveralls removed; CI matrix PHP 8.4/8.5 x Laravel 12/13 plus lowest versions; automatic tag and GitHub Release per pull request merged into `main`.
+
+### Earlier unreleased work (1.x line)
+
 ### Added
 
-- **PHP 8.4+ and Laravel 11+ support** – Minimum PHP is now 8.4; Laravel 11 and 12 are supported.
+- **PHP 8.4+** – Minimum PHP is now 8.4 (Laravel 11 support was later dropped, see 2.0 above).
 - **Config publish tag** – You can publish config with `php artisan vendor:publish --tag=webex-config` in addition to the provider.
 - **Pagination helper** – List endpoints can use `getWithLink()` in API classes; Messages and Rooms expose `listWithPagination()` returning `['items' => [...], 'nextLink' => string|null]` (Webex `Link: rel="next"` header).
 - **Messaging API** – Rooms (list, create, detail, update, destroy, meetingDetails), Teams (list, create, detail, update, destroy), Memberships (list, create, detail, update, destroy).
@@ -34,12 +52,16 @@ All notable changes to `laravel-webex` will be documented in this file.
 
 ### Changed
 
-- **Breaking** – PHP 7.1–8.3 and Laravel 5–9 are no longer supported. Use PHP 8.4+ and Laravel 11+.
+- **Breaking** – PHP 7.1–8.3 and Laravel 5–9 are no longer supported (superseded by the 2.0 policy above: PHP 8.4/8.5, Laravel 12/13).
 - **Breaking** – Messages::delete() renamed to Messages::destroy() to avoid conflict with AbstractApi::delete().
-- **GitHub Actions** – Matrix updated to PHP 8.4 and Laravel 11/12; added PHPStan step; updated checkout and cache actions. CI now runs on pushes to `master` (previously `main`, which does not exist).
+- **GitHub Actions** – Matrix updated to PHP 8.4 and Laravel 11/12; added PHPStan step; updated checkout and cache actions. CI now runs on pushes to `master` (previously `main`, which does not exist). Superseded in 2.0: Laravel 12/13 and pushes to `main`/`develop` after the default branch was renamed to `main`.
 - **Code style** – StyleCI replaced by Laravel Pint (`pint.json`, `composer pint`, `pint --test` in CI).
 - **Composer** – Removed `guzzlehttp/guzzle` and `doctrine/dbal` from direct requirements; added `larastan/larastan`. Testbench ^9|^10, PHPUnit ^10|^11.
 
-## 1.0.0 - 201X-XX-XX
+## 1.1.0 - 2022-04-22
 
-- Initial release
+- Fix authentication.
+
+## 1.0.0 - 2022-04-13
+
+- First release (#1).

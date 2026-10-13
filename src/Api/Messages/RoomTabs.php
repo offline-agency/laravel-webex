@@ -45,11 +45,7 @@ class RoomTabs extends AbstractApi
             'roomId' => $roomId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomTabEntity($response->data);
+        return $this->entity($response, RoomTabEntity::class);
     }
 
     /**
@@ -61,11 +57,7 @@ class RoomTabs extends AbstractApi
     {
         $response = $this->get('room/tabs/'.$tabId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomTabEntity($response->data);
+        return $this->entity($response, RoomTabEntity::class);
     }
 
     /**
@@ -80,11 +72,7 @@ class RoomTabs extends AbstractApi
 
         $response = $this->put('room/tabs/'.$tabId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoomTabEntity($response->data);
+        return $this->entity($response, RoomTabEntity::class);
     }
 
     /**

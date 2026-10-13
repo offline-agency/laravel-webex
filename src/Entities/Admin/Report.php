@@ -6,7 +6,7 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Report extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
     public mixed $templateId = null;
 
@@ -18,9 +18,9 @@ class Report extends AbstractEntity
 
     public mixed $endTime = null;
 
-    public mixed $status = null;
+    public ?string $status = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $downloadUrl = null;
 }

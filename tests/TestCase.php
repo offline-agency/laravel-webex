@@ -5,6 +5,7 @@ namespace Offlineagency\LaravelWebex\Tests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
 use Offlineagency\LaravelWebex\LaravelWebexFacade;
 use Offlineagency\LaravelWebex\Providers\LaravelWebexServiceProvider;
@@ -13,6 +14,14 @@ use Orchestra\Testbench\Concerns\CreatesApplication;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // no test may reach the real Webex API
+        Http::preventStrayRequests();
+    }
 
     /**
      * @param  Application  $app

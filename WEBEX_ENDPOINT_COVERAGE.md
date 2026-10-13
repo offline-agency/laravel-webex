@@ -1,6 +1,6 @@
 # Webex API Endpoint Implementation Coverage
 
-Summary of what is implemented in this package vs exposed on the facade vs known gaps.
+Summary of what is implemented in this package vs exposed on the facade vs known gaps. It is maintained by hand: the package does not cover the whole Webex API. Every endpoint method is checked by `tests/Contract` (and the README examples by `tests/Feature/ReadmeExamplesTest.php`) against the official specification ([webex/webex-openapi-specs](https://github.com/webex/webex-openapi-specs) `a3cb121`, `public-spec/webex-messaging.json` and `webex-meeting.json`).
 
 ---
 
@@ -65,9 +65,9 @@ Room Tabs create and Webhooks naming (`updateWebhook()`) are implemented. README
 
 ## 4. Implemented and exposed
 
-- **Calling**: Call Controls, BroadWorks Enterprises/Subscribers, Voice Messaging – all exposed via `call_controls()`, `broadworks_enterprises()`, `broadworks_subscribers()`, `voice_messaging()`.
+- **Calling**: Call Controls, BroadWorks Enterprises (list) / Subscribers, Voice Messaging (list of `telephony/voiceMessages`) – all exposed via `call_controls()`, `broadworks_enterprises()`, `broadworks_subscribers()`, `voice_messaging()`.
 - **Devices**: Device Configurations, Devices, Workspaces, Workspace Locations, Workspace Metrics, xAPI – all exposed via `device_configurations()`, `devices()`, `device_workspaces()`, `device_workspace_locations()`, `device_workspace_metrics()`, `xapi()`.
-- **Admin**: Audit Events, Historical Analytics, Licenses, Locations, Organizations, Reports, Report Templates, Resource Groups, Resource Group Memberships, Roles, Space Classifications, Workspace Locations/Metrics, Workspaces, Hybrid Clusters/Connectors – all exposed via `admin_*()` methods.
+- **Admin**: Audit Events, Licenses, Locations, Organizations, Reports, Report Templates (list), Resource Groups (list, detail), Resource Group Memberships (list, detail), Roles, Space Classifications (list of classifications), Workspace Locations/Metrics, Workspaces, Hybrid Clusters/Connectors (list, detail) – all exposed via `admin_*()` methods. Only the operations the Webex API provides are implemented (checked by `tests/Contract`); Historical Analytics was removed in 2.0 because `GET /historicalAnalytics` does not exist.
 
 ---
 

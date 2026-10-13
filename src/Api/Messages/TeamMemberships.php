@@ -40,11 +40,7 @@ class TeamMemberships extends AbstractApi
             'personEmail' => $personEmail,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamMembershipEntity($response->data);
+        return $this->entity($response, TeamMembershipEntity::class);
     }
 
     /**
@@ -54,11 +50,7 @@ class TeamMemberships extends AbstractApi
     {
         $response = $this->get('team/memberships/'.$membershipId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamMembershipEntity($response->data);
+        return $this->entity($response, TeamMembershipEntity::class);
     }
 
     /**
@@ -71,11 +63,7 @@ class TeamMemberships extends AbstractApi
 
         $response = $this->put('team/memberships/'.$membershipId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new TeamMembershipEntity($response->data);
+        return $this->entity($response, TeamMembershipEntity::class);
     }
 
     /**

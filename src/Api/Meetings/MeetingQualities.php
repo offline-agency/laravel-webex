@@ -24,10 +24,6 @@ class MeetingQualities extends AbstractApi
             'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingQualitiesEntity($response->data);
+        return $this->entity($response, MeetingQualitiesEntity::class);
     }
 }

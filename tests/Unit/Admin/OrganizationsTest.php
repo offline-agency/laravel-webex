@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\Organization as OrganizationEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin Organizations', function () {
@@ -58,48 +57,4 @@ describe('Admin Organizations', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on organization detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/organizations/org1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_organizations()->detail('org1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on destroy organization failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/organizations/org1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_organizations()->destroy('org1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/organizations*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_organizations()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

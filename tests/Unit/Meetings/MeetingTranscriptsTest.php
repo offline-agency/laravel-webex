@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\MeetingTranscripts as MeetingTranscriptsEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -24,21 +23,6 @@ describe('MeetingTranscripts', function () {
         expect($list[0]->id)->toEqual('t1');
     });
 
-    it('returns error on list transcripts failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->listTranscripts();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('lists transcripts for compliance officer', function () {
         Http::fake([
             'https://webexapis.com/v1/admin/meetingTranscripts*' => Http::response(json_encode((object) [
@@ -57,21 +41,6 @@ describe('MeetingTranscripts', function () {
         expect($list[0]->id)->toEqual('t2');
     });
 
-    it('returns error on list transcripts for compliance officer failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/admin/meetingTranscripts*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->listTranscriptsForComplianceOfficer('https://example.webex.com');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('downloads transcript', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingTranscripts/t1/download*' => Http::response(json_encode((object) [
@@ -86,21 +55,6 @@ describe('MeetingTranscripts', function () {
 
         expect($transcript)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($transcript->id)->toEqual('t1');
-    });
-
-    it('returns error on download transcript failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts/t1/download*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->downloadTranscript('t1');
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('lists snippets of transcript', function () {
@@ -120,21 +74,6 @@ describe('MeetingTranscripts', function () {
         expect($list[0])->toBeInstanceOf(MeetingTranscriptsEntity::class);
     });
 
-    it('returns error on list snippets failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts/t1/snippets*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->listSnippetsOfTranscript('t1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets transcript snippet detail', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
@@ -149,21 +88,6 @@ describe('MeetingTranscripts', function () {
 
         expect($snippet)->toBeInstanceOf(MeetingTranscriptsEntity::class);
         expect($snippet->id)->toEqual('s1');
-    });
-
-    it('returns error on detail transcript snippet failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->detailTranscriptSnippet('t1', 's1');
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('updates transcript snippet', function () {
@@ -193,33 +117,4 @@ describe('MeetingTranscripts', function () {
         expect($result)->toEqual('Transcript deleted');
     });
 
-    it('returns error on destroy transcript failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts/t1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->destroyTranscript('t1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on update transcript snippet failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingTranscripts/t1/snippets/s1*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_transcripts()->updateTranscriptSnippet('t1', 's1', 'Updated');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

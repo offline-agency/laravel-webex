@@ -18,7 +18,7 @@ class VoiceMessaging extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max', 'userId']);
 
-        $response = $this->get('voiceMessaging/messages', $additional_data);
+        $response = $this->get('telephony/voiceMessages', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -27,21 +27,5 @@ class VoiceMessaging extends AbstractApi
         $items = $this->getItemsFromResponse($response);
 
         return array_map(fn ($item) => new VoicemailMessageEntity($item), $items);
-    }
-
-    /**
-     * Get voicemail message detail.
-     *
-     * @return VoicemailMessageEntity|Error
-     */
-    public function detail(string $messageId)
-    {
-        $response = $this->get('voiceMessaging/messages/'.$messageId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new VoicemailMessageEntity($response->data);
     }
 }

@@ -70,11 +70,7 @@ class Recordings extends AbstractApi
 
         $response = $this->get('recordings/'.$recordingId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingsEntity($response->data);
+        return $this->entity($response, RecordingsEntity::class);
     }
 
     /**
@@ -115,11 +111,7 @@ class Recordings extends AbstractApi
             'recordingIds' => $recordingIds,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingsEntity($response->data);
+        return $this->entity($response, RecordingsEntity::class);
     }
 
     /**
@@ -135,11 +127,7 @@ class Recordings extends AbstractApi
 
         $response = $this->post('recordings/restore', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingsEntity($response->data);
+        return $this->entity($response, RecordingsEntity::class);
     }
 
     /**
@@ -155,10 +143,6 @@ class Recordings extends AbstractApi
 
         $response = $this->post('recordings/purge', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingsEntity($response->data);
+        return $this->entity($response, RecordingsEntity::class);
     }
 }

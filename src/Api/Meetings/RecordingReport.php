@@ -48,11 +48,7 @@ class RecordingReport extends AbstractApi
             'recordingId' => $recordingId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingReportEntity($response->data);
+        return $this->entity($response, RecordingReportEntity::class);
     }
 
     /**
@@ -87,10 +83,6 @@ class RecordingReport extends AbstractApi
     ) {
         $response = $this->get('recordingReport/meetingArchives/'.$archiveId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RecordingReportEntity($response->data);
+        return $this->entity($response, RecordingReportEntity::class);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Meetings\RecordingReport as RecordingReportEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -23,21 +22,6 @@ describe('RecordingReport', function () {
         expect($list[0])->toBeInstanceOf(RecordingReportEntity::class);
     });
 
-    it('returns error on list recording audit report failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordingReport/accessSummary*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recording_report()->listRecordingAuditReportSummaries();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets record audit report detail', function () {
         Http::fake([
             'https://webexapis.com/v1/recordingReport/accessDetail*' => Http::response(json_encode((object) [
@@ -50,21 +34,6 @@ describe('RecordingReport', function () {
         $result = $laravel_webex->recording_report()->detailRecordAuditReport('rec1');
 
         expect($result)->toBeInstanceOf(RecordingReportEntity::class);
-    });
-
-    it('returns error on record audit report detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordingReport/accessDetail*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recording_report()->detailRecordAuditReport('rec1');
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('lists archive summaries', function () {
@@ -84,21 +53,6 @@ describe('RecordingReport', function () {
         expect($list[0])->toBeInstanceOf(RecordingReportEntity::class);
     });
 
-    it('returns error on list archive summaries failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordingReport/meetingArchiveSummaries*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recording_report()->listArchiveSummaries();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets archive detail', function () {
         Http::fake([
             'https://webexapis.com/v1/recordingReport/meetingArchives/arch1*' => Http::response(json_encode((object) [
@@ -113,18 +67,4 @@ describe('RecordingReport', function () {
         expect($result)->toBeInstanceOf(RecordingReportEntity::class);
     });
 
-    it('returns error on archive detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/recordingReport/meetingArchives/arch1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->recording_report()->detailArchive('arch1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

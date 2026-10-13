@@ -21,11 +21,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -41,11 +37,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences/personalMeetingRoom', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -77,11 +69,7 @@ class MeetingPreferences extends AbstractApi
             'coHost' => $coHost,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -97,11 +85,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences/audio', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -117,11 +101,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences/video', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -141,11 +121,7 @@ class MeetingPreferences extends AbstractApi
             'videoDevices' => $videoDevices,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -161,11 +137,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences/schedulingOptions', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -191,11 +163,7 @@ class MeetingPreferences extends AbstractApi
             'enabledAutoShareRecording' => $enabledAutoShareRecording,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -211,11 +179,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->post('meetingPreferences/schedulingOptions/delegateEmails/insert/', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -231,11 +195,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->post('meetingPreferences/schedulingOptions/delegateEmails/delete/', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -251,11 +211,7 @@ class MeetingPreferences extends AbstractApi
 
         $response = $this->get('meetingPreferences/sites', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -276,11 +232,7 @@ class MeetingPreferences extends AbstractApi
             'siteUrl' => $siteUrl,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 
     /**
@@ -295,14 +247,10 @@ class MeetingPreferences extends AbstractApi
             'personalMeetingRoomIds',
         ]);
 
-        $response = $this->post('meetingPreferences/personalMeetingRoom/refreshId/', array_merge([
+        $response = $this->post('admin/meetingPreferences/personalMeetingRoom/refreshId', array_merge([
             'siteUrl' => $siteUrl,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingPreferencesEntity($response->data);
+        return $this->entity($response, MeetingPreferencesEntity::class);
     }
 }

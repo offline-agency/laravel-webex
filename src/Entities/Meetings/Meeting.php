@@ -6,208 +6,85 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Meeting extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public $id;
+    public ?string $id = null;
 
-    /**
-     * @var string
-     */
-    public $meetingNumber;
+    public mixed $meetingNumber = null;
 
-    /**
-     * @var string
-     */
-    public $title;
+    public mixed $title = null;
 
-    /**
-     * @var string
-     */
-    public $password;
+    public mixed $password = null;
 
-    /**
-     * @var string
-     */
-    public $phoneAndVideoSystemPassword;
+    public mixed $phoneAndVideoSystemPassword = null;
 
-    /**
-     * @var string
-     */
-    public $meetingType;
+    public mixed $meetingType = null;
 
-    /**
-     * @var string
-     */
-    public $state;
+    public ?string $state = null;
 
-    /**
-     * @var string
-     */
-    public $timezone;
+    public mixed $timezone = null;
 
-    /**
-     * @var string
-     */
-    public $start;
+    public mixed $start = null;
 
-    /**
-     * @var string
-     */
-    public $end;
+    public mixed $end = null;
 
-    /**
-     * @var string
-     */
-    public $hostUserId;
+    public mixed $hostUserId = null;
 
-    /**
-     * @var string
-     */
-    public $hostDisplayName;
+    public mixed $hostDisplayName = null;
 
-    /**
-     * @var string
-     */
-    public $hostEmail;
+    public mixed $hostEmail = null;
 
-    /**
-     * @var string
-     */
-    public $hostKey;
+    public mixed $hostKey = null;
 
-    /**
-     * @var string
-     */
-    public $siteUrl;
+    public ?string $siteUrl = null;
 
-    /**
-     * @var string
-     */
-    public $webLink;
+    public mixed $webLink = null;
 
-    /**
-     * @var string
-     */
-    public $sipAddress;
+    public mixed $sipAddress = null;
 
-    /**
-     * @var string
-     */
-    public $dialInIpAddress;
+    public mixed $dialInIpAddress = null;
 
-    /**
-     * @var bool
-     */
-    public $enabledAutoRecordMeeting;
+    public mixed $enabledAutoRecordMeeting = null;
 
-    /**
-     * @var bool
-     */
-    public $allowAuthenticatedDevices;
+    public mixed $allowAuthenticatedDevices = null;
 
-    /**
-     * @var bool
-     */
-    public $enabledJoinBeforeHost;
+    public mixed $enabledJoinBeforeHost = null;
 
-    /**
-     * @var int
-     */
-    public $joinBeforeHostMinutes;
+    public mixed $joinBeforeHostMinutes = null;
 
-    /**
-     * @var bool
-     */
-    public $enableConnectAudioBeforeHost;
+    public mixed $enableConnectAudioBeforeHost = null;
 
-    /**
-     * @var bool
-     */
-    public $excludePassword;
+    public mixed $excludePassword = null;
 
-    /**
-     * @var bool
-     */
-    public $publicMeeting;
+    public mixed $publicMeeting = null;
 
-    /**
-     * @var bool
-     */
-    public $enableAutomaticLock;
+    public mixed $enableAutomaticLock = null;
 
-    /**
-     * @var int
-     */
-    public $sessionTypeId;
+    public mixed $sessionTypeId = null;
 
-    /**
-     * @var string
-     */
-    public $scheduledType;
+    public mixed $scheduledType = null;
 
-    /**
-     * @var string
-     */
-    public $agenda;
+    public mixed $agenda = null;
 
-    /**
-     * @var string
-     */
-    public $recurrence;
+    public mixed $recurrence = null;
 
-    /**
-     * @var string
-     */
-    public $roomId;
+    public mixed $roomId = null;
 
-    /**
-     * @var bool
-     */
-    public $allowAnyUserToBeCoHost;
+    public mixed $allowAnyUserToBeCoHost = null;
 
-    /**
-     * @var int
-     */
-    public $reminderTime;
+    public mixed $reminderTime = null;
 
-    /**
-     * @var bool
-     */
-    public $enabledWebcastView;
+    public mixed $enabledWebcastView = null;
 
-    /**
-     * @var string
-     */
-    public $panelistPassword;
+    public mixed $panelistPassword = null;
 
-    /**
-     * @var string
-     */
-    public $phoneAndVideoSystemPanelistPassword;
+    public mixed $phoneAndVideoSystemPanelistPassword = null;
 
-    /**
-     * @var int
-     */
-    public $automaticLockMinutes;
+    public mixed $automaticLockMinutes = null;
 
-    /**
-     * @var bool
-     */
-    public $allowFirstUserToBeCoHost;
+    public mixed $allowFirstUserToBeCoHost = null;
 
-    /**
-     * @var object
-     */
-    public $telephony;
+    public mixed $telephony = null;
 
-    /**
-     * @var object
-     */
-    public $registration;
+    public mixed $registration = null;
 
-    /**
-     * @var array<int, string>|null
-     */
-    public $integrationTags;
+    public mixed $integrationTags = null;
 }

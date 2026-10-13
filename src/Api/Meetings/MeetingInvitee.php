@@ -49,11 +49,7 @@ class MeetingInvitee extends AbstractApi
 
         $response = $this->get('meetingInvitees/'.$meetingInviteeId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**
@@ -74,11 +70,7 @@ class MeetingInvitee extends AbstractApi
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**
@@ -121,15 +113,11 @@ class MeetingInvitee extends AbstractApi
             'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist',
         ]);
 
-        $response = $this->post('meetingInvitees/'.$meetingInviteeId, array_merge([
+        $response = $this->put('meetingInvitees/'.$meetingInviteeId, array_merge([
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
     /**

@@ -12,6 +12,16 @@ class Error extends AbstractEntity
     public ?string $trackingId = null;
 
     /**
+     * HTTP status of the failed response; null for network failures and invalid successful responses.
+     */
+    public ?int $status = null;
+
+    /**
+     * Seconds Webex asked to wait before retrying (Retry-After), when it said so.
+     */
+    public ?int $retryAfter = null;
+
+    /**
      * @param  array<mixed>  $parameters
      */
     public function build(array $parameters): void

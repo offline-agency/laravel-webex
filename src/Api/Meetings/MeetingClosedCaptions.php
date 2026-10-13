@@ -68,10 +68,6 @@ class MeetingClosedCaptions extends AbstractApi
             'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingClosedCaptionsEntity($response->data);
+        return $this->entity($response, MeetingClosedCaptionsEntity::class);
     }
 }

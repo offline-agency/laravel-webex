@@ -76,10 +76,6 @@ class SessionTypes extends AbstractApi
             'sessionTypeIds' => $sessionTypeIds,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 }

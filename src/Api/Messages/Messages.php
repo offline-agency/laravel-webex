@@ -2,6 +2,7 @@
 
 namespace Offlineagency\LaravelWebex\Api\Messages;
 
+use Illuminate\Support\LazyCollection;
 use Offlineagency\LaravelWebex\Api\AbstractApi;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Messages as MessagesEntity;
@@ -66,6 +67,21 @@ class Messages extends AbstractApi
     }
 
     /**
+     * Every message of a room, fetched page by page while iterated (see AbstractApi::cursorOf()).
+     *
+     * @param  array<string, mixed>|null  $additional_data
+     * @return LazyCollection<int, MessagesEntity>
+     */
+    public function cursor(string $roomId, ?array $additional_data = [], int $maxPages = 100): LazyCollection
+    {
+        $additional_data = $this->data($additional_data, [
+            'parentId', 'mentionedPeople', 'before', 'beforeMessage', 'max',
+        ]);
+
+        return $this->cursorOf('messages', array_merge(['roomId' => $roomId], $additional_data), MessagesEntity::class, $maxPages);
+    }
+
+    /**
      * Create a message in a room.
      *
      * @param  array<string, mixed>|null  $additional_data
@@ -82,11 +98,7 @@ class Messages extends AbstractApi
             'text' => $text,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**
@@ -98,11 +110,7 @@ class Messages extends AbstractApi
     {
         $response = $this->get('messages/'.$messageId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**
@@ -119,11 +127,7 @@ class Messages extends AbstractApi
             'text' => $text,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MessagesEntity($response->data);
+        return $this->entity($response, MessagesEntity::class);
     }
 
     /**

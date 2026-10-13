@@ -73,11 +73,7 @@ class MeetingTranscripts extends AbstractApi
 
         $response = $this->get('meetingTranscripts/'.$transcriptId.'/download', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingTranscriptsEntity($response->data);
+        return $this->entity($response, MeetingTranscriptsEntity::class);
     }
 
     /**
@@ -115,11 +111,7 @@ class MeetingTranscripts extends AbstractApi
 
         $response = $this->get('meetingTranscripts/'.$transcriptId.'/snippets/'.$snippetId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingTranscriptsEntity($response->data);
+        return $this->entity($response, MeetingTranscriptsEntity::class);
     }
 
     /**
@@ -140,11 +132,7 @@ class MeetingTranscripts extends AbstractApi
             'text' => $text,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingTranscriptsEntity($response->data);
+        return $this->entity($response, MeetingTranscriptsEntity::class);
     }
 
     /**

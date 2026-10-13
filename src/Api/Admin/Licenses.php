@@ -34,10 +34,6 @@ class Licenses extends AbstractApi
     {
         $response = $this->get('licenses/'.$licenseId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new LicenseEntity($response->data);
+        return $this->entity($response, LicenseEntity::class);
     }
 }

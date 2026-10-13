@@ -34,10 +34,6 @@ class Roles extends AbstractApi
     {
         $response = $this->get('roles/'.$roleId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new RoleEntity($response->data);
+        return $this->entity($response, RoleEntity::class);
     }
 }

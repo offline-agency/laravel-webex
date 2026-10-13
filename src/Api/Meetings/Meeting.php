@@ -28,11 +28,7 @@ class Meeting extends AbstractApi
             'end' => $end,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/'.$meetingId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -130,11 +122,7 @@ class Meeting extends AbstractApi
             'end' => $end,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -171,11 +159,7 @@ class Meeting extends AbstractApi
 
         $response = $this->post('meetings/join', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -216,11 +200,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/templates/'.$templateId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -233,11 +213,7 @@ class Meeting extends AbstractApi
             'meetingId' => $meetingId,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -256,11 +232,7 @@ class Meeting extends AbstractApi
             'meetingId' => $meetingId,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -301,11 +273,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/sessionTypes/'.$sessionTypeId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -322,11 +290,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/'.$meetingId.'/registration', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -343,11 +307,7 @@ class Meeting extends AbstractApi
 
         $response = $this->put('meetings/'.$meetingId.'/registration', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -386,11 +346,7 @@ class Meeting extends AbstractApi
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -407,11 +363,7 @@ class Meeting extends AbstractApi
 
         $response = $this->post('meetings/'.$meetingId.'/registrants/bulkInsert', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -429,11 +381,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/'.$meetingId.'/registrants/'.$registrantId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -479,11 +427,7 @@ class Meeting extends AbstractApi
             'emails' => $emails,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -499,13 +443,13 @@ class Meeting extends AbstractApi
             'current', 'hostEmail', 'sendEmail', 'registrants',
         ]);
 
-        $response = $this->post('meetings/'.$meetingId.'/registrants/'.$statusOpType, $additional_data);
-
-        if (! $response->success) {
-            return new Error($response->data);
+        if (! in_array($statusOpType, ['approve', 'reject', 'cancel', 'bulkDelete'], true)) {
+            return new Error(['message' => "Unsupported registrant status operation '{$statusOpType}': use approve, reject, cancel or bulkDelete."]);
         }
 
-        return new MeetingsEntity($response->data);
+        $response = $this->post('meetings/'.$meetingId.'/registrants/'.$statusOpType, $additional_data);
+
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -547,11 +491,7 @@ class Meeting extends AbstractApi
             'enabled' => $enabled,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -573,11 +513,7 @@ class Meeting extends AbstractApi
             'languageCode2' => $languageCode2,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -595,11 +531,7 @@ class Meeting extends AbstractApi
 
         $response = $this->get('meetings/'.$meetingId.'/interpreters/'.$interpreterId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -647,11 +579,7 @@ class Meeting extends AbstractApi
             'languageCode2' => $languageCode2,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -709,11 +637,7 @@ class Meeting extends AbstractApi
 
         $response = $this->put('meetings/'.$meetingId.'/breakoutSessions', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -745,11 +669,7 @@ class Meeting extends AbstractApi
     ) {
         $response = $this->get('meetings/'.$meetingId.'/survey', []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -789,13 +709,9 @@ class Meeting extends AbstractApi
             'hostEmail', 'meetingStartTimeFrom', 'meetingStartTimeTo', 'emails',
         ]);
 
-        $response = $this->get('meetings/'.$meetingId.'/surveyLinks', $additional_data);
+        $response = $this->post('meetings/'.$meetingId.'/surveyLinks', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -812,11 +728,7 @@ class Meeting extends AbstractApi
 
         $response = $this->post('meetings/'.$meetingId.'/invitationSources', $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 
     /**
@@ -850,7 +762,7 @@ class Meeting extends AbstractApi
             'siteUrl', 'hostEmail',
         ]);
 
-        $response = $this->put('meetings/trackingCodes', array_merge([
+        $response = $this->get('meetings/trackingCodes', array_merge([
             'service' => $service,
         ], $additional_data));
 
@@ -878,10 +790,6 @@ class Meeting extends AbstractApi
             'meetingIds' => $meetingIds,
         ]);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingsEntity($response->data);
+        return $this->entity($response, MeetingsEntity::class);
     }
 }

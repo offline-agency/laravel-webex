@@ -34,11 +34,7 @@ class Locations extends AbstractApi
     {
         $response = $this->get('locations/'.$locationId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new LocationEntity($response->data);
+        return $this->entity($response, LocationEntity::class);
     }
 
     /**
@@ -49,11 +45,7 @@ class Locations extends AbstractApi
     {
         $response = $this->post('locations', $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new LocationEntity($response->data);
+        return $this->entity($response, LocationEntity::class);
     }
 
     /**
@@ -64,11 +56,7 @@ class Locations extends AbstractApi
     {
         $response = $this->put('locations/'.$locationId, $body);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new LocationEntity($response->data);
+        return $this->entity($response, LocationEntity::class);
     }
 
     /**

@@ -34,11 +34,7 @@ class Organizations extends AbstractApi
     {
         $response = $this->get('organizations/'.$orgId, []);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new OrganizationEntity($response->data);
+        return $this->entity($response, OrganizationEntity::class);
     }
 
     /**
