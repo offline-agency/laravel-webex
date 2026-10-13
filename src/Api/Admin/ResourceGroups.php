@@ -36,40 +36,4 @@ class ResourceGroups extends AbstractApi
 
         return $this->entity($response, ResourceGroupEntity::class);
     }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return ResourceGroupEntity|Error
-     */
-    public function create(array $body)
-    {
-        $response = $this->post('resourceGroups', $body);
-
-        return $this->entity($response, ResourceGroupEntity::class);
-    }
-
-    /**
-     * @param  array<string, mixed>  $body
-     * @return ResourceGroupEntity|Error
-     */
-    public function update(string $resourceGroupId, array $body)
-    {
-        $response = $this->put('resourceGroups/'.$resourceGroupId, $body);
-
-        return $this->entity($response, ResourceGroupEntity::class);
-    }
-
-    /**
-     * @return true|Error
-     */
-    public function destroy(string $resourceGroupId)
-    {
-        $response = $this->delete('resourceGroups/'.$resourceGroupId, []);
-
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return true;
-    }
 }

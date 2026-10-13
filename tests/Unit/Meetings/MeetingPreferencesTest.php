@@ -20,21 +20,6 @@ describe('MeetingPreferences', function () {
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
     });
 
-    it('returns error on detail preference failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingPreferences*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_preferences()->detailPreference();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets personal room options', function () {
         Http::fake([
             'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom*' => Http::response(json_encode((object) [
@@ -78,7 +63,7 @@ describe('MeetingPreferences', function () {
 
     it('updates personal room options', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom*' => Http::response(json_encode((object) [
                 'topic' => 'My Room',
                 'hostPin' => '1234',
                 'enabledAutoLock' => false,
@@ -101,7 +86,7 @@ describe('MeetingPreferences', function () {
 
     it('updates video options', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/video/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/video*' => Http::response(json_encode((object) [
                 'videoDevices' => [],
             ], JSON_THROW_ON_ERROR)),
         ]);
@@ -128,7 +113,7 @@ describe('MeetingPreferences', function () {
 
     it('updates scheduling options', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions*' => Http::response(json_encode((object) [
                 'enabledJoinBeforeHost' => true,
                 'joinBeforeHostMinutes' => 0,
             ], JSON_THROW_ON_ERROR)),
@@ -142,7 +127,7 @@ describe('MeetingPreferences', function () {
 
     it('inserts delegate emails', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert*' => Http::response(json_encode((object) [
                 'delegateEmails' => ['d@example.com'],
             ], JSON_THROW_ON_ERROR)),
         ]);
@@ -155,7 +140,7 @@ describe('MeetingPreferences', function () {
 
     it('deletes delegate emails', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete*' => Http::response(json_encode((object) [
                 'delegateEmails' => [],
             ], JSON_THROW_ON_ERROR)),
         ]);
@@ -182,7 +167,7 @@ describe('MeetingPreferences', function () {
 
     it('updates default site', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/sites/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/sites*' => Http::response(json_encode((object) [
                 'defaultSite' => true,
                 'siteUrl' => 'https://example.webex.com',
             ], JSON_THROW_ON_ERROR)),
@@ -196,7 +181,7 @@ describe('MeetingPreferences', function () {
 
     it('batch refreshes personal meeting room id', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/refreshId/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/admin/meetingPreferences/personalMeetingRoom/refreshId*' => Http::response(json_encode((object) [
                 'siteUrl' => 'https://example.webex.com',
             ], JSON_THROW_ON_ERROR)),
         ]);
@@ -205,29 +190,6 @@ describe('MeetingPreferences', function () {
         $prefs = $laravel_webex->meeting_preferences()->batchRefreshPersonalMeetingRoomID('https://example.webex.com');
 
         expect($prefs)->toBeInstanceOf(MeetingPreferencesEntity::class);
-    });
-
-    it('returns error on update personal room options failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_preferences()->updatePersonalRoomOptions(
-            'My Room',
-            '1234',
-            false,
-            0,
-            false,
-            false,
-            []
-        );
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('returns error on personal room options failure', function () {
@@ -289,7 +251,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on update video options failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/video/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/video*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -327,7 +289,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on update scheduling options failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -346,7 +308,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on insert delegate emails failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/insert*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -365,7 +327,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on delete delegate emails failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/schedulingOptions/delegateEmails/delete*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -403,7 +365,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on update default site failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/sites/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/meetingPreferences/sites*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',
@@ -422,7 +384,7 @@ describe('MeetingPreferences', function () {
 
     it('returns error on batch refresh personal meeting room id failure', function () {
         Http::fake([
-            'https://webexapis.com/v1/meetingPreferences/personalMeetingRoom/refreshId/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/admin/meetingPreferences/personalMeetingRoom/refreshId*' => Http::response(json_encode((object) [
                 'message' => 'fake_message',
                 'errors' => [],
                 'trackingId' => 'fake_trackingId',

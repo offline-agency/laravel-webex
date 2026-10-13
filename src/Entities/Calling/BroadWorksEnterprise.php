@@ -6,7 +6,7 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class BroadWorksEnterprise extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
     public mixed $name = null;
 

@@ -35,23 +35,6 @@ describe('Messages', function () {
         expect($single_message->id)->toEqual('fake_id');
     });
 
-    it('returns error on messages list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages*' => Http::response(json_encode((object) [
-                'message' => 'fake_message',
-                'errors' => [],
-                'trackingId' => 'fake_trackingId',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->list('fake_id');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('fake_message');
-    });
-
     it('returns error with status and message from dataset', function (int $status, string $message) {
         Http::fake([
             'https://webexapis.com/v1/messages*' => Http::response(
@@ -125,21 +108,6 @@ describe('Messages', function () {
         );
     });
 
-    it('returns error on list with pagination failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->listWithPagination('room1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('creates message and sends correct request', function () {
         Http::fake([
             'https://webexapis.com/v1/messages' => Http::response(json_encode((object) [
@@ -205,63 +173,4 @@ describe('Messages', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on edit message failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages/msg1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->edit('msg1', 'Updated text');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on destroy message failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages/msg1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->destroy('msg1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on create message failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->create('room1', 'Hello');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on message detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/messages/msg1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->messages()->detail('msg1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

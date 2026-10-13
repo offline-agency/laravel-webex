@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class AdminAuditEvent extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $actorId = null;
+    public ?string $actorId = null;
 
-    public mixed $actorOrgId = null;
+    public ?string $actorOrgId = null;
 
     public mixed $application = null;
 
@@ -18,7 +18,7 @@ class AdminAuditEvent extends AbstractEntity
 
     public mixed $orgId = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $targets = null;
 

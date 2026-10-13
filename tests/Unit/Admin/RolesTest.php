@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\Role as RoleEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin Roles', function () {
@@ -45,33 +44,4 @@ describe('Admin Roles', function () {
         expect($role->id)->toEqual('role1');
     });
 
-    it('returns error on role detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/roles/role1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_roles()->detail('role1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/roles*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_roles()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

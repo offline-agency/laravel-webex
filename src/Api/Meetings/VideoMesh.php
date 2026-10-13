@@ -100,7 +100,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $orgId
     ) {
-        $response = $this->get('videoMesh/mediaHealthMonitor/', [
+        $response = $this->get('videoMesh/testResults/mediaHealthMonitorTest', [
             'from' => $from,
             'to' => $to,
             'orgId' => $orgId,
@@ -153,7 +153,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $clusterId
     ) {
-        $response = $this->get('videoMesh/mediaHealthMonitor/clusters/', [
+        $response = $this->get('videoMesh/testResults/mediaHealthMonitorTest/clusters', [
             'from' => $from,
             'to' => $to,
             'clusterId' => $clusterId,
@@ -189,7 +189,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $orgId
     ) {
-        $response = $this->get('videoMesh/mediaHealthMonitor/nodes/', [
+        $response = $this->get('videoMesh/testResults/mediaHealthMonitorTest/nodes', [
             'from' => $from,
             'to' => $to,
             'orgId' => $orgId,
@@ -334,7 +334,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $orgId
     ) {
-        $response = $this->get('videoMesh/reachabilityTest/', [
+        $response = $this->get('videoMesh/testResults/reachabilityTest', [
             'from' => $from,
             'to' => $to,
             'orgId' => $orgId,
@@ -387,7 +387,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $clusterId
     ) {
-        $response = $this->get('videoMesh/reachabilityTest/clusters/', [
+        $response = $this->get('videoMesh/testResults/reachabilityTest/clusters', [
             'from' => $from,
             'to' => $to,
             'clusterId' => $clusterId,
@@ -423,7 +423,7 @@ class VideoMesh extends AbstractApi
         string $to,
         string $nodeId
     ) {
-        $response = $this->get('videoMesh/reachabilityTest/nodes/', [
+        $response = $this->get('videoMesh/testResults/reachabilityTest/nodes', [
             'from' => $from,
             'to' => $to,
             'nodeId' => $nodeId,
@@ -497,7 +497,7 @@ class VideoMesh extends AbstractApi
             'type', 'nodes',
         ]);
 
-        $response = $this->put('videoMesh/triggerTest/clusters/'.$clusterId, $additional_data);
+        $response = $this->post('videoMesh/triggerTest/clusters/'.$clusterId, $additional_data);
 
         return $this->entity($response, TrackingCodesEntity::class);
     }
@@ -514,7 +514,7 @@ class VideoMesh extends AbstractApi
             'type',
         ]);
 
-        $response = $this->put('videoMesh/triggerTest/nodes/'.$nodeId, $additional_data);
+        $response = $this->post('videoMesh/triggerTest/nodes/'.$nodeId, $additional_data);
 
         return $this->entity($response, TrackingCodesEntity::class);
     }
@@ -699,7 +699,7 @@ class VideoMesh extends AbstractApi
     public function updateEventThresholdConfiguration(
         array $eventThresholdIds
     ) {
-        $response = $this->put('videoMesh/eventThresholds', [
+        $response = $this->patch('videoMesh/eventThresholds', [
             'eventThresholdIds' => $eventThresholdIds,
         ]);
 

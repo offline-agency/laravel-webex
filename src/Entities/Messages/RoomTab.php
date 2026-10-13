@@ -6,15 +6,15 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class RoomTab extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $roomId = null;
+    public ?string $roomId = null;
 
-    public mixed $contentUrl = null;
+    public ?string $contentUrl = null;
 
-    public mixed $displayName = null;
+    public ?string $displayName = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $updated = null;
 }

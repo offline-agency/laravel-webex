@@ -3,11 +3,18 @@ name: Release
 # One stable tag and one GitHub Release per pull request merged into main, after the CI run of its exact merge
 # commit succeeded (see tools/release and CONTRIBUTING.md).
 #
+# - pull_request_target (closed): when a pull request into main is closed AND merged, the job waits for the CI run
+#   of its merge commit and releases it (closed without merging, or another base branch: nothing happens). Only
+#   the trusted main branch is checked out, never the pull request's code.
 # - workflow_run: every completed CI run of a push to main (merge commits of same-repository and fork pull
-#   requests alike) triggers a pass that releases every merged pull request whose CI passed, in merge order.
+#   requests alike) triggers a pass that releases every merged pull request whose CI passed, in merge order; it
+#   also completes a release whose pull_request_target run stopped waiting.
 # - workflow_dispatch: recovery for missed or failed runs; it re-validates everything through the API and
 #   defaults to a dry run.
 on:
+    pull_request_target:
+        types: [closed]
+        branches: [main]
     workflow_run:
         workflows: [CI]
         types: [completed]
@@ -36,7 +43,10 @@ concurrency:
 jobs:
     publish:
         name: Tag and release merged pull requests
-        if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main')
+        if: >-
+            github.event_name == 'workflow_dispatch'
+            || (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
+            || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main')
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -54,6 +64,24 @@ jobs:
                   php-version: '8.4'
                   coverage: none
                   tools: none
+            # a pull request was just merged: its CI run on main starts now, wait until it completes (the tooling
+            # releases only a merge commit whose CI run succeeded)
+            - name: Wait for the CI run of the merge commit
+              if: github.event_name == 'pull_request_target'
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+              run: |
+                  for attempt in $(seq 1 90); do
+                      status="$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/main.yml/runs?head_sha=${MERGE_SHA}&event=push&branch=main" \
+                          --jq '[.workflow_runs[] | .status] | if length == 0 then "missing" elif all(. == "completed") then "completed" else "running" end')"
+                      echo "CI run of ${MERGE_SHA}: ${status} (check ${attempt}/90)"
+                      if [[ "${status}" == "completed" ]]; then
+                          exit 0
+                      fi
+                      sleep 30
+                  done
+                  echo "::warning::CI of ${MERGE_SHA} not completed after 45 minutes: the workflow_run trigger releases it when it completes"
             # no Composer install and no package code: the tooling is plain PHP under tools/release
             - name: Publish
               env:

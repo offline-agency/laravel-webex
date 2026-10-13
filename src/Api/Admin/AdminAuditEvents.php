@@ -20,7 +20,7 @@ class AdminAuditEvents extends AbstractApi
             'max', 'from', 'to', 'actorId', 'event',
         ]);
 
-        $response = $this->get('adminAuditEvents', $additional_data);
+        $response = $this->get('adminAudit/events', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);

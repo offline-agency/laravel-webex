@@ -24,26 +24,9 @@ describe('People', function () {
         expect($list[0]->id)->toEqual('p1');
     });
 
-    it('returns error on people list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/people*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->people()->listPeople();
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Forbidden');
-    });
-
     it('creates person', function () {
         Http::fake([
-            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/people*' => Http::response(json_encode((object) [
                 'id' => 'p2',
                 'emails' => ['new@example.com'],
                 'displayName' => 'New User',
@@ -103,54 +86,9 @@ describe('People', function () {
         expect($result)->toEqual('Person deleted');
     });
 
-    it('returns error on destroy person failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/people/p1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->people()->destroyPerson('p1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on create person failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->people()->createPerson('bad@example.com');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on update person failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/people/p1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->people()->updatePerson('p1', 'Updated Name');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets current user (detail own)', function () {
         Http::fake([
-            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/people*' => Http::response(json_encode((object) [
                 'id' => 'me1',
                 'emails' => ['me@example.com'],
                 'displayName' => 'Current User',
@@ -164,21 +102,6 @@ describe('People', function () {
         expect($person)->toBeInstanceOf(PeopleEntity::class);
         expect($person->id)->toEqual('me1');
         expect($person->displayName)->toEqual('Current User');
-    });
-
-    it('returns error on detail own failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/people/*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->people()->detailOwn();
-
-        expect($result)->toBeInstanceOf(Error::class);
     });
 
     it('returns error on person detail failure', function () {

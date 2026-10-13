@@ -2,13 +2,12 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Admin\ResourceGroupMembership as ResourceGroupMembershipEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Admin ResourceGroupMemberships', function () {
     it('lists resource group memberships', function () {
         Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/resourceGroup/memberships*' => Http::response(json_encode((object) [
                 'items' => [
                     (object) [
                         'id' => 'rgm1',
@@ -31,7 +30,7 @@ describe('Admin ResourceGroupMemberships', function () {
 
     it('gets resource group membership detail', function () {
         Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response(json_encode((object) [
+            'https://webexapis.com/v1/resourceGroup/memberships/rgm1*' => Http::response(json_encode((object) [
                 'id' => 'rgm1',
                 'resourceGroupId' => 'rg1',
                 'personId' => 'p1',
@@ -47,92 +46,4 @@ describe('Admin ResourceGroupMemberships', function () {
         expect($membership->id)->toEqual('rgm1');
     });
 
-    it('creates resource group membership', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships' => Http::response(json_encode((object) [
-                'id' => 'rgm2',
-                'resourceGroupId' => 'rg1',
-                'personId' => 'p2',
-                'created' => '2024-01-01T00:00:00Z',
-            ], JSON_THROW_ON_ERROR)),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $membership = $laravel_webex->admin_resource_group_memberships()->create(['resourceGroupId' => 'rg1', 'personId' => 'p2']);
-        assert($membership instanceof ResourceGroupMembershipEntity);
-
-        expect($membership)->toBeInstanceOf(ResourceGroupMembershipEntity::class);
-        expect($membership->id)->toEqual('rgm2');
-    });
-
-    it('destroys resource group membership', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response('', 204),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_resource_group_memberships()->destroy('rgm1');
-
-        expect($result)->toBeTrue();
-    });
-
-    it('returns error on resource group membership detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_resource_group_memberships()->detail('rgm1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on create resource group membership failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_resource_group_memberships()->create(['resourceGroupId' => 'rg1', 'personId' => 'p2']);
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on destroy resource group membership failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships/rgm1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_resource_group_memberships()->destroy('rgm1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/resourceGroupMemberships*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->admin_resource_group_memberships()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

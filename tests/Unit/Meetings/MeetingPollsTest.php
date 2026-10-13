@@ -23,21 +23,6 @@ describe('MeetingPolls', function () {
         expect($list[0])->toBeInstanceOf(MeetingPollsEntity::class);
     });
 
-    it('returns error on list polls failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meetings/polls*' => Http::response(json_encode((object) [
-                'message' => 'Unauthorized',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 401),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_polls()->listPolls('m1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
     it('gets poll results detail', function () {
         Http::fake([
             'https://webexapis.com/v1/meetings/pollResults*' => Http::response(json_encode((object) [

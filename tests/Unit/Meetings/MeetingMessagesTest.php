@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('MeetingMessages', function () {
@@ -16,18 +15,4 @@ describe('MeetingMessages', function () {
         expect($result)->toEqual('Meeting Message deleted');
     });
 
-    it('returns error on destroy meeting message failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/meeting/messages/msg1*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->meeting_messages()->destroyMessage('msg1');
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

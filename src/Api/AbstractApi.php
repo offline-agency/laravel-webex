@@ -5,9 +5,12 @@ namespace Offlineagency\LaravelWebex\Api;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\LazyCollection;
 use JsonException;
 use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 use Offlineagency\LaravelWebex\Entities\Error;
+use Offlineagency\LaravelWebex\Exceptions\WebexPaginationException;
+use Offlineagency\LaravelWebex\Exceptions\WebexRequestException;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 /**
@@ -31,8 +34,8 @@ abstract class AbstractApi
     protected function get(string $url, array $query_parameters): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->get($url, $query_parameters);
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
+            $response = $this->laravel_webex->http('GET')->get($url, $query_parameters);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -49,9 +52,81 @@ abstract class AbstractApi
      */
     protected function getWithLink(string $url, array $query_parameters): object
     {
+        return $this->getAbsoluteWithLink($this->laravel_webex->base_url.rtrim($url, '/'), $query_parameters);
+    }
+
+    /**
+     * Every item of a paginated list, fetched page by page while the collection is consumed: the next page is the
+     * Link rel="next" URL, followed only on the scheme, host and port of the configured base URL (the bearer token
+     * is never sent elsewhere). A failed page throws WebexRequestException; a repeated nextLink or more than
+     * $maxPages pages throw WebexPaginationException, so an incomplete traversal is never silent.
+     *
+     * @template T of AbstractEntity
+     *
+     * @param  array<string, mixed>  $query_parameters
+     * @param  class-string<T>  $class
+     * @return LazyCollection<int, T>
+     */
+    protected function cursorOf(string $url, array $query_parameters, string $class, int $maxPages): LazyCollection
+    {
+        return LazyCollection::make(function () use ($url, $query_parameters, $class, $maxPages) {
+            $next = $this->laravel_webex->base_url.rtrim($url, '/');
+            $query = $query_parameters;
+            $seen = [];
+            for ($pages = 0; $next !== null; $pages++) {
+                if ($pages === $maxPages) {
+                    throw new WebexPaginationException("Stopped after {$maxPages} pages (maxPages).");
+                }
+                $response = $this->getAbsoluteWithLink($next, $query);
+                if (! $response->success) {
+                    throw new WebexRequestException(new Error($response->data));
+                }
+                foreach ($this->getItemsFromResponse($response) as $item) {
+                    yield new $class($item);
+                }
+
+                $next = $response->nextLink;
+                $query = [];
+                if ($next !== null && ! $this->sameOriginAsBaseUrl($next)) {
+                    throw new WebexPaginationException('Refusing to follow a nextLink outside '.$this->origin($this->laravel_webex->base_url).'.');
+                }
+                if ($next !== null && isset($seen[$next])) {
+                    throw new WebexPaginationException('Webex returned the same nextLink twice.');
+                }
+                $seen[(string) $next] = true;
+            }
+        });
+    }
+
+    private function sameOriginAsBaseUrl(string $url): bool
+    {
+        $origin = $this->origin($url);
+
+        return $origin !== '' && $origin === $this->origin($this->laravel_webex->base_url);
+    }
+
+    /**
+     * scheme://host[:port] of an https URL, lower-cased; '' for anything else.
+     */
+    private function origin(string $url): string
+    {
+        $parts = parse_url($url);
+        if (! is_array($parts) || strtolower($parts['scheme'] ?? '') !== 'https' || ! isset($parts['host'])) {
+            return '';
+        }
+
+        return 'https://'.strtolower($parts['host']).(isset($parts['port']) ? ':'.$parts['port'] : '');
+    }
+
+    /**
+     * @param  array<string, mixed>  $query_parameters
+     * @return PaginatedApiResponse
+     */
+    private function getAbsoluteWithLink(string $fullUrl, array $query_parameters): object
+    {
         try {
-            $fullUrl = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->get($fullUrl, $query_parameters);
+            // an empty query array would replace the query string of $fullUrl (a nextLink carries its own)
+            $response = $this->laravel_webex->http('GET')->get($fullUrl, $query_parameters === [] ? null : $query_parameters);
             $parsed = $this->parseResponse($response);
 
             return (object) [
@@ -90,8 +165,8 @@ abstract class AbstractApi
     protected function post(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->post($url, $body);
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
+            $response = $this->laravel_webex->http('POST')->post($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -106,8 +181,8 @@ abstract class AbstractApi
     protected function put(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->put($url, $body);
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
+            $response = $this->laravel_webex->http('PUT')->put($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -122,8 +197,8 @@ abstract class AbstractApi
     protected function patch(string $url, array $body): object
     {
         try {
-            $url = $this->laravel_webex->base_url.$url;
-            $response = $this->laravel_webex->httpBuilder->patch($url, $body);
+            $url = $this->laravel_webex->base_url.rtrim($url, '/');
+            $response = $this->laravel_webex->http('PATCH')->patch($url, $body);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -139,8 +214,8 @@ abstract class AbstractApi
     {
         try {
             $query_string = http_build_query($query_parameters);
-            $fullUrl = $this->laravel_webex->base_url.$url.($query_string !== '' ? '?'.$query_string : '');
-            $response = $this->laravel_webex->httpBuilder->delete($fullUrl);
+            $fullUrl = $this->laravel_webex->base_url.rtrim($url, '/').($query_string !== '' ? '?'.$query_string : '');
+            $response = $this->laravel_webex->http('DELETE')->delete($fullUrl);
 
             return $this->parseResponse($response);
         } catch (ConnectionException $e) {
@@ -235,9 +310,13 @@ abstract class AbstractApi
         }
 
         if (! $response->successful()) {
-            return is_object($decoded) && property_exists($decoded, 'message')
-                ? (object) ['success' => false, 'status' => $status, 'data' => $decoded]
-                : $this->failure("Webex request failed (HTTP {$status}).", $status);
+            $document = is_object($decoded) && property_exists($decoded, 'message')
+                ? get_object_vars($decoded)
+                : ['message' => "Webex request failed (HTTP {$status}).", 'errors' => [], 'trackingId' => null];
+            $document['status'] = $status;
+            $document['retryAfter'] = LaravelWebex::retryAfterSeconds($response);
+
+            return (object) ['success' => false, 'status' => $status, 'data' => (object) $document];
         }
         if ($malformed) {
             return $this->failure("Webex returned a malformed JSON response (HTTP {$status}).", $status);

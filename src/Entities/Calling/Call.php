@@ -6,9 +6,9 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Call extends AbstractEntity
 {
-    public mixed $callId = null;
+    public ?string $callId = null;
 
-    public mixed $callSessionId = null;
+    public ?string $callSessionId = null;
 
     public mixed $state = null;
 
@@ -18,9 +18,9 @@ class Call extends AbstractEntity
 
     public mixed $callbackSipAddress = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
-    public mixed $answered = null;
+    public ?string $answered = null;
 
     public mixed $ended = null;
 }

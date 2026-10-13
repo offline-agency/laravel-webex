@@ -34,6 +34,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Token resolver
+    |--------------------------------------------------------------------------
+    |
+    | Optional class implementing Offlineagency\LaravelWebex\Contracts\TokenResolver:
+    | asked for the bearer token before every request (refreshed OAuth tokens in
+    | queue workers / Octane). Null uses 'bearer'.
+    |
+    */
+    'token_resolver' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Retries
+    |--------------------------------------------------------------------------
+    |
+    | Attempts (including the first) for GET, PUT and DELETE after a network
+    | failure, a 429 or a 503. The wait follows Retry-After, capped. POST and
+    | PATCH are never retried. Set 'times' to 1 to disable.
+    |
+    */
+    'retry' => [
+        'times' => 3,
+        'max_delay_seconds' => 30,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Access Token Request
     |--------------------------------------------------------------------------
     |
@@ -99,13 +126,13 @@ return [
     | Auth route
     |--------------------------------------------------------------------------
     |
-    | The package registers GET /auth (route name "auth"). Change the path and
-    | name, or set 'enabled' => false when the application has its own route
-    | with that path or name.
+    | Opt-in: set WEBEX_AUTH_ROUTE_ENABLED=true to register GET /auth (route
+    | name "auth"), which only dispatches WebexClientConfigured. Change the path
+    | and name when the application uses them.
     |
     */
     'auth_route' => [
-        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', true),
+        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', false),
         'path' => '/auth',
         'name' => 'auth',
     ],

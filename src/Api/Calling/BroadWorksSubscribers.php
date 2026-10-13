@@ -16,7 +16,7 @@ class BroadWorksSubscribers extends AbstractApi
     {
         $additional_data = $this->data($additional_data, ['max', 'enterpriseId']);
 
-        $response = $this->get('broadworksSubscribers', $additional_data);
+        $response = $this->get('broadworks/subscribers', $additional_data);
 
         if (! $response->success) {
             return new Error($response->data);
@@ -32,7 +32,7 @@ class BroadWorksSubscribers extends AbstractApi
      */
     public function detail(string $subscriberId)
     {
-        $response = $this->get('broadworksSubscribers/'.$subscriberId, []);
+        $response = $this->get('broadworks/subscribers/'.$subscriberId, []);
 
         return $this->entity($response, BroadWorksSubscriberEntity::class);
     }

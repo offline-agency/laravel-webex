@@ -8,7 +8,7 @@ class DeviceConfiguration extends AbstractEntity
 {
     public mixed $id = null;
 
-    public mixed $deviceId = null;
+    public ?string $deviceId = null;
 
     public mixed $configKey = null;
 

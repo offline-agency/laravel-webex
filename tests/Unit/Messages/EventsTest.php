@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Event as EventEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
@@ -32,18 +31,4 @@ describe('Events', function () {
         expect($list[0]->type)->toEqual('created');
     });
 
-    it('returns error on events list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/events*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->events()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
 });

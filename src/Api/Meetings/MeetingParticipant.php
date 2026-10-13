@@ -81,7 +81,7 @@ class MeetingParticipant extends AbstractApi
             'muted', 'admit', 'expel',
         ]);
 
-        $response = $this->post('meetingParticipants/'.$participantId, $additional_data);
+        $response = $this->put('meetingParticipants/'.$participantId, $additional_data);
 
         return $this->entity($response, MeetingParticipantEntity::class);
     }

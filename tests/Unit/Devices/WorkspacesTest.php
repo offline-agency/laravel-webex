@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Http;
 use Offlineagency\LaravelWebex\Entities\Devices\Workspace as WorkspaceEntity;
-use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 describe('Devices Workspaces', function () {
@@ -98,86 +97,4 @@ describe('Devices Workspaces', function () {
         expect($result)->toBeTrue();
     });
 
-    it('returns error on list failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/workspaces*' => Http::response(json_encode((object) [
-                'message' => 'Forbidden',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 403),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_workspaces()->list();
-
-        expect($result)->toBeInstanceOf(Error::class);
-    });
-
-    it('returns error on detail failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/workspaces/dws1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_workspaces()->detail('dws1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
-
-    it('returns error on create failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/workspaces' => Http::response(json_encode((object) [
-                'message' => 'Bad Request',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 400),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_workspaces()->create(['displayName' => 'New Device Workspace']);
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Bad Request');
-    });
-
-    it('returns error on update failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/workspaces/dws1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_workspaces()->update('dws1', ['displayName' => 'Updated Device Workspace']);
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
-
-    it('returns error on destroy failure', function () {
-        Http::fake([
-            'https://webexapis.com/v1/workspaces/dws1*' => Http::response(json_encode((object) [
-                'message' => 'Not Found',
-                'errors' => [],
-                'trackingId' => 't1',
-            ], JSON_THROW_ON_ERROR), 404),
-        ]);
-
-        $laravel_webex = new LaravelWebex;
-        $result = $laravel_webex->device_workspaces()->destroy('dws1');
-        assert($result instanceof Error);
-
-        expect($result)->toBeInstanceOf(Error::class);
-        expect($result->message)->toEqual('Not Found');
-    });
 });

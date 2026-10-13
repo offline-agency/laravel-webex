@@ -10,7 +10,8 @@ class LaravelWebexServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $route = config('webex.auth_route');
-        if (! is_array($route) || ($route['enabled'] ?? true) !== false) {
+        // opt-in: the application decides whether /auth (or another configured path) belongs to this package
+        if (is_array($route) && ($route['enabled'] ?? false) === true) {
             $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
         }
 

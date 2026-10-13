@@ -13,4 +13,4 @@ use Offlineagency\LaravelWebex\Tests\TestCase;
 |
 */
 
-uses(TestCase::class)->in('Feature', 'Unit');
+uses(TestCase::class)->in('Feature', 'Unit', 'Contract');

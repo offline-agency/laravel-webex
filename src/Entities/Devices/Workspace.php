@@ -6,21 +6,21 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Workspace extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $displayName = null;
+    public ?string $displayName = null;
 
     public mixed $placeId = null;
 
-    public mixed $locationId = null;
+    public ?string $locationId = null;
 
-    public mixed $floorId = null;
+    public ?string $floorId = null;
 
-    public mixed $capacity = null;
+    public int|float|null $capacity = null;
 
     public mixed $organizationId = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $updated = null;
 }

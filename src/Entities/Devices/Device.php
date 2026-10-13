@@ -6,23 +6,23 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Device extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $displayName = null;
+    public ?string $displayName = null;
 
     public mixed $deviceName = null;
 
     public mixed $model = null;
 
-    public mixed $serial = null;
+    public ?string $serial = null;
 
     public mixed $organizationId = null;
 
-    public mixed $placeId = null;
+    public ?string $placeId = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
     public mixed $updated = null;
 
-    public mixed $connectionStatus = null;
+    public ?string $connectionStatus = null;
 }

@@ -42,7 +42,7 @@ class MeetingChats extends AbstractApi
         string $meeting_id
     ) {
 
-        $response = $this->delete('meetings/postMeetingChats/'.$meeting_id, []);
+        $response = $this->delete('meetings/postMeetingChats', ['meetingId' => $meeting_id]);
 
         if (! $response->success) {
             return new Error($response->data);

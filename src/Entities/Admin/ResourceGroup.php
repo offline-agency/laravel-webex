@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class ResourceGroup extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $name = null;
+    public ?string $name = null;
 
-    public mixed $orgId = null;
+    public ?string $orgId = null;
 
     public mixed $created = null;
 
