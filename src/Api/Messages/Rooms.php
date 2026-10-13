@@ -1,0 +1,141 @@
+<?php
+
+namespace Offlineagency\LaravelWebex\Api\Messages;
+
+use Illuminate\Support\LazyCollection;
+use Offlineagency\LaravelWebex\Api\AbstractApi;
+use Offlineagency\LaravelWebex\Entities\Error;
+use Offlineagency\LaravelWebex\Entities\Messages\Room as RoomEntity;
+
+class Rooms extends AbstractApi
+{
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RoomEntity[]|Error
+     */
+    public function list(?array $additional_data = [])
+    {
+        $additional_data = $this->data($additional_data, [
+            'max', 'type', 'sortBy', 'teamId', 'orgId', 'meetingLinkEnabled', 'readOnly',
+        ]);
+
+        $response = $this->get('rooms', $additional_data);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        $items = $this->getItemsFromResponse($response);
+
+        return array_map(fn ($room) => new RoomEntity($room), $items);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return array{items: RoomEntity[], nextLink: string|null}|Error
+     */
+    public function listWithPagination(?array $additional_data = [])
+    {
+        $additional_data = $this->data($additional_data, [
+            'max', 'type', 'sortBy', 'teamId', 'orgId', 'meetingLinkEnabled', 'readOnly',
+        ]);
+
+        $response = $this->getWithLink('rooms', $additional_data);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        $items = $this->getItemsFromResponse($response);
+
+        return [
+            'items' => array_map(fn ($room) => new RoomEntity($room), $items),
+            'nextLink' => $response->nextLink ?? null,
+        ];
+    }
+
+    /**
+     * Every room, fetched page by page while iterated (see AbstractApi::cursorOf()).
+     *
+     * @param  array<string, mixed>|null  $additional_data
+     * @return LazyCollection<int, RoomEntity>
+     */
+    public function cursor(?array $additional_data = [], int $maxPages = 100): LazyCollection
+    {
+        $additional_data = $this->data($additional_data, [
+            'max', 'type', 'sortBy', 'teamId', 'orgId', 'meetingLinkEnabled', 'readOnly',
+        ]);
+
+        return $this->cursorOf('rooms', $additional_data, RoomEntity::class, $maxPages);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RoomEntity|Error
+     */
+    public function create(string $title, ?array $additional_data = [])
+    {
+        $additional_data = $this->data($additional_data, [
+            'teamId', 'type', 'isLocked', 'description', 'classificationId', 'isAnnouncementOnly', 'isModerated', 'isReadOnly',
+        ]);
+
+        $response = $this->post('rooms', array_merge(['title' => $title], $additional_data));
+
+        return $this->entity($response, RoomEntity::class);
+    }
+
+    /**
+     * @return RoomEntity|Error
+     */
+    public function detail(string $roomId)
+    {
+        $response = $this->get('rooms/'.$roomId, []);
+
+        return $this->entity($response, RoomEntity::class);
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return RoomEntity|Error
+     */
+    public function update(string $roomId, ?array $additional_data = [])
+    {
+        $additional_data = $this->data($additional_data, [
+            'title', 'isLocked', 'description', 'classificationId', 'isAnnouncementOnly', 'isModerated', 'isReadOnly',
+        ]);
+
+        $response = $this->put('rooms/'.$roomId, $additional_data);
+
+        return $this->entity($response, RoomEntity::class);
+    }
+
+    /**
+     * @return true|Error
+     */
+    public function destroy(string $roomId)
+    {
+        $response = $this->delete('rooms/'.$roomId, []);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        return true;
+    }
+
+    /**
+     * Get meeting details for a room.
+     *
+     * @return array<mixed>|object|null|Error
+     */
+    public function meetingDetails(string $roomId)
+    {
+        $response = $this->get('rooms/'.$roomId.'/meetingInfo', []);
+
+        if (! $response->success) {
+            return new Error($response->data);
+        }
+
+        return $response->data;
+    }
+}

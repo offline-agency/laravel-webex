@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Support\Facades\Http;
+use Offlineagency\LaravelWebex\Entities\Messages\Event as EventEntity;
+use Offlineagency\LaravelWebex\LaravelWebex;
+
+describe('Events', function () {
+    it('lists events', function () {
+        Http::fake([
+            'https://webexapis.com/v1/events*' => Http::response(json_encode((object) [
+                'items' => [
+                    (object) [
+                        'id' => 'ev1',
+                        'resource' => 'messages',
+                        'type' => 'created',
+                        'actorId' => 'u1',
+                        'created' => '2024-01-01T00:00:00Z',
+                    ],
+                ],
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $list = $laravel_webex->events()->list();
+        assert(is_array($list));
+
+        expect($list)->toHaveCount(1);
+        expect($list[0])->toBeInstanceOf(EventEntity::class);
+        expect($list[0]->id)->toEqual('ev1');
+        expect($list[0]->resource)->toEqual('messages');
+        expect($list[0]->type)->toEqual('created');
+    });
+
+});

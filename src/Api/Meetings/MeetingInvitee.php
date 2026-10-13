@@ -8,6 +8,10 @@ use Offlineagency\LaravelWebex\Entities\Meetings\MeetingInvitee as MeetingInvite
 
 class MeetingInvitee extends AbstractApi
 {
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity[]|Error
+     */
     public function list(
         string $meetingId,
         ?array $additional_data = []
@@ -24,13 +28,17 @@ class MeetingInvitee extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingInviteeEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function detail(
         string $meetingInviteeId,
         ?array $additional_data = []
@@ -41,13 +49,13 @@ class MeetingInvitee extends AbstractApi
 
         $response = $this->get('meetingInvitees/'.$meetingInviteeId, $additional_data);
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function create(
         string $meetingId,
         string $email,
@@ -62,13 +70,13 @@ class MeetingInvitee extends AbstractApi
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity[]|Error
+     */
     public function bulk_create(
         string $meetingId,
         ?array $additional_data = []
@@ -85,13 +93,17 @@ class MeetingInvitee extends AbstractApi
             return new Error($response->data);
         }
 
-        $meeting_invitees = $response->data;
+        $items = $this->getItemsFromResponse($response);
 
         return array_map(function ($meeting_invitee) {
             return new MeetingInviteeEntity($meeting_invitee);
-        }, $meeting_invitees->items);
+        }, $items);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return MeetingInviteeEntity|Error
+     */
     public function update(
         string $meetingInviteeId,
         string $email,
@@ -101,17 +113,17 @@ class MeetingInvitee extends AbstractApi
             'displayName', 'coHost', 'hostEmail', 'sendEmail', 'panelist',
         ]);
 
-        $response = $this->post('meetingInvitees/'.$meetingInviteeId, array_merge([
+        $response = $this->put('meetingInvitees/'.$meetingInviteeId, array_merge([
             'email' => $email,
         ], $additional_data));
 
-        if (! $response->success) {
-            return new Error($response->data);
-        }
-
-        return new MeetingInviteeEntity($response->data);
+        return $this->entity($response, MeetingInviteeEntity::class);
     }
 
+    /**
+     * @param  array<string, mixed>|null  $additional_data
+     * @return string|Error
+     */
     public function destroy(
         string $meetingInviteeId,
         ?array $additional_data = []

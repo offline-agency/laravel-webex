@@ -1,56 +1,175 @@
-name: run-tests
+name: CI
 
 on:
     push:
-        branches:
-        tags:
+        branches: [main, develop]
     pull_request:
+        # edited / labeled / unlabeled re-run the release policy check when the title or labels change
+        types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+    merge_group:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    # pull request runs are superseded by newer pushes; runs on main/develop are never cancelled, because the
+    # release workflow requires a completed CI run for every merge commit on main
+    group: ci-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.ref || github.sha }}
+    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-    test:
-        runs-on: ${{ matrix.os }}
+    tests:
+        name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+        runs-on: ubuntu-latest
         strategy:
-            fail-fast: true
+            fail-fast: false
             matrix:
-                os: [ubuntu-latest, macos-latest]
-                php: [7.3, 7.4, 8.0, 8.1]
-                laravel: [5.8.*, 6.*, 7.*, 8.*, 9.*]
-                stability: [prefer-stable]
-                exclude:
-                  - php: [7.3, 7.4]
-                    laravel: [8.*, 9.*]
-                  - php: [8.0, 8.1]
-                    laravel: [6.*, 7.*, 8.*]
-
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
-
+                php: ['8.4', '8.5']
+                laravel: ['12', '13']
+                include:
+                    - laravel: '12'
+                      framework: '^12.69.2'
+                    - laravel: '13'
+                      framework: '^13.32'
         steps:
-            - uses: actions/checkout@v2
-            - name: "Installing php"
-              uses: shivammathur/setup-php@v2
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
-                php-version: ${{ matrix.php }}
-                extensions: curl,mbstring,xdebug
-                coverage: xdebug
-                tools: composer
-            - name: Show PHP version
-              run: php -v && composer -V
-            - name: Download Composer cache dependencies from cache
-              id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-            - name: Cache Composer dependencies
-              uses: actions/cache@v1
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
               with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ matrix.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ matrix.os }}-composer-
-            - name: Install dependencies
+                  php-version: ${{ matrix.php }}
+                  extensions: curl, mbstring
+                  coverage: none
+                  tools: composer:v2
+            - name: Resolve dependencies for Laravel ${{ matrix.laravel }}
+              env:
+                  FRAMEWORK: ${{ matrix.framework }}
               run: |
-                  composer install --no-interaction
-            - name: Run tests
+                  composer require "laravel/framework:${FRAMEWORK}" --no-update --no-interaction
+                  composer update --prefer-dist --prefer-stable --no-interaction --no-progress
+            - name: Installed versions
               run: |
-                  ./vendor/bin/phpunit --coverage-clover coverage.xml
-            - uses: codecov/codecov-action@v2
+                  php -v | head -n 1
+                  for package in laravel/framework orchestra/testbench pestphp/pest phpunit/phpunit larastan/larastan phpstan/phpstan; do
+                      composer show "$package" | grep -E '^(name|versions) +:'
+                  done
+            - name: Tests
+              run: vendor/bin/pest --colors=never --log-junit junit.xml
+            - name: Larastan (level max)
+              # boot Larastan once first: on a fresh checkout every parallel worker would otherwise race to create
+              # the testbench vendor symlink and rebuild bootstrap/cache/packages.php, deleting it under the others
+              run: |
+                  php -r 'require "vendor/autoload.php"; require "vendor/larastan/larastan/bootstrap.php";'
+                  vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+
+    lowest:
+        name: Lowest dependencies / Laravel ${{ matrix.laravel }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    # the advertised floors: laravel/framework 12.69.2 and 13.32, PHP 8.4
+                    - laravel: '12'
+                      framework: '^12.69.2'
+                    - laravel: '13'
+                      framework: '^13.32'
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
-                token: ${{ secrets.CODECOV_TOKEN }}
-                fail_ci_if_error: false
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: '8.4'
+                  extensions: curl, mbstring
+                  coverage: none
+                  tools: composer:v2
+            - name: Resolve the lowest versions
+              env:
+                  FRAMEWORK: ${{ matrix.framework }}
+              run: |
+                  composer require "laravel/framework:${FRAMEWORK}" --no-update --no-interaction
+                  composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction --no-progress
+                  for package in laravel/framework orchestra/testbench pestphp/pest guzzlehttp/guzzle; do
+                      composer show "$package" | grep -E '^(name|versions) +:'
+                  done
+                  composer audit
+            - name: Tests
+              run: vendor/bin/pest --colors=never
+            - name: Larastan (level max)
+              # boot Larastan once first: on a fresh checkout every parallel worker would otherwise race to create
+              # the testbench vendor symlink and rebuild bootstrap/cache/packages.php, deleting it under the others
+              run: |
+                  php -r 'require "vendor/autoload.php"; require "vendor/larastan/larastan/bootstrap.php";'
+                  vendor/bin/phpstan analyse --memory-limit=512M --no-progress
+
+    coverage:
+        name: Coverage (PHP 8.4 / locked dependencies)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: '8.4'
+                  extensions: curl, mbstring
+                  coverage: pcov
+                  # pcov instruments only an auto-detected directory (src) by default; Http/ is covered too
+                  ini-values: pcov.directory=.
+                  tools: composer:v2
+            - run: composer install --prefer-dist --no-interaction --no-progress
+            - name: Tests with coverage (100 % of src and Http required)
+              run: vendor/bin/pest --colors=never --coverage --min=100 --coverage-clover coverage.xml
+            - name: Upload coverage (only when the Codecov token is available; fork pull requests skip it)
+              if: ${{ env.CODECOV_TOKEN != '' }}
+              env:
+                  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+              uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+              with:
+                  files: coverage.xml
+                  token: ${{ env.CODECOV_TOKEN }}
+                  fail_ci_if_error: false
+
+    quality:
+        name: Composer, Pint and workflow checks
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: '8.4'
+                  coverage: none
+                  tools: composer:v2
+            - run: composer validate --strict
+            - run: composer install --prefer-dist --no-interaction --no-progress
+            - run: composer audit
+            - name: Optimized autoload with strict PSR-4
+              run: composer dump-autoload --optimize --strict-psr
+            - name: Pint
+              run: vendor/bin/pint --test
+            - name: actionlint 1.7.12 (checksum verified)
+              run: |
+                  curl -sSfL -o actionlint.tar.gz https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+                  echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  actionlint.tar.gz" | sha256sum -c -
+                  tar xzf actionlint.tar.gz actionlint
+                  ./actionlint -color
+
+    release-policy:
+        name: Release policy
+        if: github.event_name == 'pull_request'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+            - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+              with:
+                  php-version: '8.4'
+                  coverage: none
+                  tools: none
+            # the title, body and labels are read from the event file as data
+            - run: php tools/release/bin/release check-pr "$GITHUB_EVENT_PATH"

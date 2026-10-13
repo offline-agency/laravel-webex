@@ -14,6 +14,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Request timeout
+    |--------------------------------------------------------------------------
+    |
+    | Timeout in seconds for API requests. Prevents indefinite hangs.
+    |
+    */
+    'timeout' => env('WEBEX_TIMEOUT', 30),
+
+    /*
+    |--------------------------------------------------------------------------
     | Bearer
     |--------------------------------------------------------------------------
     |
@@ -24,11 +34,38 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Token resolver
+    |--------------------------------------------------------------------------
+    |
+    | Optional class implementing Offlineagency\LaravelWebex\Contracts\TokenResolver:
+    | asked for the bearer token before every request (refreshed OAuth tokens in
+    | queue workers / Octane). Null uses 'bearer'.
+    |
+    */
+    'token_resolver' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Retries
+    |--------------------------------------------------------------------------
+    |
+    | Attempts (including the first) for GET, PUT and DELETE after a network
+    | failure, a 429 or a 503. The wait follows Retry-After, capped. POST and
+    | PATCH are never retried. Set 'times' to 1 to disable.
+    |
+    */
+    'retry' => [
+        'times' => 3,
+        'max_delay_seconds' => 30,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Access Token Request
     |--------------------------------------------------------------------------
     |
     | Access token suffix to make request.
-    | Gran type for request body
+    | Grant type for request body
     |
     */
     'access_token' => [
@@ -42,7 +79,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Refresh token suffix to make request.
-    | Gran type for request body
+    | Grant type for request body
     |
     */
     'refresh_token' => [
@@ -59,9 +96,9 @@ return [
     |
     */
     'client' => [
-        'id' => '',
-        'secret' => '',
-        'code' => '',
+        'id' => env('WEBEX_CLIENT_ID', ''),
+        'secret' => env('WEBEX_CLIENT_SECRET', ''),
+        'code' => env('WEBEX_CLIENT_CODE', ''),
     ],
 
     /*
@@ -69,8 +106,34 @@ return [
     | Redirect uri
     |--------------------------------------------------------------------------
     |
-    | Redirect url
+    | Redirect url for OAuth callback.
     |
     */
-    'redirect_uri' => '',
+    'redirect_uri' => env('WEBEX_REDIRECT_URI', ''),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Auth route middleware
+    |--------------------------------------------------------------------------
+    |
+    | Middleware applied to the /auth route (e.g. throttle). Set to [] to disable.
+    |
+    */
+    'auth_route_middleware' => ['throttle:60,1'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Auth route
+    |--------------------------------------------------------------------------
+    |
+    | Opt-in: set WEBEX_AUTH_ROUTE_ENABLED=true to register GET /auth (route
+    | name "auth"), which only dispatches WebexClientConfigured. Change the path
+    | and name when the application uses them.
+    |
+    */
+    'auth_route' => [
+        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', false),
+        'path' => '/auth',
+        'name' => 'auth',
+    ],
 ];

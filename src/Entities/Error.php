@@ -4,18 +4,35 @@ namespace Offlineagency\LaravelWebex\Entities;
 
 class Error extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public $message;
+    public ?string $message = null;
+
+    /** @var array<int, mixed>|null */
+    public ?array $errors = null;
+
+    public ?string $trackingId = null;
 
     /**
-     * @var array
+     * HTTP status of the failed response; null for network failures and invalid successful responses.
      */
-    public $errors;
+    public ?int $status = null;
 
     /**
-     * @var string
+     * Seconds Webex asked to wait before retrying (Retry-After), when it said so.
      */
-    public $trackingId;
+    public ?int $retryAfter = null;
+
+    /**
+     * @param  array<mixed>  $parameters
+     */
+    public function build(array $parameters): void
+    {
+        parent::build($parameters);
+
+        if ($this->message === null) {
+            $this->message = 'Unknown error';
+        }
+        if ($this->errors === null) {
+            $this->errors = [];
+        }
+    }
 }

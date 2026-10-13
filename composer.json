@@ -19,36 +19,42 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": "~8.4.0 || ~8.5.0",
     "ext-json": "*",
-    "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0",
-    "guzzlehttp/guzzle": "^6.5|7.0.1|^7.2",
-    "illuminate/container": "^6.0|^7.0|^8.0|^9.0",
-    "illuminate/http": "^6.0|^7.0|^8.0|^9.0"
+    "laravel/framework": "^12.69.2 || ^13.32"
   },
   "require-dev": {
-    "doctrine/dbal": "^2.5",
-    "mockery/mockery": "^1.0",
-    "orchestra/testbench": "^4.0|^6.0",
-    "php-coveralls/php-coveralls": "^2.4",
-    "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0"
+    "larastan/larastan": "^3.13",
+    "laravel/pint": "^1.32",
+    "mockery/mockery": "^1.6.12",
+    "orchestra/testbench": "^10.12 || ^11.3",
+    "pestphp/pest": "^4.7",
+    "pestphp/pest-plugin-laravel": "^4.1"
   },
   "autoload": {
     "psr-4": {
-      "Offlineagency\\LaravelWebex\\": "src"
+      "Offlineagency\\LaravelWebex\\": "src",
+      "Offlineagency\\LaravelWebex\\Http\\": "Http"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Offlineagency\\LaravelWebex\\Tests\\": "tests"
+      "Offlineagency\\LaravelWebex\\Tests\\": "tests",
+      "Offlineagency\\LaravelWebex\\Release\\": "tools/release/src"
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    "test": "@php vendor/bin/pest",
+    "test-coverage": "@php vendor/bin/pest --coverage-html coverage",
+    "stan": "@php vendor/bin/phpstan analyse --memory-limit=512M",
+    "pint": "@php vendor/bin/pint",
+    "pint:check": "@php vendor/bin/pint --test"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "extra": {
     "laravel": {

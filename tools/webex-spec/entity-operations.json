@@ -1,0 +1,314 @@
+{
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\AdminAuditEvent": [
+        "GET /adminAudit/events"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\HybridCluster": [
+        "GET /hybrid/clusters",
+        "GET /hybrid/clusters/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\HybridConnector": [
+        "GET /hybrid/connectors",
+        "GET /hybrid/connectors/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\License": [
+        "GET /licenses",
+        "GET /licenses/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\Location": [
+        "GET /locations",
+        "GET /locations/{}",
+        "POST /locations",
+        "PUT /locations/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\Organization": [
+        "GET /organizations",
+        "GET /organizations/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\Report": [
+        "GET /reports",
+        "GET /reports/{}",
+        "POST /reports"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\ReportTemplate": [
+        "GET /report/templates"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\ResourceGroup": [
+        "GET /resourceGroups",
+        "GET /resourceGroups/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\ResourceGroupMembership": [
+        "GET /resourceGroup/memberships",
+        "GET /resourceGroup/memberships/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\Role": [
+        "GET /roles",
+        "GET /roles/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\SpaceClassification": [
+        "GET /classifications"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\Workspace": [
+        "GET /workspaces",
+        "GET /workspaces/{}",
+        "POST /workspaces",
+        "PUT /workspaces/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\WorkspaceLocation": [
+        "GET /workspaceLocations",
+        "GET /workspaceLocations/{}",
+        "POST /workspaceLocations",
+        "PUT /workspaceLocations/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Admin\\WorkspaceMetrics": [
+        "GET /workspaceMetrics"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Calling\\BroadWorksEnterprise": [
+        "GET /broadworks/enterprises"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Calling\\BroadWorksSubscriber": [
+        "GET /broadworks/subscribers",
+        "GET /broadworks/subscribers/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Calling\\Call": [
+        "POST /telephony/calls/dial",
+        "GET /telephony/calls",
+        "GET /telephony/calls/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Calling\\CallHistoryItem": [
+        "GET /telephony/calls/history"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Calling\\VoicemailMessage": [
+        "GET /telephony/voiceMessages"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Devices\\Device": [
+        "GET /devices",
+        "GET /devices/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Devices\\DeviceConfiguration": [
+        "GET /deviceConfigurations"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Devices\\Workspace": [
+        "GET /workspaces",
+        "GET /workspaces/{}",
+        "POST /workspaces",
+        "PUT /workspaces/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Devices\\WorkspaceLocation": [
+        "GET /workspaceLocations",
+        "GET /workspaceLocations/{}",
+        "POST /workspaceLocations",
+        "PUT /workspaceLocations/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Devices\\WorkspaceMetrics": [
+        "GET /workspaceMetrics"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\Meeting": [
+        "POST /meetings",
+        "GET /meetings/{}",
+        "GET /meetings",
+        "PUT /meetings/{}",
+        "POST /meetings/join",
+        "GET /meetings/templates",
+        "GET /meetings/templates/{}",
+        "GET /meetings/controls",
+        "PUT /meetings/controls",
+        "GET /meetings/sessionTypes",
+        "GET /meetings/sessionTypes/{}",
+        "GET /meetings/{}/registration",
+        "PUT /meetings/{}/registration",
+        "POST /meetings/{}/registrants",
+        "POST /meetings/{}/registrants/bulkInsert",
+        "GET /meetings/{}/registrants/{}",
+        "GET /meetings/{}/registrants",
+        "POST /meetings/{}/registrants/query",
+        "POST /meetings/{}/registrants/approve",
+        "PUT /meetings/{}/simultaneousInterpretation",
+        "POST /meetings/{}/interpreters",
+        "GET /meetings/{}/interpreters/{}",
+        "GET /meetings/{}/interpreters",
+        "PUT /meetings/{}/interpreters/{}",
+        "GET /meetings/{}/breakoutSessions",
+        "PUT /meetings/{}/breakoutSessions",
+        "GET /meetings/{}/survey",
+        "GET /meetings/{}/surveyResults",
+        "POST /meetings/{}/surveyLinks",
+        "POST /meetings/{}/invitationSources",
+        "GET /meetings/{}/invitationSources",
+        "GET /meetings/trackingCodes",
+        "POST /meetings/reassignHost",
+        "PUT /admin/meeting/userconfig/sessionTypes",
+        "PATCH /videoMesh/eventThresholds",
+        "POST /videoMesh/eventThresholds/reset"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingChats": [
+        "GET /meetings/postMeetingChats"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingClosedCaptions": [
+        "GET /meetingClosedCaptions",
+        "GET /meetingClosedCaptions/{}/snippets",
+        "GET /meetingClosedCaptions/{}/download"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingInvitee": [
+        "GET /meetingInvitees",
+        "GET /meetingInvitees/{}",
+        "POST /meetingInvitees",
+        "POST /meetingInvitees/bulkInsert",
+        "PUT /meetingInvitees/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingParticipant": [
+        "GET /meetingParticipants",
+        "POST /meetingParticipants/query",
+        "GET /meetingParticipants/{}",
+        "PUT /meetingParticipants/{}",
+        "POST /meetingParticipants/admit"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingPolls": [
+        "GET /meetings/polls",
+        "GET /meetings/pollResults",
+        "GET /meetings/polls/{}/questions/{}/respondents"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingPreferences": [
+        "GET /meetingPreferences",
+        "GET /meetingPreferences/personalMeetingRoom",
+        "PUT /meetingPreferences/personalMeetingRoom",
+        "GET /meetingPreferences/audio",
+        "GET /meetingPreferences/video",
+        "PUT /meetingPreferences/video",
+        "GET /meetingPreferences/schedulingOptions",
+        "PUT /meetingPreferences/schedulingOptions",
+        "POST /meetingPreferences/schedulingOptions/delegateEmails/insert",
+        "POST /meetingPreferences/schedulingOptions/delegateEmails/delete",
+        "GET /meetingPreferences/sites",
+        "PUT /meetingPreferences/sites",
+        "POST /admin/meetingPreferences/personalMeetingRoom/refreshId"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingQAndA": [
+        "GET /meetings/q_and_a",
+        "GET /meetings/q_and_a/{}/answers"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingQualities": [
+        "GET /meeting/qualities"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingTranscripts": [
+        "GET /meetingTranscripts",
+        "GET /admin/meetingTranscripts",
+        "GET /meetingTranscripts/{}/download",
+        "GET /meetingTranscripts/{}/snippets",
+        "GET /meetingTranscripts/{}/snippets/{}",
+        "PUT /meetingTranscripts/{}/snippets/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\MeetingsSummaryReport": [
+        "GET /meetingReports/usage",
+        "GET /meetingReports/attendees"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\People": [
+        "GET /people",
+        "POST /people",
+        "GET /people/{}",
+        "PUT /people/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\RecordingReport": [
+        "GET /recordingReport/accessSummary",
+        "GET /recordingReport/accessDetail",
+        "GET /recordingReport/meetingArchiveSummaries",
+        "GET /recordingReport/meetingArchives/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\Recordings": [
+        "GET /recordings",
+        "GET /admin/recordings",
+        "GET /recordings/{}",
+        "POST /recordings/softDelete",
+        "POST /recordings/restore",
+        "POST /recordings/purge"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\SessionTypes": [
+        "GET /admin/meeting/config/sessionTypes",
+        "GET /admin/meeting/userconfig/sessionTypes"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\TrackingCodes": [
+        "GET /admin/meeting/config/trackingCodes",
+        "GET /admin/meeting/config/trackingCodes/{}",
+        "POST /admin/meeting/config/trackingCodes",
+        "PUT /admin/meeting/config/trackingCodes/{}",
+        "GET /admin/meeting/userconfig/trackingCodes",
+        "PUT /admin/meeting/userconfig/trackingCodes",
+        "POST /videoMesh/triggerTest/clusters/{}",
+        "POST /videoMesh/triggerTest/nodes/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\VideoMesh": [
+        "GET /videoMesh/clusters/availability",
+        "GET /videoMesh/clusters/availability/{}",
+        "GET /videoMesh/nodes/availability",
+        "GET /videoMesh/nodes/availability/{}",
+        "GET /videoMesh/testResults/mediaHealthMonitorTest",
+        "GET /videoMesh/testResults/mediaHealthMonitorTest/clusters",
+        "GET /videoMesh/testResults/mediaHealthMonitorTest/nodes",
+        "GET /videoMesh/cloudOverflow",
+        "GET /videoMesh/callRedirects",
+        "GET /videoMesh/clusters/callRedirects",
+        "GET /videoMesh/utilization",
+        "GET /videoMesh/clusters/utilization",
+        "GET /videoMesh/testResults/reachabilityTest",
+        "GET /videoMesh/testResults/reachabilityTest/clusters",
+        "GET /videoMesh/testResults/reachabilityTest/nodes",
+        "GET /videoMesh/clusters",
+        "GET /videoMesh/clusters/{}",
+        "GET /videoMesh/testStatus",
+        "GET /videoMesh/testResults",
+        "GET /videoMesh/testResults/networkTest",
+        "GET /videoMesh/testResults/networkTest/clusters",
+        "GET /videoMesh/testResults/networkTest/nodes",
+        "GET /videoMesh/clientTypeDistribution",
+        "GET /videoMesh/clientTypeDistribution/clusters",
+        "GET /videoMesh/eventThresholds/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Meetings\\Webhooks": [
+        "GET /webhooks",
+        "POST /webhooks",
+        "GET /webhooks/{}",
+        "PUT /webhooks/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\AttachmentAction": [
+        "POST /attachment/actions",
+        "GET /attachment/actions/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\Event": [
+        "GET /events"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\Membership": [
+        "GET /memberships",
+        "POST /memberships",
+        "GET /memberships/{}",
+        "PUT /memberships/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\Messages": [
+        "GET /messages",
+        "POST /messages",
+        "GET /messages/{}",
+        "PUT /messages/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\Room": [
+        "GET /rooms",
+        "POST /rooms",
+        "GET /rooms/{}",
+        "PUT /rooms/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\RoomTab": [
+        "GET /room/tabs",
+        "POST /room/tabs",
+        "GET /room/tabs/{}",
+        "PUT /room/tabs/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\Team": [
+        "GET /teams",
+        "POST /teams",
+        "GET /teams/{}",
+        "PUT /teams/{}"
+    ],
+    "Offlineagency\\LaravelWebex\\Entities\\Messages\\TeamMembership": [
+        "GET /team/memberships",
+        "POST /team/memberships",
+        "GET /team/memberships/{}",
+        "PUT /team/memberships/{}"
+    ]
+}

@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Support\Facades\Http;
+use Offlineagency\LaravelWebex\Entities\Admin\Report as ReportEntity;
+use Offlineagency\LaravelWebex\LaravelWebex;
+
+describe('Admin Reports', function () {
+    it('lists reports', function () {
+        Http::fake([
+            'https://webexapis.com/v1/reports*' => Http::response(json_encode((object) [
+                'items' => [
+                    (object) [
+                        'id' => 'rep1',
+                        'templateId' => 'tpl1',
+                        'created' => '2024-01-01T00:00:00Z',
+                    ],
+                ],
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $list = $laravel_webex->admin_reports()->list();
+        assert(is_array($list));
+
+        expect($list)->toHaveCount(1);
+        expect($list[0])->toBeInstanceOf(ReportEntity::class);
+        expect($list[0]->id)->toEqual('rep1');
+    });
+
+    it('gets report detail', function () {
+        Http::fake([
+            'https://webexapis.com/v1/reports/rep1*' => Http::response(json_encode((object) [
+                'id' => 'rep1',
+                'templateId' => 'tpl1',
+                'created' => '2024-01-01T00:00:00Z',
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $report = $laravel_webex->admin_reports()->detail('rep1');
+        assert($report instanceof ReportEntity);
+
+        expect($report)->toBeInstanceOf(ReportEntity::class);
+        expect($report->id)->toEqual('rep1');
+    });
+
+    it('creates report', function () {
+        Http::fake([
+            'https://webexapis.com/v1/reports' => Http::response(json_encode((object) [
+                'id' => 'rep2',
+                'templateId' => 'tpl1',
+                'created' => '2024-01-01T00:00:00Z',
+            ], JSON_THROW_ON_ERROR)),
+        ]);
+
+        $laravel_webex = new LaravelWebex;
+        $report = $laravel_webex->admin_reports()->create(['templateId' => 'tpl1']);
+        assert($report instanceof ReportEntity);
+
+        expect($report)->toBeInstanceOf(ReportEntity::class);
+        expect($report->id)->toEqual('rep2');
+    });
+
+});

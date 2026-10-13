@@ -2,17 +2,17 @@
 
 namespace Offlineagency\LaravelWebex\Http\Controllers;
 
+use Illuminate\Http\Response;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
+use Offlineagency\LaravelWebex\Events\WebexClientConfigured;
 
 class AuthController extends Controller
 {
-    public function auth(): string
+    public function auth(): Response
     {
-        event(new SuccessfulAuthentication());
+        event(new WebexClientConfigured);
+        event(new SuccessfulAuthentication);
 
-        return response(
-            'OK',
-            200
-        );
+        return response('OK', 200);
     }
 }

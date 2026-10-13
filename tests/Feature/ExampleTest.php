@@ -1,18 +1,7 @@
 <?php
 
-namespace Offlineagency\LaravelWebex\Tests\Feature;
-
-use PHPUnit\Framework\TestCase;
-
-class ExampleTest extends TestCase
-{
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
-    {
-        $this->assertTrue(true);
-    }
-}
+describe('Example', function () {
+    it('passes a basic assertion', function () {
+        expect(true)->toBeTrue();
+    });
+});

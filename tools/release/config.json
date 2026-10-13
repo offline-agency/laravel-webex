@@ -1,0 +1,6 @@
+{
+    "repository": "offline-agency/laravel-webex",
+    "base_branch": "main",
+    "ci_workflow": "main.yml",
+    "since_commit": "db379780e4cb4f8c3d58e13a46e9a8c5be63cf7f"
+}
