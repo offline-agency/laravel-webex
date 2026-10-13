@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
+use Offlineagency\LaravelWebex\Events\WebexClientConfigured;
 use Offlineagency\LaravelWebex\LaravelWebex;
 
 it('dispatches AuthenticationRequested then SuccessfulAuthentication, and reads the token at request time', function () {
@@ -29,12 +30,25 @@ it('dispatches AuthenticationRequested then SuccessfulAuthentication, and reads 
     Http::assertSent(fn (ClientRequest $request) => $request->hasHeader('Authorization', 'Bearer current-token'));
 });
 
-it('registers the /auth route by default', function () {
+it('does not register the /auth route unless it is enabled', function () {
     $response = app(Kernel::class)->handle(Request::create('/auth'));
 
-    expect(Route::has('auth'))->toBeTrue()
-        ->and($response->getStatusCode())->toBe(200)
-        ->and($response->getContent())->toBe('OK');
+    expect(Route::has('auth'))->toBeFalse()
+        ->and($response->getStatusCode())->toBe(404);
+});
+
+it('dispatches WebexClientConfigured, and the deprecated SuccessfulAuthentication after it', function () {
+    $order = [];
+    Event::listen(WebexClientConfigured::class, function () use (&$order) {
+        $order[] = 'configured';
+    });
+    Event::listen(SuccessfulAuthentication::class, function () use (&$order) {
+        $order[] = 'deprecated alias';
+    });
+
+    new LaravelWebex;
+
+    expect($order)->toBe(['configured', 'deprecated alias']);
 });
 
 it('fails a test that would reach the network', function () {

@@ -63,6 +63,7 @@ use Offlineagency\LaravelWebex\Api\Messages\Teams;
 use Offlineagency\LaravelWebex\Contracts\TokenResolver;
 use Offlineagency\LaravelWebex\Events\AuthenticationRequested;
 use Offlineagency\LaravelWebex\Events\SuccessfulAuthentication;
+use Offlineagency\LaravelWebex\Events\WebexClientConfigured;
 
 class LaravelWebex
 {
@@ -448,6 +449,7 @@ class LaravelWebex
             'Authorization' => 'Bearer '.(is_string($bearer) ? $bearer : ''),
         ])->timeout(is_numeric($timeout) ? (float) $timeout : 30);
 
+        event(new WebexClientConfigured);
         event(new SuccessfulAuthentication);
     }
 }

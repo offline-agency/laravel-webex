@@ -126,13 +126,13 @@ return [
     | Auth route
     |--------------------------------------------------------------------------
     |
-    | The package registers GET /auth (route name "auth"). Change the path and
-    | name, or set 'enabled' => false when the application has its own route
-    | with that path or name.
+    | Opt-in: set WEBEX_AUTH_ROUTE_ENABLED=true to register GET /auth (route
+    | name "auth"), which only dispatches WebexClientConfigured. Change the path
+    | and name when the application uses them.
     |
     */
     'auth_route' => [
-        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', true),
+        'enabled' => (bool) env('WEBEX_AUTH_ROUTE_ENABLED', false),
         'path' => '/auth',
         'name' => 'auth',
     ],
