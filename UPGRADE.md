@@ -24,7 +24,24 @@ The package now requires `laravel/framework` (it uses `Illuminate\Foundation` cl
   createWebhook('Name', $url, 'meetings', 'created');
   ```
 
+### Endpoints aligned with the Webex API
+
+Every endpoint method is now checked against the official OpenAPI specification. Requests that did not exist in the API were fixed; if you relied on them, nothing worked before:
+
+- paths: `adminAudit/events`, `hybrid/clusters`, `hybrid/connectors`, `report/templates`, `resourceGroup/memberships`, `classifications` (space classifications), `broadworks/enterprises`, `broadworks/subscribers`, `telephony/voiceMessages`, `videoMesh/testResults/...`, `admin/meetingPreferences/personalMeetingRoom/refreshId`;
+- methods: invitee and participant `update()` use `PUT`, `listTrackingCodes()` `GET`, `detailSurveyLinks()` `POST`, the video mesh `triggerOnDemandTestFor*()` `POST`, `updateEventThresholdConfiguration()` `PATCH`, `destroyChats()` sends `meetingId` as a query parameter;
+- `Xapi::command()` posts to `xapi/command/{command}` with the device in the body; `Xapi::status()` queries `xapi/status?deviceId=&name=`;
+- `TrackingCodes::updateTrackingCode($trackingCodeId, $name, ...)` takes the id of the tracking code first;
+- `Meeting::batchUpdateRegistrantsStatus()` accepts `approve`, `reject`, `cancel` or `bulkDelete` and returns an `Error` for anything else.
+
+Removed, because the Webex API has no such endpoint: `create()`/`update()`/`destroy()` of `admin_hybrid_clusters()`, `admin_hybrid_connectors()` and `admin_resource_groups()`; `detail()` of `admin_report_templates()`, `broadworks_enterprises()` and `voice_messaging()`; `create()`/`destroy()` of `admin_resource_group_memberships()`; `detail()`/`create()`/`update()`/`destroy()` of `admin_space_classifications()`; `admin_historical_analytics()`.
+
 ### Behaviour changes
+
+- The bearer token is resolved for every request (`forToken()`, `webex.token_resolver`, then `webex.bearer`): a long-lived client sees a changed configuration.
+- `GET`, `PUT` and `DELETE` are retried after network failures, 429 and 503 (`webex.retry`); `Error` has `status` and `retryAfter`.
+- The `/auth` route is off by default (`WEBEX_AUTH_ROUTE_ENABLED=true`). `WebexClientConfigured` is dispatched when a client is created; `SuccessfulAuthentication` is deprecated.
+- Entity properties are typed (`?string`, `?int`, ...) where the API schema is unambiguous; a value of another type is ignored.
 
 - Any 2xx status is a success: `201 Created` and `202 Accepted` responses return the entity instead of an `Error`.
 - A successful response with malformed JSON, a JSON scalar, or no document where an entity is expected returns an `Error` instead of an empty list or an empty entity.

@@ -12,7 +12,12 @@ The next release is 2.0.0 (breaking). It is created by the release workflow when
 - **Breaking: HTTP results** – any 2xx is a success; malformed JSON, JSON scalars and missing documents return an `Error`; failed responses without a Webex error document return "Webex request failed (HTTP n)."; only network failures are converted into an `Error`.
 - **Breaking: `Webhooks::createWebhook()`** – resource and event are strings (the Webex API rejects arrays).
 - **Breaking: authentication events** – `SuccessfulAuthentication` is dispatched after the client is built.
-- **`/auth` route** – configurable path, name and registration (`webex.auth_route`).
+- **`/auth` route** – off by default; configurable path, name and registration (`webex.auth_route`); `WebexClientConfigured` event, `SuccessfulAuthentication` deprecated.
+- **Tokens and retries** – token resolved per request (`forToken()`, `webex.token_resolver`); GET/PUT/DELETE retried on network failures, 429 (Retry-After) and 503; `Error::$status` and `Error::$retryAfter`.
+- **Pagination** – lazy `cursor()` for messages and rooms, following `nextLink` only on the base URL's host.
+- **Breaking: endpoints** – every endpoint checked against the official Webex OpenAPI specification: 51 requests that do not exist in the API fixed or removed (see UPGRADE.md).
+- **Entities** – property types from the official schemas where unambiguous.
+- **Maintenance** – Dependabot (Composer and Actions, grouped, into `develop`), CODEOWNERS.
 - **Tooling** – Pest 4, Testbench 10/11, Larastan 3.13 at level max (also `config`, `routes`, release tooling), Pint 1.32; php-coveralls removed; CI matrix PHP 8.4/8.5 x Laravel 12/13 plus lowest versions; automatic tag and GitHub Release per pull request merged into `main`.
 
 ### Earlier unreleased work (1.x line)

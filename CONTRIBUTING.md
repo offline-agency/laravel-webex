@@ -36,3 +36,16 @@ Releases are automatic; never create tags or releases by hand.
    The `Release policy` check fails before merge when two release labels are set or a breaking change has a lower label. Describe breaking changes and the migration in the pull request body: it becomes the release notes.
 
 Recovery (a missed event, a failed run, the merge that installed the workflow): run the `Release` workflow manually with the pull request number. It re-validates the pull request through the API, defaults to a dry run, and never creates a second tag or release for the same pull request; an existing tag is never moved.
+
+## Webex API specification
+
+`tests/Contract` checks every endpoint method against `tests/Fixtures/webex-operations.json`, an index of the official [Webex OpenAPI specification](https://github.com/webex/webex-openapi-specs). To move to a newer specification:
+
+```bash
+git clone https://github.com/webex/webex-openapi-specs /tmp/webex-specs
+php tools/webex-spec/extract.php /tmp/webex-specs/public-spec "$(git -C /tmp/webex-specs rev-parse HEAD)"
+php tools/webex-spec/entity-types.php /tmp/webex-specs/public-spec
+composer test && composer stan
+```
+
+Review the diff of the index and of the entity types like any other change.

@@ -39,19 +39,27 @@ and set in `.env` (never commit tokens):
 | `WEBEX_BEARER` | bearer token sent with every request (required) |
 | `WEBEX_TIMEOUT` | request timeout in seconds (default 30) |
 | `WEBEX_CLIENT_ID`, `WEBEX_CLIENT_SECRET`, `WEBEX_CLIENT_CODE`, `WEBEX_REDIRECT_URI` | OAuth integration values |
-| `WEBEX_AUTH_ROUTE_ENABLED` | `false` to not register the package's `GET /auth` route |
+| `WEBEX_AUTH_ROUTE_ENABLED` | `true` to register the package's `GET /auth` route (off by default) |
 
-### Authentication events
+### Tokens
 
-Each `LaravelWebex` instance reads the bearer token when it is created:
+The bearer token is resolved **for every request**, in this order:
 
-1. `AuthenticationRequested` is dispatched first: a listener may set `config(['webex.bearer' => ...])` here.
-2. The HTTP client is built with that token and the configured timeout.
-3. `SuccessfulAuthentication` is dispatched: the client is configured. It does **not** mean that Webex accepted the token; a rejected token shows up as an `Error` (HTTP 401) on the first request.
+1. a token bound to the client: `LaravelWebex::forToken($token)->messages()->...` (one client per Webex account);
+2. the `webex.token_resolver` class, a `Offlineagency\LaravelWebex\Contracts\TokenResolver` whose `token()` is called before each request (refresh OAuth tokens there; safe in queue workers and Octane);
+3. `config('webex.bearer')`.
 
-The facade resolves a singleton, so its token is fixed for the life of the process (queue workers, Octane). Create `new \Offlineagency\LaravelWebex\LaravelWebex` when the token changes.
+### Events
 
-The package also registers `GET /auth` (route name `auth`, throttled), which only dispatches `SuccessfulAuthentication`. Configure `webex.auth_route` (`enabled`, `path`, `name`) if your application uses that path or name.
+When a client is created, `AuthenticationRequested` is dispatched (a listener may set the token), then `WebexClientConfigured`. Neither means that Webex accepted the token: a rejected token comes back as an `Error` with `status` 401. `SuccessfulAuthentication` is still dispatched after `WebexClientConfigured` but is deprecated.
+
+### Retries
+
+`GET`, `PUT` and `DELETE` are retried after a network failure, a `429` or a `503`, waiting for `Retry-After` (seconds or HTTP date, capped by `webex.retry.max_delay_seconds`, default 30) or an exponential delay; `webex.retry.times` is the number of attempts (default 3, `1` disables retries). `POST` and `PATCH` are never retried. When Webex still answers 429, the `Error` carries `status` and `retryAfter`.
+
+### The /auth route
+
+`GET /auth` (route name `auth`) is registered only when `WEBEX_AUTH_ROUTE_ENABLED=true`; it dispatches `WebexClientConfigured`. Change its path and name with `webex.auth_route`.
 
 ## Usage
 
@@ -101,18 +109,30 @@ if ($message instanceof Error) {
 | 2xx with malformed JSON or a JSON scalar | `Error` |
 | 4xx / 5xx with a Webex error document | `Error` with `message`, `errors`, `trackingId` |
 | 4xx / 5xx with another body | `Error` "Webex request failed (HTTP n)." (the body is not echoed) |
-| network failure | `Error` "Connection to Webex failed: ..." |
+| network failure (after the retries) | `Error` "Connection to Webex failed: ..." |
 | a bug in your code (`TypeError`, ...) | the exception is thrown, not converted |
 
-Entity properties are filled from the fields Webex returns; a field whose value does not fit a typed property is ignored.
+`Error` exposes `message`, `errors`, `trackingId`, `status` (HTTP status, `null` for network failures) and `retryAfter`.
+
+Entity properties are typed from the official Webex OpenAPI schemas where every response agrees on a primitive type (`?string`, `?int`, `int|float|null`, `?bool`, `?array`); the others are `mixed`. A field whose value does not fit the declared type is ignored (the property stays `null`).
 
 ### Pagination
 
-`messages()->listWithPagination()` and `rooms()->listWithPagination()` return `['items' => [...], 'nextLink' => string|null]` from Webex's `Link: rel="next"` header. The package does not follow `nextLink` for you. If you request it yourself, check that its host is `webexapis.com` before sending your bearer token to it, and stop when it repeats or a page limit is reached.
+`cursor()` iterates every page lazily (a `LazyCollection`), so `take(50)` only reads the pages it needs:
+
+```php
+foreach (LaravelWebex::messages()->cursor($roomId, ['max' => 100]) as $message) {
+    // ...
+}
+
+$rooms = LaravelWebex::rooms()->cursor()->take(50)->all();
+```
+
+The next page is the `Link: rel="next"` URL, followed only on the scheme, host and port of `webex.base_url`, so your token is never sent to another host. A failed page throws `WebexRequestException` (its `error` property is the `Error`); a repeated link or more than `$maxPages` pages (default 100) throws `WebexPaginationException`. `listWithPagination()` still returns one page with its `nextLink`.
 
 ## API coverage
 
-The implemented operations and the known gaps are listed in [WEBEX_ENDPOINT_COVERAGE.md](WEBEX_ENDPOINT_COVERAGE.md). The package does not cover every Webex API.
+The implemented operations and the known gaps are listed in [WEBEX_ENDPOINT_COVERAGE.md](WEBEX_ENDPOINT_COVERAGE.md). The package does not cover every Webex API. Every public endpoint method is checked by `tests/Contract` against the official [Webex OpenAPI specification](https://github.com/webex/webex-openapi-specs): each request it sends must exist in the API.
 
 ## Development
 
