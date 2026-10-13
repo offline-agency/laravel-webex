@@ -6,11 +6,11 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Location extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $name = null;
+    public ?string $name = null;
 
-    public mixed $address = null;
+    public ?string $address = null;
 
     public mixed $capacity = null;
 

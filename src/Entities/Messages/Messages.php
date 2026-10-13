@@ -6,83 +6,39 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Messages extends AbstractEntity
 {
-    /**
-     * @var string
-     */
-    public $id;
+    public ?string $id = null;
 
-    /**
-     * @var string
-     */
-    public $parentId;
+    public ?string $parentId = null;
 
-    /**
-     * @var string
-     */
-    public $roomId;
+    public ?string $roomId = null;
 
-    /**
-     * @var string
-     */
-    public $roomType;
+    public ?string $roomType = null;
 
-    /**
-     * @var string
-     */
-    public $text;
+    public ?string $text = null;
 
-    /**
-     * @var string
-     */
-    public $markdown;
+    public ?string $markdown = null;
 
-    /**
-     * @var string
-     */
-    public $html;
+    public ?string $html = null;
 
-    /**
-     * @var array<int, string>|null
-     */
-    public $files;
+    /** @var array<mixed>|null */
+    public ?array $files = null;
 
-    /**
-     * @var string
-     */
-    public $personId;
+    public ?string $personId = null;
 
-    /**
-     * @var string
-     */
-    public $personEmail;
+    public ?string $personEmail = null;
 
-    /**
-     * @var array<int, string>|null
-     */
-    public $mentionedPeople;
+    /** @var array<mixed>|null */
+    public ?array $mentionedPeople = null;
 
-    /**
-     * @var array<int, string>|null
-     */
-    public $mentionedGroups;
+    /** @var array<mixed>|null */
+    public ?array $mentionedGroups = null;
 
-    /**
-     * @var array<int, mixed>|null
-     */
-    public $attachments;
+    /** @var array<mixed>|null */
+    public ?array $attachments = null;
 
-    /**
-     * @var string
-     */
-    public $created;
+    public ?string $created = null;
 
-    /**
-     * @var string
-     */
-    public $updated;
+    public ?string $updated = null;
 
-    /**
-     * @var bool
-     */
-    public $isVoiceClip;
+    public ?bool $isVoiceClip = null;
 }

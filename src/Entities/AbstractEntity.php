@@ -4,6 +4,7 @@ namespace Offlineagency\LaravelWebex\Entities;
 
 use ReflectionNamedType;
 use ReflectionProperty;
+use ReflectionUnionType;
 
 abstract class AbstractEntity
 {
@@ -42,15 +43,28 @@ abstract class AbstractEntity
     private static function accepts(ReflectionProperty $property, mixed $value): bool
     {
         $type = $property->getType();
-        if (! $type instanceof ReflectionNamedType || $type->getName() === 'mixed') {
+        if ($type === null) {
             return true;
         }
         if ($value === null) {
             return $type->allowsNull();
         }
 
-        $checks = ['string' => is_string(...), 'int' => is_int(...), 'float' => is_numeric(...), 'bool' => is_bool(...), 'array' => is_array(...), 'object' => is_object(...)];
-        $check = $checks[$type->getName()] ?? fn (mixed $value): bool => is_object($value) && is_a($value, $type->getName());
+        // a union (int|float|null) accepts a value one of its members accepts
+        $members = $type instanceof ReflectionUnionType ? $type->getTypes() : [$type];
+        foreach ($members as $member) {
+            if ($member instanceof ReflectionNamedType && self::fits($member->getName(), $value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function fits(string $type, mixed $value): bool
+    {
+        $checks = ['mixed' => fn (): bool => true, 'string' => is_string(...), 'int' => is_int(...), 'float' => is_float(...), 'bool' => is_bool(...), 'array' => is_array(...), 'object' => is_object(...), 'null' => is_null(...)];
+        $check = $checks[$type] ?? fn (mixed $value): bool => is_object($value) && is_a($value, $type);
 
         return $check($value);
     }

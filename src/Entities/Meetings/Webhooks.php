@@ -6,23 +6,23 @@ use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 
 class Webhooks extends AbstractEntity
 {
-    public mixed $id = null;
+    public ?string $id = null;
 
-    public mixed $name = null;
+    public ?string $name = null;
 
-    public mixed $targetUrl = null;
+    public ?string $targetUrl = null;
 
-    public mixed $resource = null;
+    public ?string $resource = null;
 
-    public mixed $event = null;
+    public ?string $event = null;
 
-    public mixed $filter = null;
+    public ?string $filter = null;
 
-    public mixed $secret = null;
+    public ?string $secret = null;
 
-    public mixed $status = null;
+    public ?string $status = null;
 
-    public mixed $created = null;
+    public ?string $created = null;
 
-    public mixed $ownedBy = null;
+    public ?string $ownedBy = null;
 }
