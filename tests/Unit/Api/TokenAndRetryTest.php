@@ -8,20 +8,7 @@ use Offlineagency\LaravelWebex\Contracts\TokenResolver;
 use Offlineagency\LaravelWebex\Entities\Error;
 use Offlineagency\LaravelWebex\Entities\Messages\Messages as MessageEntity;
 use Offlineagency\LaravelWebex\LaravelWebex;
-
-/**
- * A resolver that hands out the next token of a list on every call (like a refreshed OAuth token).
- */
-final class SequenceTokenResolver implements TokenResolver
-{
-    /** @var list<string> */
-    public static array $tokens = [];
-
-    public function token(): string
-    {
-        return array_shift(self::$tokens) ?? 'exhausted';
-    }
-}
+use Offlineagency\LaravelWebex\Tests\Fixtures\SequenceTokenResolver;
 
 beforeEach(function () {
     Sleep::fake();

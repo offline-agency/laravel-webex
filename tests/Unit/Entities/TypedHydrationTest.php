@@ -1,17 +1,7 @@
 <?php
 
-use Offlineagency\LaravelWebex\Entities\AbstractEntity;
 use Offlineagency\LaravelWebex\Entities\Messages\Messages;
-
-final class NumericEntity extends AbstractEntity
-{
-    public int|float|null $count = null;
-
-    public mixed $anything = null;
-
-    /** @var mixed */
-    public $untyped;
-}
+use Offlineagency\LaravelWebex\Tests\Fixtures\NumericEntity;
 
 it('fills typed properties from the values Webex returns', function () {
     $message = new Messages(['id' => 'm1', 'files' => ['https://x'], 'isVoiceClip' => true]);
