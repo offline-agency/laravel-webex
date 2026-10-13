@@ -27,7 +27,7 @@ Before opening a pull request run `composer test`, `composer stan` and `composer
 
 Releases are automatic; never create tags or releases by hand.
 
-1. When a pull request into `main` is merged, the CI run of its merge commit runs on `main`.
+1. When a pull request into `main` is closed as merged, the `Release` workflow starts (`pull_request_target: closed`) and waits for the CI run of its merge commit on `main`; closing without merging releases nothing. Only the trusted `main` branch is checked out, never the pull request's code. If CI takes longer than 45 minutes, the `workflow_run` trigger completes the release when CI finishes.
 2. When that run succeeds, the `Release` workflow creates the next stable tag on that exact merge commit and a GitHub Release with the pull request's description. Merges are released in the order they landed; a merge whose CI failed, was cancelled or skipped gets no release of its own and is listed in the next release.
 3. The bump:
    - one label `release:major`, `release:minor` or `release:patch`, when present;
