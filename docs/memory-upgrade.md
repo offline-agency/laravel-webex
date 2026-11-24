@@ -21,7 +21,11 @@ Laravel 12 non è installabile su PHP 8.6: Pest 4.7 richiede un paratest senza s
 
 ## Versione
 
-Ultima versione stabile: 2.0.0 (GitHub Release del 2026-10-13, tag senza prefisso `v`). Prossima: **2.1.0** (MINOR: si aggiunge PHP 8.6, non si toglie nulla). Il repository rilascia da solo: al merge in `main` il workflow Release crea tag e GitHub Release con il corpo della PR come note; la PR ha l'etichetta `release:minor`, senza la quale il titolo darebbe una patch (2.0.1). Il CHANGELOG aveva ancora la sezione 2.0 sotto "Unreleased": ora è `[2.0.0] - 2026-10-13` (data della Release) e c'è `[2.1.0] - Unreleased`.
+Ultima versione stabile: 2.0.0 (GitHub Release del 2026-10-13, tag senza prefisso `v`). Prossima: **2.1.0** (MINOR: si aggiunge PHP 8.6, non si toglie nulla). Il repository rilascia da solo: al merge in `main` il workflow Release crea tag e GitHub Release con il corpo della PR come note; la PR ha l'etichetta `release:minor`, senza la quale il titolo darebbe una patch (2.0.1). Il CHANGELOG aveva ancora la sezione 2.0 sotto "Unreleased": ora è `[2.0.0] - 2026-10-13` (data della Release) e c'è `[2.1.0]` senza data (la data è quella della GitHub Release).
+
+## Meccanismo di rilascio
+
+Automazione già presente, quindi non ho aggiunto un secondo `release.yml`: `.github/workflows/release.yml` + `tools/release` creano un tag (senza prefisso `v`) e una GitHub Release per ogni PR unita in `main`, dopo che la CI del merge commit è passata. La versione viene dall'etichetta `release:*` o dal titolo; simulato con `release check-pr` sulla PR 17: «minor (label release:minor)», quindi 2.0.0 → 2.1.0. Non servono trailer nei commit. Scarto rispetto al prompt: le note della Release sono il corpo della PR, non la sezione del CHANGELOG; per questo il corpo della PR contiene in testa le note 2.1.0. Non ho modificato il tooling (copertura 100 %).
 
 ## Documentazione
 
@@ -56,4 +60,4 @@ Problemi:
 
 Branch `chore/php-8.6-upgrade`, PR https://github.com/offline-agency/laravel-webex/pull/17, titolo `Support PHP 8.6 (2.1.0)`, etichetta `release:minor`.
 
-Dopo il merge: il workflow Release crea il tag `2.1.0` e la Release; comando manuale di recupero in fondo alla PR. Poi sostituire "Unreleased" con la data nel CHANGELOG e controllare il badge PHP Version.
+Dopo il merge: nessun passo manuale. Il workflow Release esistente crea il tag `2.1.0` e la Release; il comando manuale in fondo alla PR è solo un recupero. Controllare solo che il badge PHP Version si aggiorni.

@@ -2,9 +2,9 @@
 
 All notable changes to `laravel-webex` will be documented in this file.
 
-## [2.1.0] - Unreleased
+## [2.1.0]
 
-Minor release: PHP 8.6 support, nothing is dropped. It is created by the release workflow when the pull request is merged into `main` (it is labelled `release:minor`); the date is set at release time.
+Minor release: PHP 8.6 support, nothing is dropped. The release workflow tags and publishes it when the pull request is merged into `main` (it is labelled `release:minor`); the release date is the date of the GitHub Release.
 
 ### Added
 
