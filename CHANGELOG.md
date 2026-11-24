@@ -2,9 +2,24 @@
 
 All notable changes to `laravel-webex` will be documented in this file.
 
-## Unreleased
+## [2.1.0]
 
-The next release is 2.0.0 (breaking). It is created by the release workflow when this work is merged into `main`; see [UPGRADE.md](UPGRADE.md).
+Minor release: PHP 8.6 support, nothing is dropped. The release workflow tags and publishes it when the pull request is merged into `main` (it is labelled `release:minor`); the release date is the date of the GitHub Release.
+
+### Added
+
+- **PHP 8.6** – supported platforms are now PHP 8.4, 8.5 and 8.6 (`~8.4.0 || ~8.5.0 || ~8.6.0`) with Laravel 12 (from 12.69.2) and 13 (from 13.32). PHP 8.6 runs with Laravel 13 only: Laravel 12 cannot be installed with the test tooling that supports PHP 8.6 (Pest 5 requires Laravel 13.23 or later), so Laravel 12 stays supported on PHP 8.4 and 8.5.
+- **Documentation by major version** – `docs/v2/` (index, installation, configuration, usage, pagination, API coverage, development) and a version index in `docs/README.md`.
+- **README** – badge row (latest release, Packagist version and downloads, PHP version, tests, license) and a compatibility table per version.
+
+### Changed
+
+- **Dev dependencies** – Pest `^4.7 || ^5.3` and `pest-plugin-laravel` `^4.1 || ^5.0` (Pest 4 cannot be installed on PHP 8.6); PHPUnit 13, Larastan 3.15, Pint 1.32.3 in the lock file.
+- **CI** – matrix PHP 8.4/8.5/8.6; PHP 8.6 x Laravel 12 is excluded for the reason above.
+
+## [2.0.0] - 2026-10-13
+
+Released automatically from [#13](https://github.com/offline-agency/laravel-webex/pull/13); see [UPGRADE.md](UPGRADE.md).
 
 ### Changed (2.0)
 
