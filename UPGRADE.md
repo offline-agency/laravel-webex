@@ -8,7 +8,7 @@
 
 | | 1.x | 2.0 |
 | --- | --- | --- |
-| PHP | 7.1+ (1.0/1.1) | 8.4, 8.5 and 8.6 only (`~8.4.0 \|\| ~8.5.0 \|\| ~8.6.0`) |
+| PHP | 7.1+ (1.0/1.1) | 8.4 and 8.5 only (`~8.4.0 \|\| ~8.5.0`) |
 | Laravel | 5 – 9 (1.0/1.1) | 12 (from 12.69.2) and 13 (from 13.32) |
 
 The package now requires `laravel/framework` (it uses `Illuminate\Foundation` classes, which no `illuminate/*` component provides). Laravel 11 and PHP 8.3 are not supported; upgrade the application first.
