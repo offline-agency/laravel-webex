@@ -2,7 +2,7 @@ includes:
     - vendor/larastan/larastan/extension.neon
 
 parameters:
-    # the lowest supported PHP version (composer.json: ~8.4.0 || ~8.5.0)
+    # the lowest supported PHP version (composer.json: ~8.4.0 || ~8.5.0 || ~8.6.0)
     phpVersion: 80400
     paths:
         - src
