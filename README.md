@@ -4,7 +4,7 @@
 [![Release](https://github.com/offline-agency/laravel-webex/actions/workflows/release.yml/badge.svg)](https://github.com/offline-agency/laravel-webex/actions/workflows/release.yml)
 [![Latest Stable Version](https://img.shields.io/packagist/v/offline-agency/laravel-webex.svg)](https://packagist.org/packages/offline-agency/laravel-webex)
 [![Total Downloads](https://img.shields.io/packagist/dt/offline-agency/laravel-webex.svg)](https://packagist.org/packages/offline-agency/laravel-webex)
-[![PHP 8.4 | 8.5](https://img.shields.io/badge/PHP-8.4%20%7C%208.5-777bb4.svg)](#supported-platforms)
+[![PHP 8.4 | 8.5 | 8.6](https://img.shields.io/badge/PHP-8.4%20%7C%208.5%20%7C%208.6-777bb4.svg)](#supported-platforms)
 [![Laravel 12 | 13](https://img.shields.io/badge/Laravel-12%20%7C%2013-ff2d20.svg)](#supported-platforms)
 [![codecov](https://codecov.io/gh/offline-agency/laravel-webex/branch/main/graph/badge.svg)](https://codecov.io/gh/offline-agency/laravel-webex)
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE.md)
@@ -15,10 +15,10 @@ A Laravel client for the Webex REST APIs: Meetings, Messaging, Admin, Calling an
 
 | Package | PHP | Laravel |
 | --- | --- | --- |
-| 2.x | 8.4, 8.5 | 12 (from 12.69.2), 13 (from 13.32) |
+| 2.x | 8.4, 8.5, 8.6 | 12 (from 12.69.2), 13 (from 13.32) |
 | 1.x | see the 1.x README | |
 
-Policy: the package supports the Laravel majors that still receive security fixes and the PHP branches the selected Laravel majors support, starting from PHP 8.4. Laravel 11, PHP 8.3 and older are not supported by 2.x (PHP 8.3 is still maintained upstream, but outside this package's policy). Pre-release PHP or Laravel versions are never added to the supported set. Both floors and both majors run in CI.
+Policy: the package supports the Laravel majors that still receive security fixes and the PHP branches the selected Laravel majors support, starting from PHP 8.4. Laravel 11, PHP 8.3 and older are not supported by 2.x (PHP 8.3 is still maintained upstream, but outside this package's policy). Pre-release PHP or Laravel versions are never added to the supported set. Both floors and both majors run in CI. PHP 8.6 is tested with Laravel 13 only: the test tooling that supports PHP 8.6 (Pest 5) requires Laravel 13.23 or later.
 
 ## Installation
 
@@ -142,7 +142,7 @@ composer stan        # Larastan / PHPStan at level max, no baseline, no ignored 
 composer pint:check  # Laravel Pint
 ```
 
-CI runs PHP 8.4/8.5 x Laravel 12/13, the lowest supported versions, 100 % line coverage of `src` and `Http`, Composer validation and audit, and actionlint.
+CI runs PHP 8.4/8.5 x Laravel 12/13 and PHP 8.6 x Laravel 13, the lowest supported versions, 100 % line coverage of `src` and `Http`, Composer validation and audit, and actionlint.
 
 ## Releases
 

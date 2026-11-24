@@ -8,7 +8,7 @@ The next release is 2.0.0 (breaking). It is created by the release workflow when
 
 ### Changed (2.0)
 
-- **Breaking: platforms** – PHP 8.4/8.5 (`~8.4.0 || ~8.5.0`) and Laravel 12 (from 12.69.2) / 13 (from 13.32); Laravel 11 and PHP 8.3 are no longer supported. The package requires `laravel/framework` (it uses `Illuminate\Foundation` classes).
+- **Breaking: platforms** – PHP 8.4/8.5/8.6 (`~8.4.0 || ~8.5.0 || ~8.6.0`) and Laravel 12 (from 12.69.2) / 13 (from 13.32); Laravel 11 and PHP 8.3 are no longer supported. The package requires `laravel/framework` (it uses `Illuminate\Foundation` classes).
 - **Breaking: HTTP results** – any 2xx is a success; malformed JSON, JSON scalars and missing documents return an `Error`; failed responses without a Webex error document return "Webex request failed (HTTP n)."; only network failures are converted into an `Error`.
 - **Breaking: `Webhooks::createWebhook()`** – resource and event are strings (the Webex API rejects arrays).
 - **Breaking: authentication events** – `SuccessfulAuthentication` is dispatched after the client is built.
@@ -18,7 +18,7 @@ The next release is 2.0.0 (breaking). It is created by the release workflow when
 - **Breaking: endpoints** – every endpoint checked against the official Webex OpenAPI specification: 51 requests that do not exist in the API fixed or removed (see UPGRADE.md).
 - **Entities** – property types from the official schemas where unambiguous.
 - **Maintenance** – Dependabot (Composer and Actions, grouped, into `develop`), CODEOWNERS.
-- **Tooling** – Pest 4, Testbench 10/11, Larastan 3.13 at level max (also `config`, `routes`, release tooling), Pint 1.32; php-coveralls removed; CI matrix PHP 8.4/8.5 x Laravel 12/13 plus lowest versions; automatic tag and GitHub Release per pull request merged into `main`.
+- **Tooling** – Pest 4 or 5, Testbench 10/11, Larastan 3.13 at level max (also `config`, `routes`, release tooling), Pint 1.32; php-coveralls removed; CI matrix PHP 8.4/8.5 x Laravel 12/13, PHP 8.6 x Laravel 13 (Laravel 12 cannot be installed with the PHP 8.6 test tooling) plus lowest versions; automatic tag and GitHub Release per pull request merged into `main`.
 
 ### Earlier unreleased work (1.x line)
 

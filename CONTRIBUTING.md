@@ -4,7 +4,7 @@ Contributions are welcome, and are accepted via pull requests. Please review the
 
 ## Guidelines
 
-* Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint). Run `composer pint` before committing (or `composer pint:check` to verify without changing files). We also follow [PSR-12](https://www.php-fig.org/psr/psr-12/) and [PHP-FIG Naming Conventions](https://www.php-fig.org/bylaws/psr-naming-conventions/). This project supports PHP 8.4 and 8.5 with Laravel 12 and 13; type declarations are required (Larastan runs at level max with no baseline).
+* Code style is enforced with [Laravel Pint](https://laravel.com/docs/pint). Run `composer pint` before committing (or `composer pint:check` to verify without changing files). We also follow [PSR-12](https://www.php-fig.org/psr/psr-12/) and [PHP-FIG Naming Conventions](https://www.php-fig.org/bylaws/psr-naming-conventions/). This project supports PHP 8.4, 8.5 and 8.6 with Laravel 12 and 13 (Laravel 12 up to PHP 8.5); type declarations are required (Larastan runs at level max with no baseline).
 * Ensure that the current tests pass (`composer test` – Pest), and if you've added something new, add the tests where relevant.
 * Remember that we follow [SemVer](http://semver.org). If you are changing the behaviour, or the public api, you may need to update the docs.
 * Send a coherent commit history, making sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please [squash](http://git-scm.com/book/en/Git-Tools-Rewriting-History) them before submitting.
@@ -21,7 +21,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/): `type(scope
 
 ## Checks
 
-Before opening a pull request run `composer test`, `composer stan` and `composer pint:check`. CI also runs the PHP 8.4/8.5 x Laravel 12/13 matrix, the lowest supported versions, 100 % line coverage, `composer validate --strict`, `composer audit` and actionlint. Tests must never reach the network (`Http::preventStrayRequests()` is on).
+Before opening a pull request run `composer test`, `composer stan` and `composer pint:check`. CI also runs the PHP 8.4/8.5 x Laravel 12/13 matrix plus PHP 8.6 x Laravel 13, the lowest supported versions, 100 % line coverage, `composer validate --strict`, `composer audit` and actionlint. Tests must never reach the network (`Http::preventStrayRequests()` is on).
 
 ## Releases
 
